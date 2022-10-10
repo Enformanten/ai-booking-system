@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "thermo"
+version = "0.1.0"
+description = "Small package for energy consumption simulation"
+authors = ["Estefania Garijo <estefania.rio@bs.nttdata.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "^1.23.3"
+scipy = "^1.9.2"
+
+[tool.poetry.dev-dependencies]
+matplotlib = "^3.6.1"
+black = "^22.10.0"
+flake8 = "^5.0.4"
+isort = "^5.10.1"
+pre-commit = "^2.20.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
