@@ -37,3 +37,20 @@ class Heater(ABC):
         heat = self._thermostat(T=T, target=target, t=t)
         heat = self._realistic_output(heat)
         return heat
+
+
+class ProportionalHeater(Heater):
+    def __init__(self, k: float, max_heat: float):
+        """
+        Proportional heater class
+        Args:
+            k (float): proportionality factor
+            max_heat(float): maximum amount of heat the heater can output
+        """
+        self.k = k
+        self.max_heat = max_heat
+
+    def _thermostat(self, T: float, target: float, t: float) -> float:
+        """ """
+        heat = self.k * (target - T)
+        return heat
