@@ -5,7 +5,7 @@ class Schedule:
     def __init__(
         self,
         schedule: np.ndarray,
-        target_class: float,
+        target_temperature: float,
         keep_warm: float,
     ):
         """
@@ -16,12 +16,12 @@ class Schedule:
                 Lectures are assumed to last 1h
                 The first row should always be a row of 0s.
 
-            target_class: target temperature during a lecture.
+            target_temperature: target temperature during a lecture.
             keep_warm: target temperature if a lecture hall is to be kept warm.
         """
         self.schedule = schedule
         self.D = schedule.shape[1]
-        self.target = target_class
+        self.target = target_temperature
         self.keep_warm = keep_warm
 
     def get_target(self, t):
