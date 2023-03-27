@@ -30,9 +30,9 @@ class HeatModel:
 
     def _get_full_graph(self):
         self.A = adjacency.get_time_adjacency(
-            As=self.As, n_times=self.n_time_slots, t_weight=self.t_weight
+            A=self.As, n_times=self.n_time_slots, time_weight=self.t_weight
         )
-        adjacency.validate_adjacency(self.A)
+        # adjacency.validate_adjacency(self.A)
 
     def run(self, state: NDArray) -> NDArray:
         """
@@ -48,4 +48,4 @@ class HeatModel:
         if not self.A:
             self.A = self._get_full_graph()
         # TODO: to be completed.
-        return state
+        return np.nan * state

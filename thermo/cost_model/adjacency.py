@@ -45,9 +45,9 @@ def validate_adjacency(A: NDArray) -> None:
 
 
 def get_time_adjacency(A: NDArray, n_times: int, time_weight: float = 1.0) -> NDArray:
-    n = A.shape()[0]
+    n = A.shape[0]
     eye = time_weight * np.eye(n)
-    zero = np.zero(n, n)
+    zero = np.zeros((n, n))
 
     def choose_block(i: int, j: int) -> NDArray:
         if i == j:
