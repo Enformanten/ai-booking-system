@@ -42,3 +42,21 @@ def validate_adjacency(A: NDArray) -> None:
         raise InvalidAdjacency(
             "The graph represented by A can be split into two graphs."
         )
+
+
+def get_time_adjacency(A: NDArray, n_times: int, time_weight: float = 1.0) -> NDArray:
+    n = A.shape()[0]
+    eye = time_weight * np.eye(n)
+    zero = np.zero(n, n)
+
+    def choose_block(i: int, j: int) -> NDArray:
+        if i == j:
+            return A
+        elif i - 1 == j or i + 1 == j:
+            return eye
+        else:
+            return zero
+
+    return np.block(
+        [[choose_block(i, j) for i in range(n_times)] for j in range(n_times)]
+    )
