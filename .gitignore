@@ -131,4 +131,3 @@ dmypy.json
 # custom
 .venv
 poetry.lock
-poetry.lock
