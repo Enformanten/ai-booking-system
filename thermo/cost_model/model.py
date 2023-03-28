@@ -34,11 +34,13 @@ class HeatModel:
             A=self.As, n_times=self.n_time_slots, time_weight=self.t_weight
         )
 
-    def run(self, state: NDArray) -> NDArray:
+    def run(self, state: NDArray, big_number: float = 1e5) -> NDArray:
         """
         Args:
             state: ones and zeros represnting bookings
                 shape = (n_rooms*n_time_slots,), Its 1D!!
+            big_number: number associated to the room already
+                being booked
 
         Returns:
             cost_vector: where the lower the better.
@@ -48,4 +50,4 @@ class HeatModel:
         if not self.A:
             self.A = self._get_full_graph()
         # TODO: to be completed.
-        return np.nan * state
+        return big_number * state
