@@ -8,7 +8,7 @@ class InvalidAdjacency(ValueError):
 
 
 def is_symmetric(A: NDArray) -> bool:
-    return np.all_close(A, A.T)
+    return np.allclose(A, A.T)
 
 
 def no_self_interactions(A: NDArray) -> bool:
@@ -27,10 +27,10 @@ def get_laplacian(A: NDArray) -> bool:
 def is_connected(A: NDArray) -> bool:
     L = get_laplacian(A)
     v = np.linalg.eigvalsh(L)  # sorted in ascending order
-    is_laplacian = v[0] == 0 and np.all(v >= 0)
+    is_laplacian = np.abs(v[0] / v[-1]) < 1e-14 and np.all(v[1:] >= 0)
     # inverse cond p-2 number orthogonal complement to 1
     fieldler_icond = v[1] / v[-1]
-    return is_laplacian and (fieldler_icond >= 1e-8)
+    return is_laplacian and (fieldler_icond >= 1e-14)
 
 
 def validate_adjacency(A: NDArray) -> None:
