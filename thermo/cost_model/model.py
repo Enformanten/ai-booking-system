@@ -29,10 +29,10 @@ class HeatModel:
         self.A = None
 
     def _get_full_graph(self):
+        adjacency.validate_adjacency(self.As)
         self.A = adjacency.get_time_adjacency(
             A=self.As, n_times=self.n_time_slots, time_weight=self.t_weight
         )
-        # adjacency.validate_adjacency(self.A)
 
     def run(self, state: NDArray) -> NDArray:
         """
