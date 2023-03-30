@@ -9,7 +9,6 @@ In this version, we represent the school as an undirected and unweighted graph, 
 Let $N_r$ be the number of rooms in the school and let $i=0, 1, ..., N_r-1$ denote the $i$-th room of the school. Then, the *adjacency matrix* $A_s$ of the school is given by:
 
 $$
-
     \left( A_s\right)_{ij} =
     \begin{cases}
 1 & \text{if } i \text{ and } j \text{ share a wall}, \\
@@ -60,6 +59,7 @@ The following section discusses a way of formalizing and implementing this model
 ### Mathematical formulation of the model
 
 Let $s$ be the *schedule* vector, of size $N_r N_t$, such that
+
 $$
 s_i = \begin{cases}
 1 & \text{if room } (i \mod N_r) \text{ room is booked} \\
@@ -71,6 +71,7 @@ $$
 where $\div$ represents the integer division and $ \cdot\mod{\cdot}$ represents its reminder.
 
 Equipped with this notation, we can write the first-order approximation of the cost as follows:
+
 $$
 c = c_a - \eta As,
 $$
@@ -79,6 +80,7 @@ where $c$ is the cost vector representing the cost of heating the room, $c_a$ is
 
 ## Example:
 Let the school have 4 rooms, whose connectivity is given by the following spatial adjacency matrix:
+
 $$
 A_s = \left(\begin{matrix}
 0 & 1 & 1 & 0 \\
@@ -89,6 +91,7 @@ A_s = \left(\begin{matrix}
 $$
 
 The identity matrix for 4 rooms is given by:
+
 $$
 \mathbb{I} = \left(\begin{matrix}
 1 & 0 & 0 & 0 \\
@@ -97,7 +100,9 @@ $$
 0 & 0 & 0 & 1
 \end{matrix} \right)
 $$
+
  and the null matrix by:
+ 
 $$
 \mathbb{O} = \left(\begin{matrix}
 0 & 0 & 0 & 0 \\
@@ -108,6 +113,7 @@ $$
 $$
 
 Lets assume we have three time slots for the day in question, $t=-1,0,1$. The adjacency matrix $A$ for the booking graph $G$ looks like:
+
 $$
 A = \left(\begin{matrix}
 A_s & \lambda\mathbb{I} & \mathbb{O} \\
@@ -117,6 +123,7 @@ A_s & \lambda\mathbb{I} & \mathbb{O} \\
 $$
 
 Lets say that the 0-th room was booked at time 0. Then, the schedule vector s looks like:
+
 $$
 s = \left(\begin{matrix}
 0 & 0 & 0 & 0 \\
@@ -124,9 +131,11 @@ s = \left(\begin{matrix}
 0 & 0 & 0 & 0 \\
 \end{matrix} \right),
 $$
+
 where, $s$ has been displayed in a rooms $\times$ time_slots format for convenience, but please keep in mind that it is a 1-D vector.
 
 The messages $As$ look like:
+
 $$
 As = \left(\begin{matrix}
 \lambda & 0 & 0 & 0 \\
@@ -136,6 +145,7 @@ As = \left(\begin{matrix}
 $$
 
 and, if we assume that all rooms where equally costly to heat alone, that is, $c_a = k (1,1,\dots,1)$, then the cost of new possible bookings is:
+
 $$
 c = \left(\begin{matrix}
 k-\eta\lambda & k & k & k \\
