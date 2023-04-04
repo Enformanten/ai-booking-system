@@ -1,0 +1,34 @@
+site_name: Thermo
+repo_url: https://github.com/NTTDATAInnovation/thermo
+
+theme: 
+  name: material
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+nav:
+  - Introduction: index.md
+  - Thermo info: thermo.md
+
+markdown_extensions:
+  - pymdownx.snippets:
+      check_paths: true
+
+plugins:
+  - search:
+  - mkdocstrings: # This is the config for the python docs
+      handlers:
+        python:
+          options:
+            show_signature_annotations: true
+            show_source: true
+            show_submodules: true
+watch: # this is optional, it helps to test the documentation locally. 
+  - thermo # or wherever you have your python code.
