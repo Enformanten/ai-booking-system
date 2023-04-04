@@ -132,3 +132,5 @@ dmypy.json
 .venv
 # mkdocs documentation
 site/
+# mkdocs documentation
+site/
