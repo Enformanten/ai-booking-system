@@ -401,29 +401,30 @@ files = [
 
 [[package]]
 name = "debugpy"
-version = "1.6.6"
+version = "1.6.7"
 description = "An implementation of the Debug Adapter Protocol for Python"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "debugpy-1.6.6-cp310-cp310-macosx_11_0_x86_64.whl", hash = "sha256:0ea1011e94416e90fb3598cc3ef5e08b0a4dd6ce6b9b33ccd436c1dffc8cd664"},
-    {file = "debugpy-1.6.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:dff595686178b0e75580c24d316aa45a8f4d56e2418063865c114eef651a982e"},
-    {file = "debugpy-1.6.6-cp310-cp310-win32.whl", hash = "sha256:87755e173fcf2ec45f584bb9d61aa7686bb665d861b81faa366d59808bbd3494"},
-    {file = "debugpy-1.6.6-cp310-cp310-win_amd64.whl", hash = "sha256:72687b62a54d9d9e3fb85e7a37ea67f0e803aaa31be700e61d2f3742a5683917"},
-    {file = "debugpy-1.6.6-cp37-cp37m-macosx_10_15_x86_64.whl", hash = "sha256:78739f77c58048ec006e2b3eb2e0cd5a06d5f48c915e2fc7911a337354508110"},
-    {file = "debugpy-1.6.6-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:23c29e40e39ad7d869d408ded414f6d46d82f8a93b5857ac3ac1e915893139ca"},
-    {file = "debugpy-1.6.6-cp37-cp37m-win32.whl", hash = "sha256:7aa7e103610e5867d19a7d069e02e72eb2b3045b124d051cfd1538f1d8832d1b"},
-    {file = "debugpy-1.6.6-cp37-cp37m-win_amd64.whl", hash = "sha256:f6383c29e796203a0bba74a250615ad262c4279d398e89d895a69d3069498305"},
-    {file = "debugpy-1.6.6-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:23363e6d2a04d726bbc1400bd4e9898d54419b36b2cdf7020e3e215e1dcd0f8e"},
-    {file = "debugpy-1.6.6-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9b5d1b13d7c7bf5d7cf700e33c0b8ddb7baf030fcf502f76fc061ddd9405d16c"},
-    {file = "debugpy-1.6.6-cp38-cp38-win32.whl", hash = "sha256:70ab53918fd907a3ade01909b3ed783287ede362c80c75f41e79596d5ccacd32"},
-    {file = "debugpy-1.6.6-cp38-cp38-win_amd64.whl", hash = "sha256:c05349890804d846eca32ce0623ab66c06f8800db881af7a876dc073ac1c2225"},
-    {file = "debugpy-1.6.6-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a771739902b1ae22a120dbbb6bd91b2cae6696c0e318b5007c5348519a4211c6"},
-    {file = "debugpy-1.6.6-cp39-cp39-win32.whl", hash = "sha256:549ae0cb2d34fc09d1675f9b01942499751d174381b6082279cf19cdb3c47cbe"},
-    {file = "debugpy-1.6.6-cp39-cp39-win_amd64.whl", hash = "sha256:de4a045fbf388e120bb6ec66501458d3134f4729faed26ff95de52a754abddb1"},
-    {file = "debugpy-1.6.6-py2.py3-none-any.whl", hash = "sha256:be596b44448aac14eb3614248c91586e2bc1728e020e82ef3197189aae556115"},
-    {file = "debugpy-1.6.6.zip", hash = "sha256:b9c2130e1c632540fbf9c2c88341493797ddf58016e7cba02e311de9b0a96b67"},
+    {file = "debugpy-1.6.7-cp310-cp310-macosx_11_0_x86_64.whl", hash = "sha256:b3e7ac809b991006ad7f857f016fa92014445085711ef111fdc3f74f66144096"},
+    {file = "debugpy-1.6.7-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e3876611d114a18aafef6383695dfc3f1217c98a9168c1aaf1a02b01ec7d8d1e"},
+    {file = "debugpy-1.6.7-cp310-cp310-win32.whl", hash = "sha256:33edb4afa85c098c24cc361d72ba7c21bb92f501104514d4ffec1fb36e09c01a"},
+    {file = "debugpy-1.6.7-cp310-cp310-win_amd64.whl", hash = "sha256:ed6d5413474e209ba50b1a75b2d9eecf64d41e6e4501977991cdc755dc83ab0f"},
+    {file = "debugpy-1.6.7-cp37-cp37m-macosx_10_15_x86_64.whl", hash = "sha256:38ed626353e7c63f4b11efad659be04c23de2b0d15efff77b60e4740ea685d07"},
+    {file = "debugpy-1.6.7-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:279d64c408c60431c8ee832dfd9ace7c396984fd7341fa3116aee414e7dcd88d"},
+    {file = "debugpy-1.6.7-cp37-cp37m-win32.whl", hash = "sha256:dbe04e7568aa69361a5b4c47b4493d5680bfa3a911d1e105fbea1b1f23f3eb45"},
+    {file = "debugpy-1.6.7-cp37-cp37m-win_amd64.whl", hash = "sha256:f90a2d4ad9a035cee7331c06a4cf2245e38bd7c89554fe3b616d90ab8aab89cc"},
+    {file = "debugpy-1.6.7-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:5224eabbbeddcf1943d4e2821876f3e5d7d383f27390b82da5d9558fd4eb30a9"},
+    {file = "debugpy-1.6.7-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bae1123dff5bfe548ba1683eb972329ba6d646c3a80e6b4c06cd1b1dd0205e9b"},
+    {file = "debugpy-1.6.7-cp38-cp38-win32.whl", hash = "sha256:9cd10cf338e0907fdcf9eac9087faa30f150ef5445af5a545d307055141dd7a4"},
+    {file = "debugpy-1.6.7-cp38-cp38-win_amd64.whl", hash = "sha256:aaf6da50377ff4056c8ed470da24632b42e4087bc826845daad7af211e00faad"},
+    {file = "debugpy-1.6.7-cp39-cp39-macosx_11_0_x86_64.whl", hash = "sha256:0679b7e1e3523bd7d7869447ec67b59728675aadfc038550a63a362b63029d2c"},
+    {file = "debugpy-1.6.7-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:de86029696e1b3b4d0d49076b9eba606c226e33ae312a57a46dca14ff370894d"},
+    {file = "debugpy-1.6.7-cp39-cp39-win32.whl", hash = "sha256:d71b31117779d9a90b745720c0eab54ae1da76d5b38c8026c654f4a066b0130a"},
+    {file = "debugpy-1.6.7-cp39-cp39-win_amd64.whl", hash = "sha256:c0ff93ae90a03b06d85b2c529eca51ab15457868a377c4cc40a23ab0e4e552a3"},
+    {file = "debugpy-1.6.7-py2.py3-none-any.whl", hash = "sha256:53f7a456bc50706a0eaabecf2d3ce44c4d5010e46dfc65b6b81a518b42866267"},
+    {file = "debugpy-1.6.7.zip", hash = "sha256:c4c2f0810fa25323abfdfa36cbbbb24e5c3b1a42cb762782de64439c575d67f2"},
 ]
 
 [[package]]
@@ -516,14 +517,14 @@ dev = ["flake8", "markdown", "twine", "wheel"]
 
 [[package]]
 name = "griffe"
-version = "0.26.0"
+version = "0.27.0"
 description = "Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "griffe-0.26.0-py3-none-any.whl", hash = "sha256:38f3f6bbe834501cc199a07b7b7e0e2550aaf19a9d1ee27acf879027e47c9b9e"},
-    {file = "griffe-0.26.0.tar.gz", hash = "sha256:08675ffe8c17139e7769e950dd21f8e98a2e76205cbbd2911d5dec26d2cbf1be"},
+    {file = "griffe-0.27.0-py3-none-any.whl", hash = "sha256:f3a5726e2d5876ac882d48ff9ca1a95c5bc267196a8f114263e66e234141bb84"},
+    {file = "griffe-0.27.0.tar.gz", hash = "sha256:dcf3cc4205f33cbb16095324803a6904e0b293cd1630ceab4b66a9115af6b818"},
 ]
 
 [package.dependencies]
@@ -1116,20 +1117,20 @@ files = [
 
 [[package]]
 name = "networkx"
-version = "3.0"
+version = "3.1"
 description = "Python package for creating and manipulating graphs and networks"
 category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "networkx-3.0-py3-none-any.whl", hash = "sha256:58058d66b1818043527244fab9d41a51fcd7dcc271748015f3c181b8a90c8e2e"},
-    {file = "networkx-3.0.tar.gz", hash = "sha256:9a9992345353618ae98339c2b63d8201c381c2944f38a2ab49cb45a4c667e412"},
+    {file = "networkx-3.1-py3-none-any.whl", hash = "sha256:4f33f68cb2afcf86f28a45f43efc27a9386b535d567d2127f8f61d51dec58d36"},
+    {file = "networkx-3.1.tar.gz", hash = "sha256:de346335408f84de0eada6ff9fafafff9bcda11f0a0dfaa931133debb146ab61"},
 ]
 
 [package.extras]
 default = ["matplotlib (>=3.4)", "numpy (>=1.20)", "pandas (>=1.3)", "scipy (>=1.8)"]
-developer = ["mypy (>=0.991)", "pre-commit (>=2.20)"]
-doc = ["nb2plots (>=0.6)", "numpydoc (>=1.5)", "pillow (>=9.2)", "pydata-sphinx-theme (>=0.11)", "sphinx (==5.2.3)", "sphinx-gallery (>=0.11)", "texext (>=0.6.7)"]
+developer = ["mypy (>=1.1)", "pre-commit (>=3.2)"]
+doc = ["nb2plots (>=0.6)", "numpydoc (>=1.5)", "pillow (>=9.4)", "pydata-sphinx-theme (>=0.13)", "sphinx (>=6.1)", "sphinx-gallery (>=0.12)", "texext (>=0.6.7)"]
 extra = ["lxml (>=4.6)", "pydot (>=1.4.2)", "pygraphviz (>=1.10)", "sympy (>=1.10)"]
 test = ["codecov (>=2.1)", "pytest (>=7.2)", "pytest-cov (>=4.0)"]
 
@@ -1219,10 +1220,7 @@ files = [
 ]
 
 [package.dependencies]
-numpy = [
-    {version = ">=1.21.0", markers = "python_version >= \"3.10\""},
-    {version = ">=1.23.2", markers = "python_version >= \"3.11\""},
-]
+numpy = {version = ">=1.21.0", markers = "python_version >= \"3.10\""}
 python-dateutil = ">=2.8.2"
 pytz = ">=2020.1"
 tzdata = ">=2022.1"
@@ -1525,14 +1523,14 @@ files = [
 
 [[package]]
 name = "pygments"
-version = "2.14.0"
+version = "2.15.0"
 description = "Pygments is a syntax highlighting package written in Python."
 category = "dev"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 files = [
-    {file = "Pygments-2.14.0-py3-none-any.whl", hash = "sha256:fa7bd7bd2771287c0de303af8bfdfc731f51bd2c6a47ab69d117138893b82717"},
-    {file = "Pygments-2.14.0.tar.gz", hash = "sha256:b3ed06a9e8ac9a9aae5a6f5dbe78a8a58655d17b43b93c078f094ddc476ae297"},
+    {file = "Pygments-2.15.0-py3-none-any.whl", hash = "sha256:77a3299119af881904cd5ecd1ac6a66214b6e9bed1f2db16993b54adede64094"},
+    {file = "Pygments-2.15.0.tar.gz", hash = "sha256:f7e36cffc4c517fbc252861b9a6e4644ca0e5abadf9a113c72d1358ad09b9500"},
 ]
 
 [package.extras]
@@ -1540,14 +1538,14 @@ plugins = ["importlib-metadata"]
 
 [[package]]
 name = "pymdown-extensions"
-version = "9.10"
+version = "9.11"
 description = "Extension pack for Python Markdown."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pymdown_extensions-9.10-py3-none-any.whl", hash = "sha256:31eaa76ce6f96aabfcea98787c2fff2c5c0611b20a53a94213970cfbf05f02b8"},
-    {file = "pymdown_extensions-9.10.tar.gz", hash = "sha256:562c38eee4ce3f101ce631b804bfc2177a8a76c7e4dc908871fb6741a90257a7"},
+    {file = "pymdown_extensions-9.11-py3-none-any.whl", hash = "sha256:a499191d8d869f30339de86fcf072a787e86c42b6f16f280f5c2cf174182b7f3"},
+    {file = "pymdown_extensions-9.11.tar.gz", hash = "sha256:f7e86c1d3981f23d9dc43294488ecb54abadd05b0be4bf8f0e15efc90f7853ff"},
 ]
 
 [package.dependencies]
@@ -2000,5 +1998,5 @@ files = [
 
 [metadata]
 lock-version = "2.0"
-python-versions = ">=3.10,<3.12"
-content-hash = "5cc02f799ce68ee2d13b1a13ae12f116e1cbca8d970fc49ddddb6f4e65784e31"
+python-versions = ">=3.10,<3.11"
+content-hash = "0987d1e4a8b97b984f7949bbd6e1ab3a25c5368ec54ce4bf61e4b947d7604cce"
