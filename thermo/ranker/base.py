@@ -8,7 +8,8 @@ from numpy.typing import NDArray
 class Ranker(ABC):
     def __init__(self, costs: list[CostModel], config: dict[str, Any]):
         self.costs = costs
+        self.config = config
 
     @abstractmethod
-    def run(self, schedule: NDArray) -> list:
+    def run(self, schedule: NDArray) -> NDArray:
         pass
