@@ -102,7 +102,7 @@ $$
 $$
 
  and the null matrix by:
- 
+
 $$
 \mathbb{O} = \left(\begin{matrix}
 0 & 0 & 0 & 0 \\

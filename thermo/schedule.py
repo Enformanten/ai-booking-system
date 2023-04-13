@@ -25,7 +25,6 @@ class Schedule:
         self.keep_warm = keep_warm
 
     def get_target(self, t):
-
         hour = int(t // 60)
         out = np.zeros(self.D)
         for i in range(self.D):
