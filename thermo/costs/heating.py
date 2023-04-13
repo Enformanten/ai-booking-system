@@ -1,10 +1,11 @@
 import numpy as np
 from numpy.typing import NDArray
 
-from thermo.cost_model import adjacency
+from thermo.costs import adjacency
+from thermo.costs.base import CostModel
 
 
-class HeatModel:
+class HeatingCost(CostModel):
     def __init__(
         self,
         As: NDArray,
@@ -40,7 +41,7 @@ class HeatModel:
     def run(self, state: NDArray, big_number: float = 1e5) -> NDArray:
         """
         Args:
-            state: ones and zeros represnting bookings
+            state: ones and zeros representing bookings
                 shape = (n_rooms*n_time_slots,), Its 1D!!
             big_number: number associated to the room already
                 being booked
