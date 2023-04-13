@@ -1,17 +1,27 @@
-name: pytest
-on: [push]
-jobs: test
-  run:
+name: Test
+
+on:
+  push:
+
+jobs:
+  actionlint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install right Python version
-        uses: actions/setup-python@v2
+      - name: Download actionlint
+        run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) 1.6.21
+        shell: bash
+      - name: Check workflow files
+        run: ./actionlint -color
+        shell: bash
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/python-poetry-env
         with:
           python-version: '3.10'
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-      - name: Run tests
-        run: |
-          poetry install --with dev
-          poetry run pytest tests
+      - run: poetry run pytest
