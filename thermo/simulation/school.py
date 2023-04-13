@@ -2,7 +2,7 @@ from typing import List
 
 import numpy as np
 
-from thermo.heater import Heater
+from thermo.simulation.heater import Heater
 
 
 class School:

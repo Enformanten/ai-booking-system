@@ -1,9 +1,9 @@
 import numpy as np
 
-from thermo.heater import ProportionalHeater
-from thermo.schedule import Schedule
-from thermo.school import School
-from thermo.simulator import Simulator
+from thermo.simulation.heater import ProportionalHeater
+from thermo.simulation.schedule import Schedule
+from thermo.simulation.school import School
+from thermo.simulation.simulator import Simulator
 
 # Make a school: Room distribution
 D = 12
