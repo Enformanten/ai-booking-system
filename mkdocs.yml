@@ -1,7 +1,7 @@
 site_name: Thermo
 repo_url: https://github.com/NTTDATAInnovation/thermo
 
-theme: 
+theme:
   name: material
   palette:
     - scheme: default
@@ -30,5 +30,5 @@ plugins:
             show_signature_annotations: true
             show_source: true
             show_submodules: true
-watch: # this is optional, it helps to test the documentation locally. 
+watch: # this is optional, it helps to test the documentation locally.
   - thermo # or wherever you have your python code.

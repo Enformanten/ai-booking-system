@@ -18,7 +18,6 @@ class Simulator:
     """
 
     def __init__(self, school: School, T_out: float, schedule: Schedule):
-
         self.school = school
         self.schedule = schedule
         self.T_out = T_out
