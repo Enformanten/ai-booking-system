@@ -1,8 +1,8 @@
 import numpy as np
 import scipy.integrate as integrate
 
-from thermo.schedule import Schedule
-from thermo.school import School
+from thermo.simulation.schedule import Schedule
+from thermo.simulation.school import School
 
 
 class Simulator:
