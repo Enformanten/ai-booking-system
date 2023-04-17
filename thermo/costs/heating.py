@@ -15,6 +15,7 @@ class HeatingCost(CostModel):
         heat_cost: NDArray | None = None,
     ):
         """
+        Class to simulate the heating cost of a room.
         Args:
             As: Adjacency matrix for space (n_rooms x n_rooms)
             n_time_slots: number of time slots in the schedule
