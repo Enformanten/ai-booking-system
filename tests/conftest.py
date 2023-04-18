@@ -1,6 +1,8 @@
 import numpy as np
 import pytest
 
+from thermo.utils.room import Room
+
 
 @pytest.fixture
 def graph():
@@ -34,3 +36,25 @@ def state(timeslots, graph):
     out[2, 6] = 1  # Room G is occupied at time t_2 (time slots t_0, t_1, t_2)
     out = out.flatten()
     return out
+
+
+@pytest.fixture
+def config():
+    return {"ranker": "FullRanker"}
+
+
+@pytest.fixture
+def room_description():
+    room_names = (
+        "Room A",
+        "Room B",
+        "Room C",
+        "Room D",
+        "Room E",
+        "Room F",
+        "Room G",
+        "Room H",
+        "Room I",
+        "Room J",
+    )
+    return [Room(name=name) for name in enumerate(room_names)]
