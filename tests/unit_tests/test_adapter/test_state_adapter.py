@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+from numpy.typing import NDArray
 
 from thermo.adapter.state_connection import get_state
 
@@ -89,5 +90,5 @@ def test_format_state():
         ),
     ],
 )
-def test_state_api(day: str, state: np.ndarray):
+def test_state_api(day: str, state: NDArray):
     assert all(get_state(day) == state)
