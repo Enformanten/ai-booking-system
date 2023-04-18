@@ -1,10 +1,10 @@
 from datetime import date
-from typing import Any
 
 import pandas as pd
 from numpy.typing import NDArray
 
 from thermo.config import WORKDIR
+from thermo.ranker import Ranker, make_ranker
 from thermo.utils import io
 from thermo.utils.postprocessing import (
     list_recommendations,
@@ -35,12 +35,12 @@ class Recommender:
         school_name: str,
         adjacency: NDArray,
         room_description: list[Room],
-        config: dict[str, Any],
+        ranker: Ranker,
     ):
         self.school_name = school_name
         self.adjacency = adjacency
         self.room_description = room_description
-        self.config = config
+        self.ranker = ranker
 
     @classmethod
     def from_config(cls, school_name: str):
@@ -51,12 +51,13 @@ class Recommender:
         adjacency = io.load_adjacency(school_path)
         config = io.load_config(school_path)
         room_description = io.load_room_description(school_path)
+        ranker = make_ranker(ranker_name=config["ranker"], costs=[])
 
         return cls(
             school_name=school_name,
             adjacency=adjacency,
-            config=config,
             room_description=room_description,
+            ranker=ranker,
         )
 
     def run(self, day: date) -> Recommendation:

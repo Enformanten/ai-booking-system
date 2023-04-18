@@ -50,7 +50,7 @@ def load_config(path: Path) -> dict[str, Any]:
     """
     # TODO: This is a placeholder, the correct implementation
     # TODO: must be added here. :)
-    return {"ranker": "FullRanker"}
+    return {"ranker": "FullRanker", "costs": []}
 
 
 def load_room_description(path: Path) -> list[Room]:
