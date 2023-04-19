@@ -52,7 +52,12 @@ class Recommender:
         config = io.load_config(school_path)
         room_description = io.load_room_description(school_path)
         costs = [
-            make_cost(name=key, adjacency=adjacency, **values)
+            make_cost(
+                name=key,
+                adjacency=adjacency,
+                room_description=room_description,
+                **values,
+            )
             for key, values in config.get("costs", {})
         ]
         ranker = make_ranker(ranker_name=config["ranker"], costs=costs)
