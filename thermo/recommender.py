@@ -34,12 +34,10 @@ class Recommender:
     def __init__(
         self,
         school_name: str,
-        adjacency: NDArray,
         room_description: list[Room],
         ranker: Ranker,
     ):
         self.school_name = school_name
-        self.adjacency = adjacency
         self.room_description = room_description
         self.ranker = ranker
 
