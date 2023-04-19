@@ -41,7 +41,7 @@ class HeatingCost(CostModel):
         # use of generator with hstack is deprecated in new numpy
         return np.hstack([self.heat_cost for i in range(self.n_time_slots)])
 
-    def run(self, state: NDArray, big_number: float = 1e5) -> NDArray:
+    def run(self, state: NDArray, big_number: float = 1e5, **kwargs) -> NDArray:
         """
         Args:
             state: ones and zeros representing bookings
