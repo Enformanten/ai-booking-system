@@ -3,6 +3,7 @@ from datetime import date
 import pandas as pd
 from numpy.typing import NDArray
 
+from thermo.adapter.state_connection import get_state
 from thermo.config import WORKDIR
 from thermo.costs import make_cost
 from thermo.ranker import Ranker, make_ranker
@@ -62,5 +63,7 @@ class Recommender:
             ranker=ranker,
         )
 
-    def run(self, day: date) -> Recommendation:
-        pass
+    def run(self, day: date, **kwargs) -> Recommendation:
+        state = get_state(day=day.isoformat())
+        recommendation = self.ranker.run(state, **kwargs)
+        return Recommendation(recommendation)
