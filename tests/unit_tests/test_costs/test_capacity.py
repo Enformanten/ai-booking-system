@@ -3,7 +3,7 @@ import numpy as np
 from thermo.costs.capacity import CapacityCost
 
 
-def test_heating(timeslots, room_description, state):
+def test_capacity(timeslots, room_description, state):
     model = CapacityCost(room_description, n_time_slots=timeslots)
     expected = np.array(
         [

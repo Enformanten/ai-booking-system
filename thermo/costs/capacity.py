@@ -39,9 +39,10 @@ class CapacityCost(CostModel):
         self.big_number = big_number
         self.coeff = coefficent
 
-    def _get_capacities(self, rooms: list[Room]) -> list[int]:
-        """Get capacities for each room"""
-        return [room.capacity for room in rooms]
+    @property
+    def capacities(self) -> list[int]:
+        """Capacities of all rooms"""
+        return [room.capacity for room in self.room_descriptions]
 
     def _explode_capacities(
         self, capacities: list[int], shape: tuple[int, int]
@@ -73,9 +74,8 @@ class CapacityCost(CostModel):
                 shape = (n_rooms*n_time_slots,)
         """
 
-        capacities = self._get_capacities(self.room_descriptions)
         rt_capacities = self._explode_capacities(
-            capacities, shape=(len(capacities), self.n_time_slots)
+            self.capacities, shape=(len(self.capacities), self.n_time_slots)
         )
         capacity_costs = self._calculate_costs(rt_capacities, required_capacity)
 
