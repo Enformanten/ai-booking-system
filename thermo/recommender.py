@@ -4,6 +4,7 @@ import pandas as pd
 from numpy.typing import NDArray
 
 from thermo.config import WORKDIR
+from thermo.costs import make_cost
 from thermo.ranker import Ranker, make_ranker
 from thermo.utils import io
 from thermo.utils.postprocessing import (
@@ -51,11 +52,14 @@ class Recommender:
         adjacency = io.load_adjacency(school_path)
         config = io.load_config(school_path)
         room_description = io.load_room_description(school_path)
-        ranker = make_ranker(ranker_name=config["ranker"], costs=[])
+        costs = [
+            make_cost(name=key, adjacency=adjacency, **values)
+            for key, values in config.get("costs", {})
+        ]
+        ranker = make_ranker(ranker_name=config["ranker"], costs=costs)
 
         return cls(
             school_name=school_name,
-            adjacency=adjacency,
             room_description=room_description,
             ranker=ranker,
         )
