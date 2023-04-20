@@ -44,9 +44,10 @@ class Recommender:
 
     @classmethod
     def from_config(cls, school_name: str):
-        school_path = WORKDIR / "schools" / school_name
-        if not school_path.exists():
-            raise FileExistsError(f"School {school_name} does not exist.")
+        if school_name != "demo_school":
+            school_path = WORKDIR / "schools" / school_name
+            if not school_path.exists():
+                raise FileExistsError(f"School {school_name} does not exist.")
 
         adjacency = io.load_adjacency(school_path)
         config = io.load_config(school_path)
