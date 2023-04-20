@@ -21,7 +21,7 @@ def mock_api(
     """
     timeslots = get_time_slots(date) if not timeslots else timeslots
     # Set random seed to date to get reproducible results
-    np.random.seed(int(date.replace("-", "")))
+    np.random.seed(int(date.isoformat().replace("-", "")))
 
     # initialize state, fetch n random values, sets values to 1
     state = np.zeros((timeslots, rooms))

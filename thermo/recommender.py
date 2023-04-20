@@ -75,7 +75,7 @@ class Recommender:
         )
 
     def run(self, day: date, **kwargs) -> Recommendation:
-        state = get_state(day=day.isoformat())
+        state = get_state(day)
         n_time_slots = get_time_slots(day)
         recommendation = self.ranker.run(state, n_time_slots=n_time_slots, **kwargs)
         return Recommendation(recommendation, room_names=self._room_names)
