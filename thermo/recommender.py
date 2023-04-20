@@ -14,6 +14,7 @@ from thermo.utils.postprocessing import (
     to_frame,
 )
 from thermo.utils.room import Room
+from thermo.utils.time import get_time_slots
 
 
 class Recommendation:
@@ -38,7 +39,6 @@ class Recommender:
     def __init__(
         self,
         school_name: str,
-        n_time_slots: int,  # TODO: check its not dead
         room_description: list[Room],
         ranker: Ranker,
     ):
@@ -48,7 +48,7 @@ class Recommender:
         self.ranker = ranker
 
     @classmethod
-    def from_config(cls, school_name: str, n_time_slots) -> "Recommender":
+    def from_config(cls, school_name: str) -> "Recommender":
         school_path = WORKDIR / "schools" / school_name
         if school_name != "demo_school":
             if not school_path.exists():
@@ -62,7 +62,6 @@ class Recommender:
                 name=key,
                 adjacency=adjacency,
                 room_description=room_description,
-                n_time_slots=n_time_slots,
                 **values,
             )
             for key, values in config.get("costs", {}).items()
@@ -71,12 +70,12 @@ class Recommender:
 
         return cls(
             school_name=school_name,
-            n_time_slots=n_time_slots,
             room_description=room_description,
             ranker=ranker,
         )
 
     def run(self, day: date, **kwargs) -> Recommendation:
         state = get_state(day=day.isoformat())
-        recommendation = self.ranker.run(state, **kwargs)
+        n_time_slots = get_time_slots(day)
+        recommendation = self.ranker.run(state, n_time_slots=n_time_slots, **kwargs)
         return Recommendation(recommendation, room_names=self._room_names)

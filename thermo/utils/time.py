@@ -38,7 +38,7 @@ def is_schoolday(day: date) -> bool:
     return calendar.is_working_day(day)
 
 
-def time_slots(day: date) -> int:
+def get_time_slots(day: date) -> int:
     """
     Compute number of time slots for a given day.
     These are hourly time slots from 15 to 23 for school
