@@ -8,22 +8,24 @@ from thermo.costs.base import CostModel
 class HeatingCost(CostModel):
     def __init__(
         self,
-        As: NDArray,
+        *,
+        adjacency: NDArray,
         n_time_slots: int,
         t_weight: float = 1.0,
         message_importance: float = 0.5,
         heat_cost: NDArray | None = None,
+        **kwargs
     ):
         """
         Class to simulate the heating cost of a room.
         Args:
-            As: Adjacency matrix for space (n_rooms x n_rooms)
+            adjacency: Adjacency matrix for space (n_rooms x n_rooms)
             n_time_slots: number of time slots in the schedule
                 (per day)
             tb_added.
         """
-        self.As = As
-        self.n_rooms = As.shape[0]
+        self.As = adjacency
+        self.n_rooms = self.As.shape[0]
         self.n_time_slots = n_time_slots
         self.t_weight = t_weight
         self.message_importance = message_importance
@@ -39,7 +41,7 @@ class HeatingCost(CostModel):
         # use of generator with hstack is deprecated in new numpy
         return np.hstack([self.heat_cost for i in range(self.n_time_slots)])
 
-    def run(self, state: NDArray, big_number: float = 1e5) -> NDArray:
+    def run(self, state: NDArray, big_number: float = 1e5, **kwargs) -> NDArray:
         """
         Args:
             state: ones and zeros representing bookings
