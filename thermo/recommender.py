@@ -43,7 +43,7 @@ class Recommender:
         self.ranker = ranker
 
     @classmethod
-    def from_config(cls, school_name: str):
+    def from_config(cls, school_name: str) -> "Recommender":
         school_path = WORKDIR / "schools" / school_name
         if school_name != "demo_school":
             if not school_path.exists():
