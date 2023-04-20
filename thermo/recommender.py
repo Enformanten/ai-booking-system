@@ -17,14 +17,17 @@ from thermo.utils.room import Room
 
 
 class Recommendation:
-    def __init__(self, ranking: NDArray):
-        self.ranking = to_frame(ranking)
+    def __init__(self, ranking: NDArray, room_names: list[str]):
+        self.ranking = to_frame(ranking, room_names=room_names)
+
+    def show(self):
+        return show_recommendations(self.ranking)
 
     def __repr__(self) -> str:
-        return show_recommendations(self.ranking).__repr__()
+        return self.ranking.fillna("BOOKED").__repr__()
 
     def top_recommendations(self) -> pd.DataFrame:
-        return list_recommendations(show_recommendations(self.ranking))
+        return list_recommendations(self.ranking)
 
 
 class Recommender:
@@ -35,15 +38,17 @@ class Recommender:
     def __init__(
         self,
         school_name: str,
+        n_time_slots: int,  # TODO: check its not dead
         room_description: list[Room],
         ranker: Ranker,
     ):
         self.school_name = school_name
         self.room_description = room_description
+        self._room_names = [room.name for room in room_description]
         self.ranker = ranker
 
     @classmethod
-    def from_config(cls, school_name: str) -> "Recommender":
+    def from_config(cls, school_name: str, n_time_slots) -> "Recommender":
         school_path = WORKDIR / "schools" / school_name
         if school_name != "demo_school":
             if not school_path.exists():
@@ -57,6 +62,7 @@ class Recommender:
                 name=key,
                 adjacency=adjacency,
                 room_description=room_description,
+                n_time_slots=n_time_slots,
                 **values,
             )
             for key, values in config.get("costs", {}).items()
@@ -65,6 +71,7 @@ class Recommender:
 
         return cls(
             school_name=school_name,
+            n_time_slots=n_time_slots,
             room_description=room_description,
             ranker=ranker,
         )
@@ -72,4 +79,4 @@ class Recommender:
     def run(self, day: date, **kwargs) -> Recommendation:
         state = get_state(day=day.isoformat())
         recommendation = self.ranker.run(state, **kwargs)
-        return Recommendation(recommendation)
+        return Recommendation(recommendation, room_names=self._room_names)

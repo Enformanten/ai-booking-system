@@ -32,5 +32,5 @@ def list_recommendations(df: pd.DataFrame) -> pd.DataFrame:
         df.reset_index()
         .melt(id_vars="index")
         .rename(columns={"index": "Time Slot", "variable": "Room", "value": "Score"})
-        .sort_values(by=["Score", "Time Slot"])[lambda d: d["Optimality"] < 100]
+        .sort_values(by=["Score", "Time Slot"])[lambda d: d["Score"].notna()]
     )
