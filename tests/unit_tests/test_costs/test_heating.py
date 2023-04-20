@@ -4,7 +4,7 @@ from thermo.costs.heating import HeatingCost
 
 
 def test_heating(graph, timeslots, state):
-    model = HeatingCost(graph, n_time_slots=timeslots)
+    model = HeatingCost(adjacency=graph, n_time_slots=timeslots)
     expected = np.array(
         [
             [1.0, 0.5, 100000.5, 100000.5, 0.5, 1.0, 0.5, 1.0, 1.0, 0.5],
