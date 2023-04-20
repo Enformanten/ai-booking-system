@@ -12,12 +12,9 @@ BUILDING_NAME = st.sidebar.selectbox(
     ("demo_school", "demo_school_2"),
 )
 DATE = st.sidebar.date_input("Date", date.today())
-TIME_SLOTS = st.sidebar.slider("# Time slots", 1, 10, 3)
 
 if st.sidebar.button("Get recommendations"):
-    recommender = Recommender.from_config(
-        school_name=BUILDING_NAME, n_time_slots=TIME_SLOTS
-    )
+    recommender = Recommender.from_config(school_name=BUILDING_NAME)
 
     with st.spinner("Calculating recommendations..."):
         recommendation = recommender.run(day=DATE)
