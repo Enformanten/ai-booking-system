@@ -40,7 +40,10 @@ def state(timeslots, graph):
 
 @pytest.fixture
 def config():
-    return {"ranker": "FullRanker"}
+    return {
+        "ranker": "FullRanker",
+        "costs": [{"HeatingCost": {"t_weight": 1.0, "message_importance": 0.5}}],
+    }
 
 
 @pytest.fixture
