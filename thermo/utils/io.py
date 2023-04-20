@@ -52,7 +52,7 @@ def load_config(path: Path) -> dict[str, Any]:
     # TODO: must be added here. :)
     return {
         "ranker": "FullRanker",
-        "costs": [{"HeatingCost": {"t_weight": 1.0, "message_importance": 0.5}}],
+        "costs": {"HeatingCost": {"t_weight": 1.0, "message_importance": 0.5}},
     }
 
 

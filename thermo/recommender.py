@@ -59,7 +59,7 @@ class Recommender:
                 room_description=room_description,
                 **values,
             )
-            for key, values in config.get("costs", {})
+            for key, values in config.get("costs", {}).items()
         ]
         ranker = make_ranker(ranker_name=config["ranker"], costs=costs)
 
