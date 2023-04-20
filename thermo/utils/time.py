@@ -19,7 +19,7 @@ def is_schoolday(day: date) -> bool:
     Returns:
         True if it is a school day, False otherwise
     """
-    week = day.isocalendar.week
+    week = day.isocalendar().week
 
     if week in [7, 27, 28, 29, 42]:
         # These are school holidays known to DTU
@@ -29,7 +29,7 @@ def is_schoolday(day: date) -> bool:
         # Days between Christmas and New Years
         return False
 
-    calendar = Denmark(day.year)
+    calendar = Denmark()
 
     if day == (calendar.get_ascension_thursday(day.year) + timedelta(1)):
         # Friday after ascension day
