@@ -129,6 +129,7 @@ dmypy.json
 .pyre/
 
 # custom
+.vscode/
 .venv
 notebooks/state_api.ipynb
 # mkdocs documentation

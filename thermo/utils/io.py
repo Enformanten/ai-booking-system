@@ -66,16 +66,16 @@ def load_room_description(path: Path) -> list[Room]:
     """
     # TODO: This is a placeholder, the correct implementation
     # TODO: must be added here. :)
-    room_names = (
-        "Room A",
-        "Room B",
-        "Room C",
-        "Room D",
-        "Room E",
-        "Room F",
-        "Room G",
-        "Room H",
-        "Room I",
-        "Room J",
-    )
-    return [Room(name=name) for name in enumerate(room_names)]
+    room_descriptions = [
+        {"name": "Room A", "capacity": 30},
+        {"name": "Room B", "capacity": 20},
+        {"name": "Room C", "capacity": 10},
+        {"name": "Room D", "capacity": 30},
+        {"name": "Room E", "capacity": 15},
+        {"name": "Room F", "capacity": 30},
+        {"name": "Room G", "capacity": 15},
+        {"name": "Room H", "capacity": 30},
+        {"name": "Room I", "capacity": 10},
+        {"name": "Room J", "capacity": 30},
+    ]
+    return [Room(index=index, **specs) for index, specs in enumerate(room_descriptions)]
