@@ -4,7 +4,34 @@ from typing import Any
 import numpy as np
 from numpy.typing import NDArray
 
+from thermo.config import WORKDIR
 from thermo.utils.room import Room
+
+
+def get_building_path(building_name: str) -> Path:
+    """
+    Validates and returns the path to the building
+    config dir. Raises an error if the dir does
+    not exist.
+
+    Args:
+        building_name: name of the building.
+
+    Returns:
+        pathlib.Path: path to the building config dir.
+    """
+    school_path = WORKDIR / "buildings" / building_name
+    if not school_path.exists():
+        raise FileExistsError(f"Bulding '{building_name}' does not exist.")
+    return school_path
+
+
+def get_building_specs(building_path: str):
+    """Loads specifications from building config dir."""
+    adjacency = load_adjacency(building_path)
+    config = load_config(building_path)
+    room_description = load_room_description(building_path)
+    return adjacency, config, room_description
 
 
 def load_adjacency(path: Path) -> NDArray:

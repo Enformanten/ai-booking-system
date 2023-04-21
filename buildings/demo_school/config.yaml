@@ -1,0 +1,41 @@
+
+# general
+name: "demo_school"
+muncipality: "demo_muncipality"
+
+# cost specifications
+ranker: "FullRanker"
+costs: {
+  "HeatingCost": {
+    "t_weight": 1.0,
+    "message_importance": 0.5
+  }
+}
+
+# room adjacency matrix
+adjacency: [
+    [0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 1, 0, 1, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+    [0, 1, 1, 0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+    [0, 1, 0, 0, 1, 0, 0, 0, 0, 0],
+    [0, 1, 0, 1, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    [1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+]
+
+# room descriptions
+room_descriptions: [
+    {"name": "Room A", "capacity": 30},
+    {"name": "Room B", "capacity": 20},
+    {"name": "Room C", "capacity": 10},
+    {"name": "Room D", "capacity": 30},
+    {"name": "Room E", "capacity": 15},
+    {"name": "Room F", "capacity": 30},
+    {"name": "Room G", "capacity": 15},
+    {"name": "Room H", "capacity": 30},
+    {"name": "Room I", "capacity": 10},
+    {"name": "Room J", "capacity": 30},
+]

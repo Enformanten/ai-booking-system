@@ -4,7 +4,6 @@ import pandas as pd
 from numpy.typing import NDArray
 
 from thermo.adapter.state_connection import get_state
-from thermo.config import WORKDIR
 from thermo.costs import make_cost
 from thermo.ranker import Ranker, make_ranker
 from thermo.utils import io
@@ -38,30 +37,25 @@ class Recommender:
 
     def __init__(
         self,
-        school_name: str,
+        building_name: str,
         room_description: list[Room],
         ranker: Ranker,
     ):
-        self.school_name = school_name
+        self.building_name = building_name
         self.room_description = room_description
         self._room_names = [room.name for room in room_description]
         self.ranker = ranker
 
     @classmethod
-    def from_config(cls, school_name: str) -> "Recommender":
-        school_path = WORKDIR / "schools" / school_name
-        if school_name != "demo_school":
-            if not school_path.exists():
-                raise FileExistsError(f"School {school_name} does not exist.")
+    def from_config(cls, building_name: str) -> "Recommender":
+        building_path = io.get_building_path(building_name)
+        adjacency, config, room_descriptions = io.get_building_specs(building_path)
 
-        adjacency = io.load_adjacency(school_path)
-        config = io.load_config(school_path)
-        room_description = io.load_room_description(school_path)
         costs = [
             make_cost(
                 name=key,
                 adjacency=adjacency,
-                room_description=room_description,
+                room_description=room_descriptions,
                 **values,
             )
             for key, values in config.get("costs", {}).items()
@@ -69,8 +63,8 @@ class Recommender:
         ranker = make_ranker(ranker_name=config["ranker"], costs=costs)
 
         return cls(
-            school_name=school_name,
-            room_description=room_description,
+            building_name=building_name,
+            room_description=room_descriptions,
             ranker=ranker,
         )
 
