@@ -14,7 +14,7 @@ BUILDING_NAME = st.sidebar.selectbox(
 DATE = st.sidebar.date_input("Date", date.today())
 
 if st.sidebar.button("Get recommendations"):
-    recommender = Recommender.from_config(school_name=BUILDING_NAME)
+    recommender = Recommender.from_config(building_name=BUILDING_NAME)
 
     with st.spinner("Calculating recommendations..."):
         recommendation = recommender.run(day=DATE)

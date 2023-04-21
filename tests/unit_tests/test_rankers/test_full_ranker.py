@@ -3,9 +3,9 @@ import numpy as np
 from thermo.ranker.full import FullRanker
 
 
-def test_fullranker(state, mock_heatingcost, mock_occupationcost):
+def test_fullranker(demo_state, mock_heatingcost, mock_occupationcost):
     ranker = FullRanker(costs=[mock_occupationcost, mock_heatingcost])
-    ranking = ranker.run(state=state)
+    ranking = ranker.run(state=demo_state)
     expected = np.array(
         [
             1.22604395,
@@ -40,5 +40,5 @@ def test_fullranker(state, mock_heatingcost, mock_occupationcost):
             1.31695105,
         ]
     )
-    assert ranking.shape == state.shape
+    assert ranking.shape == demo_state.shape
     assert np.allclose(ranking, expected)

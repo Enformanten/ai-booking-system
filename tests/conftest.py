@@ -1,11 +1,12 @@
 import numpy as np
 import pytest
 
+from thermo.utils import io
 from thermo.utils.room import Room
 
 
 @pytest.fixture
-def graph():
+def demo_graph():
     return np.array(
         [
             [0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -28,8 +29,23 @@ def timeslots():
 
 
 @pytest.fixture
-def state(timeslots, graph):
-    out = np.zeros((timeslots, graph.shape[0]))
+def demo_building_name():
+    return "demo_school"
+
+
+@pytest.fixture
+def all_buildings():
+    return io.get_all_buildings()
+
+
+@pytest.fixture
+def core_building_specs():
+    return {"name", "muncipality", "ranker", "costs", "room_descriptions", "adjacency"}
+
+
+@pytest.fixture
+def demo_state(timeslots, demo_graph):
+    out = np.zeros((timeslots, demo_graph.shape[0]))
     out[0, 2] = 1  # Room C is occupied at time t_0 (time slots t_0, t_1, t_2)
     out[0, 3] = 1  # Room D is occupied at time t_0 (time slots t_0, t_1, t_2)
     out[1, 4] = 1  # Room E is occupied at time t_1 (time slots t_0, t_1, t_2)
@@ -47,7 +63,7 @@ def config():
 
 
 @pytest.fixture
-def room_description():
+def demo_room_description():
     room_descriptions = [
         {"name": "Room A", "capacity": 30},
         {"name": "Room B", "capacity": 20},
@@ -61,3 +77,9 @@ def room_description():
         {"name": "Room J", "capacity": 30},
     ]
     return [Room(index=index, **specs) for index, specs in enumerate(room_descriptions)]
+
+
+@pytest.fixture
+def demo_building_specs(demo_building_name):
+    building_path = io.get_building_path(demo_building_name)
+    return io.get_building_specs(building_path)
