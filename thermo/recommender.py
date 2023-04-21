@@ -28,7 +28,7 @@ class Recommendation:
     def __init__(self, ranking: NDArray, room_names: list[str]):
         self.ranking = to_frame(ranking, room_names=room_names)
 
-    def show(self) -> pd.io.formats.style.Styler:
+    def show(self) -> pd.DataFrame:
         """
         Returns a styled DataFrame with a color gradient.
         Formats the DataFrame to 1 decimal place and
@@ -41,6 +41,10 @@ class Recommendation:
 
     def __repr__(self) -> str:
         return self.ranking.fillna("BOOKED").__repr__()
+
+    @property
+    def shape(self) -> tuple[int]:
+        return self.ranking.shape
 
     def top_recommendations(self) -> pd.DataFrame:
         """

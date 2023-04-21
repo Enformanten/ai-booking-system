@@ -25,7 +25,7 @@ def to_frame(
     ).where(lambda x: x < nan_threshold)
 
 
-def show_recommendations(df: pd.DataFrame) -> pd.io.formats.style.Styler:
+def show_recommendations(df: pd.DataFrame) -> pd.DataFrame:
     """Convert DataFrame of booking recommendations
     to a styled DataFrame with a color gradient.
     Formats the DataFrame to 1 decimal place and
