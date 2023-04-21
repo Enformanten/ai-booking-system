@@ -30,3 +30,7 @@ class Building:
             for index, specs in enumerate(self.room_descriptions)
         ]
         self.adjacency = np.array(self.adjacency)
+
+    def get_room_attr(self, attr: str) -> list[Any]:
+        """Returns a list of the given attribute for all rooms."""
+        return [getattr(room, attr) for room in self.rooms]
