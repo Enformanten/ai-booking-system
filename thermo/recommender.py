@@ -49,22 +49,22 @@ class Recommender:
     @classmethod
     def from_config(cls, building_name: str) -> "Recommender":
         building_path = io.get_building_path(building_name)
-        adjacency, config, room_descriptions = io.get_building_specs(building_path)
+        building = io.get_building_specs(building_path)
 
         costs = [
             make_cost(
                 name=key,
-                adjacency=adjacency,
-                room_description=room_descriptions,
+                adjacency=building.adjacency,
+                room_description=building.room_descriptions,
                 **values,
             )
-            for key, values in config.get("costs", {}).items()
+            for key, values in building.costs.items()
         ]
-        ranker = make_ranker(ranker_name=config["ranker"], costs=costs)
+        ranker = make_ranker(ranker_name=building.ranker, costs=costs)
 
         return cls(
             building_name=building_name,
-            room_description=room_descriptions,
+            room_description=building.room_descriptions,
             ranker=ranker,
         )
 
