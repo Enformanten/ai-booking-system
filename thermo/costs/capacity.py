@@ -8,9 +8,10 @@ from thermo.utils.room import Room
 class CapacityCost(CostModel):
     def __init__(
         self,
-        room_descriptions: list[Room],
+        room_description: list[Room],
         big_number: float = 1e5,
         coefficent: float = 1.0,
+        **kwargs
     ):
         """
         Class to simulate the capacity cost of a room:
@@ -24,7 +25,7 @@ class CapacityCost(CostModel):
         Note: We assume that room capacities are fixed across time.
 
         Args:
-            room_descriptions: list of Room objects describing the
+            room_description: list of Room objects describing the
                 rooms in the building
             big_number: number associated to the room already
                 being booked
@@ -32,14 +33,14 @@ class CapacityCost(CostModel):
                 to be more or less steep
 
         """
-        self.room_descriptions = room_descriptions
+        self.room_description = room_description
         self.big_number = big_number
         self.coeff = coefficent
 
     @property
     def capacities(self) -> list[int]:
         """Capacities of all rooms"""
-        return [room.capacity for room in self.room_descriptions]
+        return [room.capacity for room in self.room_description]
 
     def _explode_capacities(
         self, capacities: list[int], shape: tuple[int, int]
@@ -54,7 +55,7 @@ class CapacityCost(CostModel):
         return self.coeff * (rt_capacities - required_capacity) / rt_capacities
 
     def run(
-        self, state: NDArray, n_time_slots: int, required_capacity: int = 10
+        self, state: NDArray, n_time_slots: int, required_capacity: int = 10, **kwargs
     ) -> NDArray:
         """
         Calculate the capacity cost for each room-time combination,
