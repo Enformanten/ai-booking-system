@@ -18,16 +18,35 @@ from thermo.utils.time import get_time_slots
 
 
 class Recommendation:
+    """
+    Class to contain the postprocessing of recommendations.
+    Args:
+        ranking: the output of a Ranker.run call.
+        room_names: names of the rooms for display
+    """
+
     def __init__(self, ranking: NDArray, room_names: list[str]):
         self.ranking = to_frame(ranking, room_names=room_names)
 
-    def show(self):
+    def show(self) -> pd.io.formats.style.Styler:
+        """
+        Returns a styled DataFrame with a color gradient.
+        Formats the DataFrame to 1 decimal place and
+        replaces NaN values with "BOOKED".
+
+        Returns:
+            pandas.io.formats.style.Styler: styled DataFrame
+        """
         return show_recommendations(self.ranking)
 
     def __repr__(self) -> str:
         return self.ranking.fillna("BOOKED").__repr__()
 
     def top_recommendations(self) -> pd.DataFrame:
+        """
+        Returns a sorted list of recommendations, with columns
+        "Time Slot", "Room", "Score"
+        """
         return list_recommendations(self.ranking)
 
 
