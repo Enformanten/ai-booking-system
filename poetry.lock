@@ -1415,7 +1415,7 @@ files = [
 name = "networkx"
 version = "3.1"
 description = "Python package for creating and manipulating graphs and networks"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
@@ -2746,4 +2746,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "1961f6b2667889c281a449aae0159f10d8dd521063be3614acb5bc3a30ae12fa"
+content-hash = "e1afae35c548597d3905db8e909f8490e61acebdc0923f74e302939cc2131ce0"
