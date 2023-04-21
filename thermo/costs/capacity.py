@@ -9,7 +9,6 @@ class CapacityCost(CostModel):
     def __init__(
         self,
         room_descriptions: list[Room],
-        n_time_slots: int,
         big_number: float = 1e5,
         coefficent: float = 1.0,
     ):
@@ -27,7 +26,6 @@ class CapacityCost(CostModel):
         Args:
             room_descriptions: list of Room objects describing the
                 rooms in the building
-            n_time_slots: number of time slots to consider
             big_number: number associated to the room already
                 being booked
             coefficent: coefficient for adjusting the cost function
@@ -35,7 +33,6 @@ class CapacityCost(CostModel):
 
         """
         self.room_descriptions = room_descriptions
-        self.n_time_slots = n_time_slots
         self.big_number = big_number
         self.coeff = coefficent
 
@@ -56,7 +53,9 @@ class CapacityCost(CostModel):
         """Calculate costs for each room-time combination"""
         return self.coeff * (rt_capacities - required_capacity) / rt_capacities
 
-    def run(self, state: NDArray, required_capacity: int = 10) -> NDArray:
+    def run(
+        self, state: NDArray, n_time_slots: int, required_capacity: int = 10
+    ) -> NDArray:
         """
         Calculate the capacity cost for each room-time combination,
         setting the cost to a very high number if the room is too small
@@ -65,6 +64,7 @@ class CapacityCost(CostModel):
         Args:
             state: ones and zeros representing bookings
                 shape = (n_rooms, n_time_slots)
+            n_time_slots: number of time slots to consider
             required_capacity: required room capacity to
                 hold the party of the booker.
 
@@ -75,7 +75,7 @@ class CapacityCost(CostModel):
         """
 
         rt_capacities = self._explode_capacities(
-            self.capacities, shape=(len(self.capacities), self.n_time_slots)
+            self.capacities, shape=(len(self.capacities), n_time_slots)
         )
         capacity_costs = self._calculate_costs(rt_capacities, required_capacity)
 
