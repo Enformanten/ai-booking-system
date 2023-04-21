@@ -1,7 +1,7 @@
 
 # general
 name: "demo_school"
-muncipality: "demo_muncipality"
+municipality: "demo_muncipality"
 
 # cost specifications
 ranker: "FullRanker"

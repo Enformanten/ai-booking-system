@@ -7,12 +7,12 @@ from thermo.adapter.state_connection import get_state
 from thermo.costs import make_cost
 from thermo.ranker import Ranker, make_ranker
 from thermo.utils import io
+from thermo.utils.building import Building
 from thermo.utils.postprocessing import (
     list_recommendations,
     show_recommendations,
     to_frame,
 )
-from thermo.utils.room import Room
 from thermo.utils.time import get_time_slots
 
 
@@ -60,8 +60,7 @@ class Recommender:
 
     def __init__(
         self,
-        building_name: str,
-        room_description: list[Room],
+        building: Building,
         ranker: Ranker,
     ):
         """
@@ -70,18 +69,15 @@ class Recommender:
         by calling Recommender.from_config(school_name).
 
         Args:
-            school_name: Name of the school, as in the path to its config
-                files.
-            room_description: List of rooms containing their characteristics
-                such as name, capacity or index.
+            building: Building object containing the adjacency matrix,
+                room descriptions and costs etc.
             ranker: Object to orchestrate the different costs and how they are
                 combined. Examples of costs are `thermo.costs.HeatingCost` or
                 `thermo.costs.CapacityCost`.
         """
 
-        self.building_name = building_name
-        self.room_description = room_description
-        self._room_names = [room.name for room in room_description]
+        self.building = building
+        self._room_names = building.get_room_attr("name")
         self.ranker = ranker
 
     @classmethod
@@ -112,8 +108,7 @@ class Recommender:
         ranker = make_ranker(ranker_name=building.ranker, costs=costs)
 
         return cls(
-            building_name=building_name,
-            room_description=building.room_descriptions,
+            building=building,
             ranker=ranker,
         )
 

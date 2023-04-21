@@ -3,8 +3,8 @@ import numpy as np
 from thermo.costs.capacity import CapacityCost
 
 
-def test_capacity(timeslots, demo_room_description, demo_state):
-    model = CapacityCost(demo_room_description)
+def test_capacity(timeslots, demo_rooms, demo_state):
+    model = CapacityCost(demo_rooms)
     expected = np.array(
         [
             [0.57, 0.35, 100000.0, 0.57, 0.13, 0.57, 0.13, 0.57, 100000.0, 0.57],

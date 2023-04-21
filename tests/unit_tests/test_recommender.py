@@ -18,10 +18,9 @@ class MockRanker(Ranker):
 
 
 @pytest.fixture
-def recommender(demo_room_description):
+def recommender(demo_building):
     return Recommender(
-        building_name="mock",
-        room_description=demo_room_description,
+        building=demo_building,
         ranker=MockRanker(),
     )
 
