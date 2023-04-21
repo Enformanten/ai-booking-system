@@ -1,3 +1,5 @@
+import datetime
+
 import numpy as np
 from numpy.typing import NDArray
 
@@ -5,7 +7,10 @@ from thermo.utils.time import get_time_slots
 
 
 def mock_api(
-    date: str, timeslots: int | None = None, rooms: int = 10, n_booked: int = 5
+    date: datetime.date,
+    timeslots: int | None = None,
+    rooms: int = 10,
+    n_booked: int = 5,
 ) -> NDArray:
     """Mock API for testing purposes. Initializes a random state.
     using date as the seed.
@@ -30,7 +35,7 @@ def mock_api(
     return state.flatten()
 
 
-def get_state(day: str, timeslots: int | None = None) -> NDArray:
+def get_state(day: datetime.date, timeslots: int | None = None) -> NDArray:
     """Get a state from external API.
     Open booking URI for Favrskov Kommune
     - https://book01.webbook.dk/favrskov/_rapporter/
