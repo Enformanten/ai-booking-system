@@ -14,7 +14,7 @@ def test_costs(cost_name, demo_state, demo_graph, demo_rooms):
     cost = make_cost(
         cost_name,
         adjacency=demo_graph,
-        room_description=demo_rooms,
+        room_descriptions=demo_rooms,
         foo=True,
     )
     result = cost.run(demo_state, n_time_slots=3, waz=True)

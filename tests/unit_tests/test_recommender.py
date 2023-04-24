@@ -4,7 +4,9 @@ import numpy as np
 import pytest
 from numpy.typing import NDArray
 
-from thermo.ranker import Ranker
+from tests.conftest import powerset
+from thermo.costs import CostName, make_cost
+from thermo.ranker import Ranker, make_ranker
 from thermo.recommender import Recommendation, Recommender
 
 
@@ -41,3 +43,19 @@ def test_top_recommendation(recommender, day, room, score):
     top = recommendation.top_recommendations().iloc[0]
     assert top["Room"] == room
     assert np.isclose(top["Score"], score, rtol=1e-2)
+
+
+@pytest.mark.parametrize("costs", powerset(CostName.__args__))
+def test_multiple_costs(costs, demo_building):
+    """Validates that the recommender can handle
+    multiple costs. Runs through the powerset of all
+    cost models implemented (listed in costs.CostName).
+    """
+    _costs = [make_cost(cost_name=c, **demo_building.__dict__) for c in costs]
+    recommender = Recommender(
+        building=demo_building,
+        ranker=make_ranker(demo_building.ranker, _costs),
+    )
+    recommendation = recommender.run(date(2023, 4, 20))
+    assert isinstance(recommendation, Recommendation)
+    assert recommendation.shape == (8, 10)
