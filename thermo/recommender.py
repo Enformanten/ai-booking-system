@@ -91,7 +91,7 @@ class Recommender:
 
         Returns:
             A recommender based on the configuration for that building found in
-            `buildings/building_name`.
+                `buildings/building_name`.
         """
         building_path = io.get_building_path(building_name)
         building = io.get_building_specs(building_path)

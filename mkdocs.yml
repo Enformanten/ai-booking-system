@@ -33,8 +33,12 @@ plugins:
       handlers:
         python:
           options:
+            docstring_style: google
+            separate_signature: yes
             show_signature_annotations: true
-            show_source: true
+            show_source: yes
+            show_root_full_path: yes
+            merge_init_into_class: yes
             show_submodules: true
 watch: # this is optional, it helps to test the documentation locally.
   - thermo # or wherever you have your python code.
