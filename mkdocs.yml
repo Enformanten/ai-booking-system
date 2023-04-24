@@ -15,7 +15,9 @@ theme:
 
 nav:
   - Introduction: index.md
-  - Thermo info: thermo.md
+  - Principles behind the code:
+      - The heat equation: thermo.md
+      - School as a graph: graph.md
 
 markdown_extensions:
   - pymdownx.snippets:
