@@ -35,7 +35,6 @@ You may also need the flags `--with docs` if you want to test the documentation 
 Building specifications are loaded from a config directory, through the `.from_config` method. The booking state is retrieved under the hood through an open API.
 
 ```python
-
 from thermo.recommender import Recommender
 from datetime import date
 
@@ -45,16 +44,16 @@ recommendation = recommender.run(day=date.today())
 recommendation.show()
 ```
 `show()` returns a color-coded DataFrame.Styler object, similar to the following table
-|        |Room A | Room B | Room C | Room D   | Room E |
+|        |Room A | ... | Room G | Room H   | Room I |
 |:------:|:------:|:------:|:--------:|:------:|:------:|
-| t_0    | 1.0    | 1.0    | 1.0      | 1.0    | 0.5    |
-| t_1    | 1.0    | 1.0    | 1.0      | 0.5    | BOOKED |
-| t_2    | 1.0    | 1.0    | 1.0      | 1.0    | 0.0    |
-| t_3    | 1.0    | 1.0    | 1.0      | 0.5    | BOOKED |
-| t_4    | 1.0    | 1.0    | 1.0      | 1.0    | 0.5    |
-| t_5    | 0.5    | 1.0    | 0.5      | 1.0    | 1.0    |
-| t_6    | BOOKED | 0.5    | BOOKED | 0.5    | 1.0    |
-| t_7    | 0.0    | 1.0    | BOOKED   | 1.0    | 1.0    |
+| t_0    | 1.0    | ...    | 1.0      | 1.0    | 0.5    |
+| t_1    | 1.0    | ...    | 1.0      | 0.5    | BOOKED |
+| t_2    | 1.0    | ...    | 1.0      | 1.0    | 0.0    |
+| t_3    | 1.0    | ...    | 1.0      | 0.5    | BOOKED |
+| t_4    | 1.0    | ...    | 1.0      | 1.0    | 0.5    |
+| t_5    | 0.5    | ...    | 0.5      | 1.0    | 1.0    |
+| t_6    | BOOKED | ...    | BOOKED | 0.5    | 1.0    |
+| t_7    | 0.0    | ...    | BOOKED   | 1.0    | 1.0    |
 
 Similarly, `top_recommendations()` produces a list of room-time combinations, i.e. booking recommendations, ranked after their aggregated (estimated) cost (*score*).
 
@@ -67,10 +66,6 @@ Similarly, `top_recommendations()` produces a list of room-time combinations, i.
 | t_3  | Room H | 0.5      |
 | ...  | ...    | ...      |
 | t_7  | Room F | 1.0      |
-| t_7  | Room H | 1.0      |
-| t_7  | Room I | 1.0      |
-| t_7  | Room J | 1.0      |
-| t_6  | Room G | 100000.0 |
 
 <br>
 
