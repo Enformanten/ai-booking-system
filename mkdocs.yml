@@ -19,7 +19,9 @@ nav:
       - The heat equation: thermo.md
       - School as a graph: graph.md
   - Reference:
-      - Recommender and recommendation: ref/recommender.md
+      - Recommender and Recommendation: ref/recommender.md
+      - Rankers: ref/ranker.md
+
 
 markdown_extensions:
   - pymdownx.snippets:
