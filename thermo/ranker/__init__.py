@@ -18,7 +18,8 @@ def make_ranker(ranker_name: RankerName, costs: list[CostModel], **kwargs) -> Ra
         kwargs: other possible arguments to the init method of the
             ranker.
 
-    Returns: an instance of the `ranker_name` class.
+    Returns:
+        an instance of the `ranker_name` class.
     """
     match ranker_name:
         case "FullRanker":

@@ -15,10 +15,11 @@ class CapacityCost(CostModel):
     ):
         """
         Class to simulate the capacity cost of a room:
+
         Room capacity cost is intuitively based on a Lennard-Jones
         potential function with a minimum at the required capacity.
-        Rooms with capacity < required capacity have very high cost,
-        while the cost for rooms with capacity >= required capacity
+        Rooms with `capacity` < `required capacity` have very high cost,
+        while the cost for rooms with `capacity` >= `required capacity`
         scales with the difference between the room capacity and
         required capacity.
 

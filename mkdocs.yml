@@ -21,6 +21,7 @@ nav:
   - Reference:
       - Recommender and Recommendation: ref/recommender.md
       - Rankers: ref/ranker.md
+      - Costs: ref/cost.md
 
 
 markdown_extensions:
@@ -38,7 +39,7 @@ plugins:
             docstring_style: google
             separate_signature: yes
             show_signature_annotations: true
-            show_source: yes
+            show_source: true
             show_root_full_path: yes
             merge_init_into_class: yes
             show_submodules: true
