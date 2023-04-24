@@ -19,9 +19,12 @@ nav:
       - The heat equation: thermo.md
       - School as a graph: graph.md
 
+
 markdown_extensions:
   - pymdownx.snippets:
       check_paths: true
+  - pymdownx.arithmatex:
+      generic: true
 
 plugins:
   - search:
@@ -34,3 +37,8 @@ plugins:
             show_submodules: true
 watch: # this is optional, it helps to test the documentation locally.
   - thermo # or wherever you have your python code.
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
