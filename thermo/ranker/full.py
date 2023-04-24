@@ -13,7 +13,7 @@ class FullRanker(Ranker):
         costs: list of instances of costs models to compute the costs from.
     """
 
-    def __init__(self, costs=list[CostModel]):
+    def __init__(self, costs: list[CostModel]):
         super().__init__(costs=costs)
 
     def run(self, state: NDArray, **kwargs) -> NDArray:

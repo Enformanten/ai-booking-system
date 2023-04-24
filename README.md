@@ -1,36 +1,35 @@
 # Thermo
-Small package for energy consumption simulation
+Booking recommender system for energy optimization for the GovTech square meters project.
 
-## Short description of the principle:
-We use a thermal diffusion model to simulate the heat transfer between rooms and to the outside of a school.
-We assume that the school and its internal walls are well insulated compared to the thermal conductivity of air,
-this is, we assume that the temperature in a room is almost constant with respect to the position inside it.
+Read the full documentation [here](https://NTTDATAInnovation.github.io/thermo/)
 
-We know there will be radiation effects (this is, rooms facing south will be warmer than rooms facing north when the
-heating is off) but we haven't taken them into account.
+## Try it out (GUI):
 
-We know there will be convection effects (this is, heat losses due to air currents), both from humans opening and
-closing the windows (but this we will never be able to model, at least not without extra information) and from
-the compulsary ventilation of the building. We haven't included a convection term, since it would make the simulation
-quite challenging, and we hope that the thermal loss due to built-in ventilation can be assimilated to diffusion losses
-through walls.
+A streamlit gui is available in `gui/app`. To run it install poetry with the optional *gui* dependencies:
+```bash
+poetry install --with gui
+```
 
-We assume the school has some sort of automation built in for the heaters, so that they are able to turn on
-when there is a lecture and turn off when the room is not being used. Note we haven't done a full study of how a proper
-controler would work, since we haven't considered retrofitting effects into the controler.
+ and run:
+ ```bash
+ poetry run streamlit run gui/app.py
+ ```
 
-We have not considered other sources of heat, such as the people in the room, the lightbulbs for illumination or the computers.
-Thus, we assume that the room is relativelly "large" compared to the number of people "crammed" in. We can come back to this later,
-since it may have some impact in the optimization.
+## Installation:
+User installation. You will need an environment with *python 3.10*. After that, you can
+install the package using `poetry`:
 
-These considerations result in a linear inhomogeneous system of ordinary differential equations. Eventhough we know it would
-be possible to transform the problem to the Laplace space to get a system of linear algebraic equations instead and then
-transform back, making the module less computationally expensive, we have chosen not to do so for the moment. Instead, we
-choose to use a Runge-Kutta method, as implemented in scipy. This implementation is more intuitive and easier to extend,
-so we keep it for now. The same applies to the integral to calculate the the cumulative energy: we have used a Simpson method
-because it is more flexible but if it became a bottleneck, we could use a Romberg method (they are both implemented in scipy).
+```bash
+poetry install
+```
 
+### Developer installation:
+You will need the development dependencies:
+```bash
+poetry install --with dev
+```
 
+You may also need the flags `--with docs` if you want to test the documentation locally or `--with gui` if you want to try the GUI locally.
 
 ## First version of model
 ```ipython
@@ -56,6 +55,3 @@ Out[8]: array([0, 0, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan])
 For .ppt versions, please see the [project Teams channel](https://itellicloud.sharepoint.com/:p:/r/teams/MSTeams_GovTechProject-INTERNNDBS/Shared%20Documents/INTERN%20NDBS/AI-S3-review.pptx?d=w3f5b518c54504a60bc4061387aa50a81&csf=1&web=1&e=3jwbN3) # noqa
 
 <br>
-
-# GUI
-A streamlit gui is available in `gui/app`. To run it install poetry with the optional *gui* dependencies and run `poetry run streamlit run gui/app.py`

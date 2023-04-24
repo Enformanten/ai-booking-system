@@ -41,6 +41,9 @@ class HeatingCost(CostModel):
         self, state: NDArray, n_time_slots: int, big_number: float = 1e5, **kwargs
     ) -> NDArray:
         """
+        Compute the cost of each possible booking given the current state
+        of the booking.
+
         Args:
             state: ones and zeros representing bookings
                 shape = (n_rooms*n_time_slots,), Its 1D!!
