@@ -3,6 +3,8 @@ from typing import Any
 
 import numpy as np
 
+from thermo.costs import CostName
+from thermo.ranker import RankerName
 from thermo.utils.room import Room
 
 
@@ -16,8 +18,8 @@ class Building:
 
     name: str
     municipality: str
-    ranker: str
-    costs: dict[str, Any]
+    ranker: RankerName
+    costs: dict[CostName, Any]
     room_descriptions: list[dict[str, Any]]
     adjacency: list[list[int]]
 
