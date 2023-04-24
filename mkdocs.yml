@@ -18,7 +18,8 @@ nav:
   - Principles behind the code:
       - The heat equation: thermo.md
       - School as a graph: graph.md
-
+  - Reference:
+      - Recommender and recommendation: ref/recommender.md
 
 markdown_extensions:
   - pymdownx.snippets:
