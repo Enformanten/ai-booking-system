@@ -4,16 +4,15 @@ import pandas as pd
 from numpy.typing import NDArray
 
 from thermo.adapter.state_connection import get_state
-from thermo.config import WORKDIR
 from thermo.costs import make_cost
 from thermo.ranker import Ranker, make_ranker
 from thermo.utils import io
+from thermo.utils.building import Building
 from thermo.utils.postprocessing import (
     list_recommendations,
     show_recommendations,
     to_frame,
 )
-from thermo.utils.room import Room
 from thermo.utils.time import get_time_slots
 
 
@@ -61,8 +60,7 @@ class Recommender:
 
     def __init__(
         self,
-        school_name: str,
-        room_description: list[Room],
+        building: Building,
         ranker: Ranker,
     ):
         """
@@ -71,55 +69,46 @@ class Recommender:
         by calling Recommender.from_config(school_name).
 
         Args:
-            school_name: Name of the school, as in the path to its config
-                files.
-            room_description: List of rooms containing their characteristics
-                such as name, capacity or index.
+            building: Building object containing the adjacency matrix,
+                room descriptions and costs etc.
             ranker: Object to orchestrate the different costs and how they are
                 combined. Examples of costs are `thermo.costs.HeatingCost` or
                 `thermo.costs.CapacityCost`.
         """
 
-        self.school_name = school_name
-        self.room_description = room_description
-        self._room_names = [room.name for room in room_description]
+        self.building = building
+        self._room_names = building.get_room_attr("name")
         self.ranker = ranker
 
     @classmethod
-    def from_config(cls, school_name: str) -> "Recommender":
+    def from_config(cls, building_name: str) -> "Recommender":
         """
-        Creates a Recommender from the config files of a school.
+        Creates a Recommender from the config files of a building.
 
         Args:
-            school_name: Name of the school, as in the path to its config
+            building_name: Name of the building, as in the path to its config
                 files.
 
         Returns:
-            A recommender based on the configuration for that school found in
-            `schools/school_name`.
+            A recommender based on the configuration for that building found in
+            `buildings/building_name`.
         """
-        school_path = WORKDIR / "schools" / school_name
-        if school_name != "demo_school":
-            if not school_path.exists():
-                raise FileExistsError(f"School {school_name} does not exist.")
+        building_path = io.get_building_path(building_name)
+        building = io.get_building_specs(building_path)
 
-        adjacency = io.load_adjacency(school_path)
-        config = io.load_config(school_path)
-        room_description = io.load_room_description(school_path)
         costs = [
             make_cost(
                 name=key,
-                adjacency=adjacency,
-                room_description=room_description,
+                adjacency=building.adjacency,
+                room_description=building.room_descriptions,
                 **values,
             )
-            for key, values in config.get("costs", {}).items()
+            for key, values in building.costs.items()
         ]
-        ranker = make_ranker(ranker_name=config["ranker"], costs=costs)
+        ranker = make_ranker(ranker_name=building.ranker, costs=costs)
 
         return cls(
-            school_name=school_name,
-            room_description=room_description,
+            building=building,
             ranker=ranker,
         )
 

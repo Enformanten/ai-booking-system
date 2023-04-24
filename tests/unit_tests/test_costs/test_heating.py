@@ -3,8 +3,8 @@ import numpy as np
 from thermo.costs.heating import HeatingCost
 
 
-def test_heating(graph, timeslots, state):
-    model = HeatingCost(adjacency=graph)
+def test_heating(demo_graph, timeslots, demo_state):
+    model = HeatingCost(adjacency=demo_graph)
     expected = np.array(
         [
             [1.0, 0.5, 100000.5, 100000.5, 0.5, 1.0, 0.5, 1.0, 1.0, 0.5],
@@ -13,5 +13,5 @@ def test_heating(graph, timeslots, state):
         ]
     )
     assert np.allclose(
-        model.run(state, n_time_slots=timeslots).reshape(timeslots, -1), expected
+        model.run(demo_state, n_time_slots=timeslots).reshape(timeslots, -1), expected
     )
