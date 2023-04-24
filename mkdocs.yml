@@ -18,6 +18,7 @@ nav:
   - Principles behind the code:
       - The heat equation: thermo.md
       - School as a graph: graph.md
+      - Model fof capacity: capacity.md
   - Reference:
       - Recommender and Recommendation: ref/recommender.md
       - Rankers: ref/ranker.md
