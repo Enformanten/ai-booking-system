@@ -114,8 +114,9 @@ def powerset(iterable: list[Any]) -> Iterable[set]:
     """Produces a powerset without the null set ∅
     of iterable input. Lastly, map(set, ...) unpacks
     singletons (val, ) into val.
-    Returns:
-        map[set]: generator of distinct sets
+    Yields:
+        iterable[set]: distinct sets
     """
     s = [combinations(iterable, r) for r in range(1, len(iterable) + 1)]
-    return map(set, chain.from_iterable(s))
+    for comb in map(set, chain.from_iterable(s)):
+        yield comb
