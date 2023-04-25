@@ -9,7 +9,7 @@ CostName = Literal["HeatingCost", "CapacityCost"]
 `HeatingCost`, `CapacityCost`"""
 
 
-def make_cost(cost_name: CostName, **kwargs) -> CostModel:
+def make_cost(name: CostName, **kwargs) -> CostModel:
     """
     Creates a CostModel object given its name, and parameters.
 
@@ -21,10 +21,10 @@ def make_cost(cost_name: CostName, **kwargs) -> CostModel:
     Returns:
         an instance of the `name` class.
     """
-    match cost_name:
+    match name:
         case "HeatingCost":
             return HeatingCost(**kwargs)
         case "CapacityCost":
             return CapacityCost(**kwargs)
         case _:
-            raise NotImplementedError(f"CostModel {cost_name} not implemented.")
+            raise NotImplementedError(f"CostModel {name} not implemented.")

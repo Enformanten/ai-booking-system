@@ -98,7 +98,7 @@ class Recommender:
 
         costs = [
             make_cost(
-                cost_name=key,
+                name=key,
                 adjacency=building.adjacency,
                 room_description=building.room_descriptions,
                 **values,

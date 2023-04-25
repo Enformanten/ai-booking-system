@@ -58,7 +58,8 @@ def test_multiple_costs(
     multiple costs. Runs through the powerset of all
     implemented cost models, listed in costs.CostName.
     """
-    _costs = [make_cost(cost_name=c, **demo_building.__dict__) for c in cost_names]
+    del demo_building.name  # conflict w/ make_cost name
+    _costs = [make_cost(name=c, **demo_building.__dict__) for c in cost_names]
     recommender = Recommender(
         building=demo_building,
         ranker=make_ranker(demo_building.ranker, _costs),

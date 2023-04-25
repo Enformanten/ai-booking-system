@@ -21,6 +21,6 @@ def test_costs(
         room_descriptions=demo_rooms,
         foo=True,  # this is an arbitrary kwarg
     )
-    result = cost.run(demo_state, n_time_slots=3, waz=True)  # waz is an arbitrary kwarg
+    result = cost.run(demo_state, n_time_slots=3, bar=True)  # waz is an arbitrary kwarg
     assert isinstance(cost, CostModel)
     assert isinstance(result, np.ndarray)
