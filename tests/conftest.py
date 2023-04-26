@@ -67,15 +67,19 @@ def demo_config():
 def demo_room_description():
     """Returns a list of room descriptions as dicts"""
     return [
-        {"name": "Room A", "capacity": 30},
-        {"name": "Room B", "capacity": 20},
-        {"name": "Room C", "capacity": 10},
-        {"name": "Room D", "capacity": 30},
+        {"name": "Room A", "capacity": 30, "amenities": {"whiteboard", "projector"}},
+        {"name": "Room B", "capacity": 20, "amenities": {"whiteboard"}},
+        {"name": "Room C", "capacity": 10, "amenities": {"projector"}},
+        {"name": "Room D", "capacity": 30, "amenities": {"whiteboard", "projector"}},
         {"name": "Room E", "capacity": 15},
-        {"name": "Room F", "capacity": 30},
-        {"name": "Room G", "capacity": 15},
-        {"name": "Room H", "capacity": 30},
-        {"name": "Room I", "capacity": 10},
+        {"name": "Room F", "capacity": 30, "amenities": {"whiteboard"}},
+        {"name": "Room G", "capacity": 15, "amenities": {"whiteboard", "screen"}},
+        {"name": "Room H", "capacity": 30, "amenities": {"screen"}},
+        {
+            "name": "Room I",
+            "capacity": 10,
+            "amenities": {"whiteboard", "projector", "screen"},
+        },
         {"name": "Room J", "capacity": 30},
     ]
 

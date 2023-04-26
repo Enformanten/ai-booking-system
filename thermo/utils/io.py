@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 import yaml
 
@@ -24,13 +25,17 @@ def get_building_path(building_name: str) -> Path:
     return building_path
 
 
+def load_yaml(building_path: str) -> dict[str, Any]:
+    """Loads a yaml file from the given path."""
+    with open(building_path / "config.yaml", "r") as f:
+        return yaml.safe_load(f)
+
+
 def get_building_specs(building_path: str) -> Building:
     """Loads specifications from building config dir.
     and loads them into a Building object."""
-
-    with open(building_path / "config.yaml", "r") as f:
-        data = yaml.safe_load(f)
-    return Building(**data)
+    _data = load_yaml(building_path)
+    return Building(**_data)
 
 
 def get_all_buildings() -> list[Building]:
