@@ -39,3 +39,8 @@ class Building:
     def get_room_attr(self, attr: str) -> list[Any]:
         """Returns a list of the given attribute for all rooms."""
         return [getattr(room, attr) for room in self.room_descriptions]
+
+    @property
+    def specifications(self) -> dict[str, Any]:
+        """Returns a dictionary of the building's specifications."""
+        return self.__dict__

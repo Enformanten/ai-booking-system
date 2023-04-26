@@ -59,7 +59,7 @@ def test_multiple_costs(
     implemented cost models, listed in costs.CostName.
     """
     del demo_building.name  # conflict w/ make_cost name
-    _costs = [make_cost(name=c, **demo_building.__dict__) for c in cost_names]
+    _costs = [make_cost(name=c, **demo_building.specifications) for c in cost_names]
     recommender = Recommender(
         building=demo_building,
         ranker=make_ranker(demo_building.ranker, _costs),
