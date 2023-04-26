@@ -64,7 +64,7 @@ def demo_config():
 
 
 @pytest.fixture
-def demo_room_description():
+def demo_room_descriptions():
     """Returns a list of room descriptions as dicts"""
     return [
         {"name": "Room A", "capacity": 30, "amenities": {"whiteboard", "projector"}},
@@ -85,22 +85,22 @@ def demo_room_description():
 
 
 @pytest.fixture
-def demo_rooms(demo_room_description):
+def demo_rooms(demo_room_descriptions):
     """Returns a list of room descriptions as Room objects"""
     return [
-        Room(index=index, **specs) for index, specs in enumerate(demo_room_description)
+        Room(index=index, **specs) for index, specs in enumerate(demo_room_descriptions)
     ]
 
 
 @pytest.fixture
-def demo_building(demo_building_name, demo_config, demo_room_description, demo_graph):
+def demo_building(demo_building_name, demo_config, demo_room_descriptions, demo_graph):
     """Returns a demo building object made from the fixtures above"""
     return Building(
         name=demo_building_name,
         municipality="demo_municipality",
         ranker=demo_config["ranker"],
         costs=demo_config["costs"],
-        room_descriptions=demo_room_description,
+        room_descriptions=demo_room_descriptions,
         adjacency=demo_graph,
     )
 

@@ -10,9 +10,11 @@ costs: {
     "t_weight": 1.0,
     "message_importance": 0.5
   },
-  "CapacityCost": {},
+  "CapacityCost": {
+    "capacity_utilization_coeff": 1
+  },
   "AmenityCost": {
-    "coeff": 0.45
+    "amenity_utilization_coeff": 0.15
   },
 }
 

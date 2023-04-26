@@ -10,7 +10,7 @@ class AmenityCost(CostModel):
         self,
         room_descriptions: list[Room],
         big_number: float = 1e5,
-        coefficent: float = 1.0,
+        amenity_utilization_coeff: float = 0.15,
         **kwargs
     ):
         """
@@ -26,7 +26,7 @@ class AmenityCost(CostModel):
         Note: We assume that room amenities are fixed across time.
 
         Args:
-            room_description: list of Room objects describing the
+            room_descriptions: list of Room objects describing the
                 rooms in the building
             big_number: number associated to the room already
                 being booked
@@ -36,7 +36,7 @@ class AmenityCost(CostModel):
         """
         self.room_descriptions = room_descriptions
         self.big_number = big_number
-        self.coeff = coefficent
+        self.coeff = amenity_utilization_coeff
         self.len_map = np.vectorize(len)
 
     @property

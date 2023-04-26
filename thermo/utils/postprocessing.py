@@ -29,14 +29,16 @@ def show_recommendations(df: pd.DataFrame) -> pd.DataFrame:
     """Convert DataFrame of booking recommendations
     to a styled DataFrame with a color gradient.
     Formats the DataFrame to 1 decimal place and
-    replaces NaN values with "BOOKED".
+    replaces NaN values with a blank space, meaning
+    that the room is either booked or not bookable
+    with the given booking specifications.
 
     Returns:
         pandas.io.formats.style.Styler: styled DataFrame
     """
     return df.style.background_gradient(
         cmap="viridis", high=1, low=0, axis=None
-    ).format(precision=1, na_rep="BOOKED")
+    ).format(precision=1, na_rep=" ")
 
 
 def list_recommendations(df: pd.DataFrame) -> pd.DataFrame:

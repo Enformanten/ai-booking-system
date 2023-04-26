@@ -101,7 +101,7 @@ def get_all_buildings() -> list[Building]:
 #     }
 
 
-# def load_room_description(path: Path) -> list[Room]:
+# def load_room_descriptions(path: Path) -> list[Room]:
 #     """
 #     Loads a description of each room from a file.
 #     Args:
