@@ -8,7 +8,7 @@ from thermo.utils.room import Room
 class CapacityCost(CostModel):
     def __init__(
         self,
-        room_description: list[Room],
+        room_descriptions: list[Room],
         big_number: float = 1e5,
         coefficent: float = 1.0,
         **kwargs
@@ -34,14 +34,14 @@ class CapacityCost(CostModel):
                 to be more or less steep
 
         """
-        self.room_description = room_description
+        self.room_descriptions = room_descriptions
         self.big_number = big_number
         self.coeff = coefficent
 
     @property
     def capacities(self) -> list[int]:
         """Capacities of all rooms"""
-        return [room.capacity for room in self.room_description]
+        return [room.capacity for room in self.room_descriptions]
 
     def _explode_capacities(
         self, capacities: list[int], shape: tuple[int, int]

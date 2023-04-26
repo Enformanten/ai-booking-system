@@ -31,24 +31,43 @@ poetry install --with dev
 
 You may also need the flags `--with docs` if you want to test the documentation locally or `--with gui` if you want to try the GUI locally.
 
-## First version of model
-```ipython
-In [1]: from thermo.cost_model.model import HeatModel
+## Usage
+Building specifications are loaded from a config directory, through the `.from_config` method. The booking state is retrieved under the hood through an open API.
 
-In [2]: import numpy as np
+```python
+from thermo.recommender import Recommender
+from datetime import date
 
-In [4]: As = np.array([[0,1,1,0],[1,0,0,1],[1,0,0,1],[0,1,1,0]])
+recommender = Recommender.from_config(building_name = "demo_school")
+recommendation = recommender.run(day=date.today())
 
-In [5]: model = HeatModel(As, 3)
-
-In [6]: state = np.zeros(12)
-
-In [7]: state[4] = 1
-
-In [8]: model.run(state)
-Out[8]: array([0, 0, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan])
+recommendation.show()
 ```
+`show()` returns a color-coded DataFrame.Styler object, similar to the following table
+|        |Room A | ... | Room G | Room H   | Room I |
+|:------:|:------:|:------:|:--------:|:------:|:------:|
+| t_0    | 1.0    | ...    | 1.0      | 1.0    | 0.5    |
+| t_1    | 1.0    | ...    | 1.0      | 0.5    | BOOKED |
+| t_2    | 1.0    | ...    | 1.0      | 1.0    | 0.0    |
+| t_3    | 1.0    | ...    | 1.0      | 0.5    | BOOKED |
+| t_4    | 1.0    | ...    | 1.0      | 1.0    | 0.5    |
+| t_5    | 0.5    | ...    | 0.5      | 1.0    | 1.0    |
+| t_6    | BOOKED | ...    | BOOKED | 0.5    | 1.0    |
+| t_7    | 0.0    | ...    | BOOKED   | 1.0    | 1.0    |
 
+Similarly, `top_recommendations()` produces a list of room-time combinations, i.e. booking recommendations, ranked after their aggregated (estimated) cost (*score*).
+
+| Time Slot | Room | Score  |
+|:---------:|:----:|:------:|
+| t_2  | Room I | 0.0      |
+| t_7  | Room E | 0.0      |
+| t_0  | Room I | 0.5      |
+| t_1  | Room H | 0.5      |
+| t_3  | Room H | 0.5      |
+| ...  | ...    | ...      |
+| t_7  | Room F | 1.0      |
+
+<br>
 
 # Presentations
 .pdf versions of presentations can be found in `/presentations`.

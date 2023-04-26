@@ -1,11 +1,15 @@
 import numpy as np
 import pytest
+from numpy.typing import NDArray
 
 from thermo.costs import CostModel, CostName, make_cost
+from thermo.utils.room import Room
 
 
 @pytest.mark.parametrize("cost_name", list(CostName.__args__))
-def test_costs(cost_name, demo_state, demo_graph, demo_rooms):
+def test_costs(
+    cost_name: str, demo_state: NDArray, demo_graph: NDArray, demo_rooms: list[Room]
+) -> None:
     """
     Check make cost produces the right instance and that both the
     init and run methods of all implemented costs classes accept
@@ -14,9 +18,9 @@ def test_costs(cost_name, demo_state, demo_graph, demo_rooms):
     cost = make_cost(
         cost_name,
         adjacency=demo_graph,
-        room_description=demo_rooms,
-        foo=True,
+        room_descriptions=demo_rooms,
+        foo=True,  # this is an arbitrary kwarg
     )
-    result = cost.run(demo_state, n_time_slots=3, waz=True)
+    result = cost.run(demo_state, n_time_slots=3, bar=True)  # bar is an arbitrary kwarg
     assert isinstance(cost, CostModel)
     assert isinstance(result, np.ndarray)
