@@ -1,6 +1,3 @@
-from itertools import chain, combinations
-from typing import Any, Iterable
-
 import numpy as np
 import pytest
 
@@ -108,15 +105,3 @@ def demo_building(demo_building_name, demo_config, demo_room_description, demo_g
 def demo_building_from_config(demo_building_name):
     building_path = io.get_building_path(demo_building_name)
     return io.get_building_specs(building_path)
-
-
-def powerset(iterable: list[Any]) -> Iterable[set]:
-    """Produces a powerset without the null set ∅
-    of iterable input. Lastly, map(set, ...) unpacks
-    singletons (val, ) into val.
-    Yields:
-        iterable[set]: distinct sets
-    """
-    s = [combinations(iterable, r) for r in range(1, len(iterable) + 1)]
-    for comb in map(set, chain.from_iterable(s)):
-        yield comb

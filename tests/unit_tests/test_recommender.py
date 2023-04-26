@@ -1,11 +1,11 @@
 from datetime import date
-from typing import Iterable
+from itertools import chain, combinations
+from typing import Any, Iterable
 
 import numpy as np
 import pytest
 from numpy.typing import NDArray
 
-from tests.conftest import powerset
 from thermo.costs import CostName, make_cost
 from thermo.ranker import Ranker, make_ranker
 from thermo.recommender import Recommendation, Recommender
@@ -48,6 +48,17 @@ def test_top_recommendation(
     top = recommendation.top_recommendations().iloc[0]
     assert top["Room"] == room
     assert np.isclose(top["Score"], score, rtol=1e-2)
+
+
+def powerset(iterable: list[Any]) -> Iterable[set]:
+    """Produces a powerset without the null set ∅
+    of iterable input. Lastly, map(set, ...) unpacks
+    singletons (val, ) into val.
+    Yields:
+        iterable[set]: distinct sets
+    """
+    s = (combinations(iterable, r) for r in range(1, len(iterable) + 1))
+    return map(set, chain.from_iterable(s))
 
 
 @pytest.mark.parametrize("cost_names", powerset(CostName.__args__))
