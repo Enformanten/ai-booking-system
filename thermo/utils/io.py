@@ -26,9 +26,10 @@ def get_building_path(building_name: str) -> Path:
 
 
 def load_yaml(building_path: str) -> dict[str, Any]:
-    """Loads a yaml file from the given path."""
-    with open(building_path / "config.yaml", "r") as f:
-        return yaml.safe_load(f)
+    """Loads a yaml file from the given path. Pathlib
+    handles context management for us."""
+    config = Path(building_path / "config.yaml").open("r")
+    return yaml.safe_load(config)
 
 
 def get_building_specs(building_path: str) -> Building:
