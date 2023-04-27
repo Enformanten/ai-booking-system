@@ -1,3 +1,5 @@
+import json
+from io import TextIOWrapper
 from pathlib import Path
 from typing import Any
 
@@ -25,21 +27,44 @@ def get_building_path(building_name: str) -> Path:
     return building_path
 
 
-def load_yaml(building_path: str) -> dict[str, Any]:
-    """Loads a yaml file from the given path. Pathlib
+def load_yaml(config: TextIOWrapper, **kwargs) -> dict[str, Any]:
+    """Loads a yaml file from the given path."""
+    return yaml.safe_load(config, **kwargs)
+
+
+def load_json(config: TextIOWrapper, **kwargs) -> dict[str, Any]:
+    """Loads a json file from the given path."""
+    return json.load(config, **kwargs)
+
+
+def load_file(building_path: str, file_name: str, **kwargs) -> dict[str, Any]:
+    """Loads a file from the given path. Pathlib
     handles context management for us."""
-    config = Path(building_path / "config.yaml").open("r")
-    return yaml.safe_load(config)
+    p = Path(building_path / file_name)
+    config = p.open("r")
+
+    match p.suffix:
+        case ".yaml":
+            return load_yaml(config, **kwargs)
+        case ".json":
+            return load_json(config, **kwargs)
+        case _:
+            raise ValueError(f"File type {p.suffix} not supported.")
 
 
-def get_building_specs(building_path: str) -> Building:
-    """Loads specifications from building config dir.
+def load_building(building_path: str) -> Building:
+    """Loads relevant files from building config dir.
     and loads them into a Building object."""
-    _data = load_yaml(building_path)
-    return Building(**_data)
+
+    _adjacency = load_file(building_path, "adjacency.json")
+    _specs = load_file(building_path, "specifications.yaml")
+    _config = load_file(building_path, "config.yaml")
+
+    data = _adjacency | _specs | _config
+    return Building(**data)
 
 
-def get_all_buildings() -> list[Building]:
+def load_all_buildings() -> list[Building]:
     """
     Returns a list of all buildings found in the
     BUILDINGS_DIR as Building objects.
@@ -47,7 +72,7 @@ def get_all_buildings() -> list[Building]:
         list[Building]: list of all buildings.
     """
     return [
-        get_building_specs(building_dir)
+        load_building(building_dir)
         for building_dir in BUILDINGS_DIR.glob("*")
         if building_dir.is_dir()
     ]

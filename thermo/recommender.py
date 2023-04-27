@@ -94,7 +94,7 @@ class Recommender:
                 `buildings/building_name`.
         """
         building_path = io.get_building_path(building_name)
-        building = io.get_building_specs(building_path)
+        building = io.load_building(building_path)
 
         costs = [
             make_cost(
