@@ -1,92 +1,28 @@
+from typing import Generator
+
 import numpy as np
 import pytest
 from numpy.typing import NDArray
 
+from tests.unit_tests.test_costs.test_cases import AMENITY_TEST_CASES
 from thermo.costs.amenity import AmenityCost
 from thermo.utils.room import Room
 
 
 @pytest.mark.parametrize(
-    "amenities,coeff,expected",
-    [
-        (
-            {"projector"},
-            0.4,
-            np.array(
-                [
-                    [
-                        0.4,
-                        100000.0,
-                        0.0,
-                        0.4,
-                        100000.0,
-                        100000.0,
-                        100000.0,
-                        100000.0,
-                        0.8,
-                        100000.0,
-                    ],
-                ]
-                * 3  # noqa: W503
-            ),
-        ),
-        (
-            {"projector", "whiteboard"},
-            0.1,
-            np.array(
-                [
-                    [
-                        0.0,
-                        100000.0,
-                        100000.0,
-                        0.0,
-                        100000.0,
-                        100000.0,
-                        100000.0,
-                        100000.0,
-                        0.1,
-                        100000.0,
-                    ],
-                ]
-                * 3  # noqa: W503
-            ),
-        ),
-        (
-            {"projector", "whiteboard", "screen"},
-            0.05,
-            np.array(
-                [
-                    [
-                        100000.0,
-                        100000.0,
-                        100000.0,
-                        100000.0,
-                        100000.0,
-                        100000.0,
-                        100000.0,
-                        100000.0,
-                        0.0,
-                        100000.0,
-                    ]
-                ]
-                * 3  # noqa: W503
-            ),
-        ),
-        (
-            set(),
-            0.1,
-            np.array([[0.2, 0.1, 0.1, 0.2, 0, 0.1, 0.2, 0.1, 0.3, 0]] * 3),
-        ),
-    ],
+    "amenities, coeff, expected",
+    *AMENITY_TEST_CASES,
 )
-def test_capacity(
-    timeslots: int,
-    demo_rooms: list[Room],
-    demo_state: NDArray,
+def test_amenity(
+    timeslots: Generator[int, None, None],
+    demo_rooms: Generator[list[Room], None, None],
+    demo_state: Generator[NDArray, None, None],
     amenities: set[str],
     coeff: float,
     expected: NDArray,
 ) -> None:
+    """Test that amenity cost is calculated deterministically."""
+
     model = AmenityCost(demo_rooms, amenity_utilization_coeff=coeff)
 
     costs = (
@@ -102,7 +38,9 @@ def test_capacity(
 
 
 def test_homogenity(
-    timeslots: int, demo_rooms: list[Room], demo_state: NDArray
+    timeslots: Generator[int, None, None],
+    demo_rooms: Generator[list[Room], None, None],
+    demo_state: Generator[NDArray, None, None],
 ) -> None:
     """Since the amenity cost is state independent,
     the row-wise cost should be the same for all time slots."""
