@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Generator
 
 import numpy as np
 import pytest
@@ -16,14 +17,15 @@ def test_config_dont_exist() -> None:
         _ = io.get_building_path("non_existent_building")
 
 
-def test_config_exists(demo_building_name: str) -> None:
+def test_config_exists(demo_building_name: Generator[str, None, None]) -> None:
     """Tests that the config exists for the given building."""
     building_path = io.get_building_path(demo_building_name)
     assert isinstance(building_path, Path)
 
 
 def test_building_specs(
-    core_building_specs: set, all_buildings: list[Building]
+    core_building_specs: Generator[set, None, None],
+    all_buildings: Generator[list[Building], None, None],
 ) -> None:
     """Tests that the correct properties, in the correct
     formats, are present in all building specs files.
@@ -34,13 +36,16 @@ def test_building_specs(
             the buildings directory.
     """
     for building in all_buildings:
-        assert core_building_specs <= building.__dict__.keys()
+        assert core_building_specs <= building.specifications.keys()
         assert issymmetric(building.adjacency)
         assert len(building.room_descriptions) == building.adjacency.shape[0]
-        assert all([isinstance(a, set) for a in building.get_room_attr("amenities")])
+        assert all(isinstance(a, set) for a in building.get_room_attr("amenities"))
 
 
-def test_load_adjacency(demo_building_from_config: set, demo_graph: NDArray) -> None:
+def test_load_adjacency(
+    demo_building_from_config: Generator[Building, None, None],
+    demo_graph: Generator[NDArray, None, None],
+) -> None:
     """Tests that the loaded adjacency matrix is the same as the
     static demo adjacency matrix."""
     assert np.allclose(demo_building_from_config.adjacency, demo_graph)
