@@ -49,3 +49,29 @@ def test_load_adjacency(
     """Tests that the loaded adjacency matrix is the same as the
     static demo adjacency matrix."""
     assert np.allclose(demo_building_from_config.adjacency, demo_graph)
+
+
+@pytest.mark.parametrize(
+    "file_name", ["adjacency.json", "specifications.yaml", "config.yaml"]
+)
+def test_file_loader(
+    file_name: str, demo_building_name: Generator[str, None, None]
+) -> None:
+    """Tests that the file loader returns a dict."""
+    building_path = io.get_building_path(demo_building_name)
+    _data = io.load_file(building_path, file_name)
+    assert isinstance(_data, dict)
+
+
+def test_file_loader_error(demo_building_name: Generator[str, None, None]) -> None:
+    """Tests that an error is raised if the file type is not supported."""
+    building_path = io.get_building_path(demo_building_name)
+    with pytest.raises(FileNotFoundError):
+        _ = io.load_file(building_path, "adjacency.csv")
+
+
+def test_load_building(demo_building_name: Generator[str, None, None]) -> None:
+    """Tests that the building loader returns a Building object."""
+    building_path = io.get_building_path(demo_building_name)
+    building = io.load_building(building_path)
+    assert isinstance(building, Building)

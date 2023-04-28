@@ -11,7 +11,7 @@ from thermo.utils.room import Room
 
 @pytest.fixture
 def all_buildings() -> Generator[list[Building], None, None]:
-    yield io.get_all_buildings()
+    yield io.load_all_buildings()
 
 
 @pytest.fixture
@@ -122,4 +122,4 @@ def demo_building_from_config(
     demo_building_name: Generator[str, None, None]
 ) -> Generator[Building, None, None]:
     building_path = io.get_building_path(demo_building_name)
-    yield io.get_building_specs(building_path)
+    yield io.load_building(building_path)
