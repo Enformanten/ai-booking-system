@@ -43,7 +43,7 @@ def test_costs(
 def test_unavailable_cost(
     cost: CostModel,
     demo_state: NDArray,
-    T=10,
+    T=5,
 ) -> None:
     """Checks that all costs for available rooms are below T and that
     unavailable rooms have a cost ≈equal to config.UNAVAILABLE_COST
@@ -55,8 +55,9 @@ def test_unavailable_cost(
         demo_rooms: demo room descriptions
         T: Arbitrary threshold that should be above all costs
             associated with available rooms. This is used to
-            check that unavailable rooms have a cost ≈equal to
-            config.UNAVAILABLE_COST
+            check that unavailable rooms have a cost ~equal to
+            config.UNAVAILABLE_COST. Since all CostModel subclasses
+            adds costs in the range(0, ~2) we set T=5 to be sure.
 
     """
     result = cost.run(
