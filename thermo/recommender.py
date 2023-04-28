@@ -2,6 +2,7 @@ from datetime import date
 
 import pandas as pd
 from numpy.typing import NDArray
+from pandas.io.formats.style import Styler
 
 from thermo.adapter.state_connection import get_state
 from thermo.costs import make_cost
@@ -27,11 +28,11 @@ class Recommendation:
     def __init__(self, ranking: NDArray, room_names: list[str]):
         self.ranking = to_frame(ranking, room_names=room_names)
 
-    def show(self) -> pd.DataFrame:
+    def show(self) -> Styler:
         """
         Returns a styled DataFrame with a color gradient.
         Formats the DataFrame to 1 decimal place and
-        replaces NaN values with "BOOKED".
+        replaces NaN values with blank value.
 
         Returns:
             pandas.io.formats.style.Styler: styled DataFrame
@@ -39,7 +40,7 @@ class Recommendation:
         return show_recommendations(self.ranking)
 
     def __repr__(self) -> str:
-        return self.ranking.fillna("BOOKED").__repr__()
+        return self.ranking.fillna(" ").__repr__()
 
     @property
     def shape(self) -> tuple[int]:
