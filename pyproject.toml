@@ -11,7 +11,7 @@ numpy = "^1.24.2"
 scipy = "^1.10.1"
 networkx = "^3.1"
 workalendar = "^17.0.0"
-pandas = {extras = ["jinja2"], version = "^2.0.1"}
+pandas = {extras = ["output-formatting"], version = "^2.0.1"}
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.22.0"
