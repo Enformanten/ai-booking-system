@@ -1,6 +1,7 @@
 import numpy as np
 from numpy.typing import NDArray
 
+from thermo.config import UNAVAILABLE_COST
 from thermo.costs.base import CostModel
 from thermo.utils.room import Room
 
@@ -9,8 +10,8 @@ class CapacityCost(CostModel):
     def __init__(
         self,
         room_descriptions: list[Room],
-        big_number: float = 1e5,
         capacity_utilization_coeff: float = 1.0,
+        unavailable_cost: float = UNAVAILABLE_COST,
         **kwargs
     ):
         """
@@ -18,25 +19,25 @@ class CapacityCost(CostModel):
 
         Room capacity cost is intuitively based on a Lennard-Jones
         potential function with a minimum at the required capacity.
-        Rooms with `capacity` < `required capacity` have very high cost,
-        while the cost for rooms with `capacity` >= `required capacity`
-        scales with the difference between the room capacity and
-        required capacity.
+        Rooms with `capacity` < `required capacity` have very high cost
+        (unavailable_cost), while the cost for rooms with `capacity`
+        >= `required capacity` scales with the difference between the
+        room capacity and required capacity.
 
         Note: We assume that room capacities are fixed across time.
 
         Args:
             room_descriptions: list of Room objects describing the
                 rooms in the building
-            big_number: number associated to the room already
+            unavailable_cost: number associated to the room already
                 being booked
             coefficent: coefficient for adjusting the cost function
                 to be more or less steep
 
         """
         self.room_descriptions = room_descriptions
-        self.big_number = big_number
         self.coeff = capacity_utilization_coeff
+        self.unavailable_cost = unavailable_cost
 
     @property
     def capacities(self) -> list[int]:
@@ -83,6 +84,6 @@ class CapacityCost(CostModel):
 
         # check if room is too small or already booked
         _filter = rt_capacities < required_capacity | (state == 1)
-        costs = np.where(_filter, self.big_number, capacity_costs)
+        costs = np.where(_filter, self.unavailable_cost, capacity_costs)
 
         return costs.flatten()
