@@ -1,6 +1,7 @@
 import numpy as np
 from numpy.typing import NDArray
 
+from thermo.config import UNAVAILABLE_COST
 from thermo.costs.base import CostModel
 from thermo.utils.room import Room
 
@@ -9,33 +10,35 @@ class AmenityCost(CostModel):
     def __init__(
         self,
         room_descriptions: list[Room],
-        big_number: float = 1e5,
+        unavailable_cost: float = UNAVAILABLE_COST,
         amenity_utilization_coeff: float = 0.15,
         **kwargs
     ):
         """
-        Class to simulate the amenity cost of a room:
+        Class to calculate the amenity cost of all rooms:
 
-        Room amenities are functionalities inherent to each room, such
-        as a screen projector, a whiteboard, musical instruments etc.
-        Rooms without the amenities listed in `required amenities` have
-        very  high cost. Conversely, the amenity cost of rooms with all
-        or some of the amenities listed  in `required amenities` is given
-        by cost=high_cost * (needed_amenities_in_room / all_amenities_in_room)
+        Room amenities are functionalities inherent to each room,
+        such as a screen projector, a whiteboard, musical instruments
+        etc. Rooms without the amenities listed in `required amenities`
+        have very high cost (denoted unavailable_cost). Conversely, the
+        amenity cost of rooms with all or some of the amenities listed
+        in `required amenities` scales with the difference between the
+        number of amenities in the room and the number of required
+        amenities.
 
         Note: We assume that room amenities are fixed across time.
 
         Args:
             room_descriptions: list of Room objects describing the
                 rooms in the building
-            big_number: number associated to the room already
-                being booked
+            unavailable_cost: number assigned to a room w/o the
+                needed amenities.
             coefficent: coefficient for adjusting the cost function
                 to be more or less steep
 
         """
         self.room_descriptions = room_descriptions
-        self.big_number = big_number
+        self.unavailable_cost = unavailable_cost
         self.coeff = amenity_utilization_coeff
         self.len_map = np.vectorize(len)
 
@@ -86,7 +89,7 @@ class AmenityCost(CostModel):
         useful_rooms = [*map(required_amenities.issubset, self.room_amenities)]
         utilization = self._calculate_costs(required_amenities)
 
-        costs = np.where(useful_rooms, utilization, self.big_number)
+        costs = np.where(useful_rooms, utilization, self.unavailable_cost)
 
         rt_costs = self._explode_to_shape(costs, shape=(len(costs), n_time_slots))
         return rt_costs

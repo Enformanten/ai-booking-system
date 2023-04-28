@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 from numpy.typing import NDArray
 
+from thermo.costs import CostName, make_cost
 from thermo.utils import io
 from thermo.utils.building import Building
 from thermo.utils.room import Room
@@ -123,3 +124,13 @@ def demo_building_from_config(
 ) -> Generator[Building, None, None]:
     building_path = io.get_building_path(demo_building_name)
     yield io.load_building(building_path)
+
+
+@pytest.fixture(params=list(CostName.__args__))
+def cost(request, demo_graph, demo_rooms):
+    """Yields a CostModel instance for each cost name"""
+    yield make_cost(
+        request.param,
+        adjacency=demo_graph,
+        room_descriptions=demo_rooms,
+    )
