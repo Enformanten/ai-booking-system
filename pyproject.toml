@@ -9,9 +9,9 @@ readme = "README.md"
 python = ">=3.10,<3.11"
 numpy = "^1.24.2"
 scipy = "^1.10.1"
-pandas = "1.5.3"
 networkx = "^3.1"
 workalendar = "^17.0.0"
+pandas = {extras = ["output-formatting"], version = "^2.0.1"}
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.22.0"
