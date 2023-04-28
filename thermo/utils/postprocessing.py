@@ -2,6 +2,8 @@ import pandas as pd
 from numpy.typing import NDArray
 from pandas.io.formats.style import Styler
 
+from thermo.config import WEEKDAY_HOUR_START, WEEKEND_HOUR_START
+
 
 def to_frame(
     recommendations: NDArray, room_names: list[str], nan_threshold: float = 1e4
@@ -59,12 +61,39 @@ def list_recommendations(df: pd.DataFrame) -> pd.DataFrame:
     )
 
 
-def timeslot_to_hours(timeslots: int) -> list[str]:
+def timeslot_to_hours(
+    timeslots: int,
+    weekday_start: int = WEEKDAY_HOUR_START,
+    weekend_start: int = WEEKEND_HOUR_START,
+    threshold: int = 8,
+) -> list[str]:
     """Convert timeslots to hour strings. We differentiate
-    between workday and weekend days. If timeslots > 8,
+    between workday and weekend days. If timeslots > threshold,
     we assume that the day is a weekend day, and we start
-    the range start af 8. Else, we assume that the day is
-    a workday, and the range starts at 15.
+    the range start af weekend_start. Else, we assume that
+    the day is a workday, and the range starts at weekday_start.
+
+    Args:
+        timeslots: number of timeslots
+        weekday_start: hour of day to start range on workdays
+        weekend_start: hour of day to start range on weekends
+        threshold: number of timeslots to differentiate between
+            workday and weekend day
+
+    Returns:
+        list of hour strings (e.g. ["8:00", ..., "22:00"])
+
+    Example:
+        >>> timeslot_to_hours(
+        >>>     timeslots=8,
+        >>>     weekday_start=15,
+        >>>     weekend_start=8,
+        >>>     threshold=8
+        >>> )
+        ["15:00", ..., "22:00"] # 8 timeslots
+
+        >>> timeslot_to_hours(15)
+        ["8:00", ..., "22:00"] # 15 timeslots
     """
-    _start = 8 if timeslots > 8 else 15
+    _start = weekend_start if timeslots > threshold else weekday_start
     return [f"{_start + i}:00" for i in range(timeslots)]
