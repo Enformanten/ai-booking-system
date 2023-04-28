@@ -39,8 +39,8 @@ def test_unavailable_cost(
     demo_graph: Generator[NDArray, None, None],
     demo_rooms: Generator[list[Room], None, None],
 ) -> None:
-    """Checks that all costs for available rooms are below 10 and that
-    unavailable rooms have a cost equal/close to config.UNAVAILABLE_COST"""
+    """Checks that all costs for available rooms are below N and that
+    unavailable rooms have a cost ≈equal to config.UNAVAILABLE_COST"""
 
     cost = make_cost(
         cost_name,
