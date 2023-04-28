@@ -1,5 +1,6 @@
 import pandas as pd
 from numpy.typing import NDArray
+from pandas.io.formats.style import Styler
 
 
 def to_frame(
@@ -18,14 +19,16 @@ def to_frame(
         nan_threshold: threshold for replacing values with NaN
     """
     opt = recommendations.reshape(-1, len(room_names))
+    time_index = timeslot_to_hours(opt.shape[0])
+
     return pd.DataFrame(
         opt,
         columns=room_names,
-        index=(f"t_{i}" for i in range(opt.shape[0])),
+        index=time_index,
     ).where(lambda x: x < nan_threshold)
 
 
-def show_recommendations(df: pd.DataFrame) -> pd.DataFrame:
+def show_recommendations(df: pd.DataFrame) -> Styler:
     """Convert DataFrame of booking recommendations
     to a styled DataFrame with a color gradient.
     Formats the DataFrame to 1 decimal place and
@@ -54,3 +57,14 @@ def list_recommendations(df: pd.DataFrame) -> pd.DataFrame:
         .rename(columns={"index": "Time Slot", "variable": "Room", "value": "Score"})
         .sort_values(by=["Score", "Time Slot"])[lambda d: d["Score"].notna()]
     )
+
+
+def timeslot_to_hours(timeslots: int) -> list[str]:
+    """Convert timeslots to hour strings. We differentiate
+    between workday and weekend days. If timeslots > 8,
+    we assume that the day is a weekend day, and we start
+    the range start af 8. Else, we assume that the day is
+    a workday, and the range starts at 15.
+    """
+    _start = 8 if timeslots > 8 else 15
+    return [f"{_start + i}:00" for i in range(timeslots)]
