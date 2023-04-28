@@ -100,7 +100,7 @@ class Recommender:
             make_cost(
                 name=key,
                 adjacency=building.adjacency,
-                room_description=building.room_descriptions,
+                room_descriptions=building.room_descriptions,
                 **values,
             )
             for key, values in building.costs.items()

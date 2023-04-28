@@ -131,6 +131,6 @@ dmypy.json
 # custom
 .vscode/
 .venv
-notebooks/state_api.ipynb
+notebooks/notepad.ipynb
 # mkdocs documentation
 site/
