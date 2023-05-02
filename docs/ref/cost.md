@@ -1,7 +1,7 @@
-## CostName
+# CostName
 ::: thermo.costs.CostName
 
-## make_cost
+# make_cost
 ::: thermo.costs.make_cost
 
 ::: thermo.costs.heating

@@ -1,4 +1,4 @@
-## Thermal diffusivity
+# Thermal diffusivity
 
 We use a thermal diffusion model to simulate the heat transfer between rooms and to the outside of a school.
 We assume that the school and its internal walls are well insulated compared to the thermal conductivity of air,

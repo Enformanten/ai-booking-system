@@ -1,3 +1,4 @@
+# School as a graph
 *Sprint 3 - AI version 1*
 
 Let every school be represented by one or more graphs, where each node represents a room in the school. In this representation, two rooms share an edge if they share a wall (or a floor-ceiling in case of the school having more than one floor).
