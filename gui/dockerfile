@@ -1,0 +1,23 @@
+# app/Dockerfile
+
+FROM python:3.10-slim
+
+WORKDIR /app
+# ENV PATH=${PATH}:/root/.local/bin
+
+RUN apt-get update && apt-get install -y build-essential
+
+COPY /buildings /app/buildings
+COPY /thermo /app/thermo
+
+
+COPY /gui/requirements.txt /app/requirements.txt
+COPY /gui/app.py /app/app.py
+
+RUN pip install -r requirements.txt
+
+# Need but not included in 3.10-slim
+RUN pip install pyyaml matplotlib
+
+EXPOSE 8000
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8000", "--server.address=0.0.0.0"]
