@@ -1,6 +1,4 @@
-# Sprint 4 - AI version 2
-
-## Adding a model for the cost of not matching the capacity of the room:
+*Sprint 4 - AI version 2*
 
 Lets consider the problem with the capacity of the room.
 
@@ -8,11 +6,12 @@ Lets consider the problem with the capacity of the room.
 
 -  On the other hand side, we want to avoid recommending rooms that are far too big (see below for how we approach defining way too big) for the activity planned: First, because it might result on heating a very big room to have two people in it, but most importantly, because the room could be better booked later by a larger group.
 
-### Mathematical modelling: translating the problem into math:
+### Mathematical model
 
 We approach the problem as finding a cost for mismatched capacity that can be added to the other energy costs, that is, the electricity and the heating cost.
 
 We define the cost function $C_c$ for a required capacity (i.e. the number of participants in the activity) $x$ as for the $i$-th room as:
+
 $$
 C_c(x) = \begin{cases}
 \infty & \text{if } x < c_i, \\

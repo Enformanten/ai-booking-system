@@ -7,7 +7,7 @@ from thermo.costs.heating import HeatingCost
 
 CostName = Literal["HeatingCost", "CapacityCost", "AmenityCost"]
 """Names of all CostModel classes in `thermo`:
-`HeatingCost`, `CapacityCost` 'AmenityCost'"""
+`HeatingCost`, `CapacityCost` `AmenityCost`"""
 
 
 def make_cost(name: CostName, **kwargs) -> CostModel:

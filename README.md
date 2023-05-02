@@ -44,6 +44,9 @@ recommendation = recommender.run(day=date.today())
 recommendation.show()
 ```
 `show()` returns a color-coded DataFrame.Styler object, similar to the following table
+
+<br>
+
 |        |Room A | ... | Room G | Room H   | Room I |
 |:------:|:------:|:------:|:--------:|:------:|:------:|
 | t_0    | 1.0    | ...    | 1.0      | 1.0    | 0.5    |

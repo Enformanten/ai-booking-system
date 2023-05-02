@@ -7,3 +7,5 @@
 ::: thermo.costs.heating
 
 ::: thermo.costs.capacity
+
+::: thermo.costs.amenity

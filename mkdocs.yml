@@ -30,6 +30,7 @@ markdown_extensions:
       check_paths: true
   - pymdownx.arithmatex:
       generic: true
+  - tables
 
 plugins:
   - search:
