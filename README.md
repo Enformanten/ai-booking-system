@@ -44,16 +44,21 @@ recommendation = recommender.run(day=date.today())
 recommendation.show()
 ```
 `show()` returns a color-coded DataFrame.Styler object, similar to the following table
+
 |        |Room A | ... | Room G | Room H   | Room I |
 |:------:|:------:|:------:|:--------:|:------:|:------:|
 | t_0    | 1.0    | ...    | 1.0      | 1.0    | 0.5    |
-| t_1    | 1.0    | ...    | 1.0      | 0.5    | BOOKED |
+| t_1    | 1.0    | ...    | 1.0      | 0.5    |  |
 | t_2    | 1.0    | ...    | 1.0      | 1.0    | 0.0    |
-| t_3    | 1.0    | ...    | 1.0      | 0.5    | BOOKED |
+| t_3    | 1.0    | ...    | 1.0      | 0.5    |  |
 | t_4    | 1.0    | ...    | 1.0      | 1.0    | 0.5    |
 | t_5    | 0.5    | ...    | 0.5      | 1.0    | 1.0    |
-| t_6    | BOOKED | ...    | BOOKED | 0.5    | 1.0    |
-| t_7    | 0.0    | ...    | BOOKED   | 1.0    | 1.0    |
+| t_6    |  | ...    |  | 0.5    | 1.0    |
+| t_7    | 0.0    | ...    |    | 1.0    | 1.0    |
+
+<br>
+
+With the empty cells representing time slots that are either already booked or infeasible due to the booking requirements (e.g., required capacity or particular amenities such as a whiteboard)
 
 Similarly, `top_recommendations()` produces a list of room-time combinations, i.e. booking recommendations, ranked after their aggregated (estimated) cost (*score*).
 
