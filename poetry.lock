@@ -1346,6 +1346,21 @@ files = [
 ]
 
 [[package]]
+name = "mkdocs-print-site-plugin"
+version = "2.3.4"
+description = "MkDocs plugin that combines all pages into one, allowing for easy export to PDF and standalone HTML."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "mkdocs-print-site-plugin-2.3.4.tar.gz", hash = "sha256:40c8c918a58f66c1f44b97512433fefd28a7ae74f8aa6c1633ddf14a6c04aa7f"},
+    {file = "mkdocs_print_site_plugin-2.3.4-py3-none-any.whl", hash = "sha256:a74540cc3098695ae4623effc2c0be1631d0d1061344dcce283e775044cca0b4"},
+]
+
+[package.dependencies]
+mkdocs-material = ">=7.3.0"
+
+[[package]]
 name = "mkdocstrings"
 version = "0.19.1"
 description = "Automatic documentation from sources, for MkDocs."
@@ -2798,4 +2813,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "df1a387ef47400e52f78756196804e4db8cad77b8fe0f2f21856b76351bd11e7"
+content-hash = "3a3953dc336ff90940371a27f885e58ff9b904384aac38219709c348192f07fd"

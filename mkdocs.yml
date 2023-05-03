@@ -12,6 +12,7 @@ theme:
       toggle:
         icon: material/toggle-switch
         name: Switch to light mode
+  custom_dir: docs/overrides
 
 nav:
   - Introduction: index.md
@@ -30,6 +31,7 @@ markdown_extensions:
       check_paths: true
   - pymdownx.arithmatex:
       generic: true
+  - tables
 
 plugins:
   - search:
@@ -44,6 +46,9 @@ plugins:
             show_root_full_path: yes
             merge_init_into_class: yes
             show_submodules: true
+  - print-site:
+      add_cover_page: true
+      cover_page_template: "docs/assets/templates/custom_cover_page.tpl"
 watch: # this is optional, it helps to test the documentation locally.
   - thermo # or wherever you have your python code.
 
