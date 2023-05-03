@@ -93,26 +93,28 @@ docker build -t streamlit -f gui/dockerfile .
 and navigate to `http://localhost:8000/` to access the app.
 
 ## Deploy GUI
+**NOTE**: The `sudo` cmds may be necessary to connect to Azure ACR!
+
 ```bash
 # Set the tenant ID and login to Azure CLI using device code authentication
-az login --use-device-code --tenant <tenant ID>
+sudo az login --use-device-code --tenant <tenant ID>
 
 # Set the subscription ID
 # Login to the Azure Container Registry
 # Check the available tags for the repository
-az account set --subscription <sub ID>
+sudo az account set --subscription <sub ID>
 
-az acr login --name acrgovtech
+sudo az acr login --name acrgovtech
 az acr repository show-tags --name acrgovtech --repository acrgovtech
 
 # Set the tag for the Docker image
 export TAG=<your_tag>
 
 # Build and tag the Docker image
-docker build -t acrgovtech.azurecr.io/acrgovtech:$TAG -f gui/dockerfile .
+sudo docker build -t acrgovtech.azurecr.io/acrgovtech:$TAG -f gui/dockerfile .
 
 # Run the Docker image on port 8000
-docker run -p 8000:8000 acrgovtech.azurecr.io/acrgovtech:latest
+sudo docker run -p 8000:8000 acrgovtech.azurecr.io/acrgovtech:latest
 
 # Push the Docker image to the Azure Container Registry
 sudo docker push acrgovtech.azurecr.io/acrgovtech:latest
