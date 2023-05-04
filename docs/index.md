@@ -1,5 +1,5 @@
 # Thermo
-**Booking recommender system for energy optimization for the GovTech Smart M<sup>2</sup> project OPI project.**
+**Booking recommender system for energy optimization for the GovTech Smart M<sup>2</sup> OPI project.**
 
 ### Background
 The purpose of the OPI project is to achieve savings on energy and climate consumption by consolidating activities, implementing intelligent local allocation, and increasing the utilization rate of the municipal building stock through the use of building data, IoT solutions (Internet of Things), and artificial intelligence (AI).
