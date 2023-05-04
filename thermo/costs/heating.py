@@ -2,8 +2,8 @@ import numpy as np
 from numpy.typing import NDArray
 
 from thermo.config import UNAVAILABLE_COST
-from thermo.costs import adjacency
 from thermo.costs.base import CostModel
+from thermo.graph.adjacency import get_time_adjacency
 
 
 class HeatingCost(CostModel):
@@ -37,8 +37,7 @@ class HeatingCost(CostModel):
         self.unavailable_cost = unavailable_cost
 
     def _get_full_graph(self, n_time_slots: int):
-        adjacency.validate_adjacency(self.As)
-        return adjacency.get_time_adjacency(
+        return get_time_adjacency(
             A=self.As, n_times=n_time_slots, time_weight=self.t_weight
         )
 

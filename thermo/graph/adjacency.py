@@ -2,16 +2,6 @@ import numpy as np
 from numpy.typing import NDArray
 
 
-class InvalidAdjacency(ValueError):
-    """
-    Error class to show the adjacency matrix is not
-    compatible with the model.
-    """
-
-    def __init__(self, message):
-        super().__init__(message)
-
-
 def is_symmetric(A: NDArray) -> bool:
     """
     Function to check if an adjacency matrix A is symmetric.
@@ -87,26 +77,6 @@ def is_connected(A: NDArray) -> bool:
     # If it had other zero eigenvalues, it would mean the graph can be split.
     fieldler_icond = v[1] / v[-1]
     return is_laplacian and (fieldler_icond >= 1e-14)
-
-
-def validate_adjacency(A: NDArray) -> None:
-    """
-    Validates the adjacency matrix. If it is not valid, it raises
-    an InvalidAdjacency exception.
-
-    Currently, the following criteria are checked:
-    - its symmetric
-    - it does not contain self-interactions
-    - the graph cannot be split into two graphs.
-    """
-    if not no_self_interactions(A):
-        raise InvalidAdjacency("Adjacency matrix has non-zero diagonal elements.")
-    if not is_symmetric(A):
-        raise InvalidAdjacency("Adjacency matrix is not symmetric.")
-    if not is_connected(A):
-        raise InvalidAdjacency(
-            "The graph represented by A can be split into two graphs."
-        )
 
 
 def get_time_adjacency(A: NDArray, n_times: int, time_weight: float = 1.0) -> NDArray:

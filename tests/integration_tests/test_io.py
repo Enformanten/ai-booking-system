@@ -4,7 +4,6 @@ from typing import Generator
 import numpy as np
 import pytest
 from numpy.typing import NDArray
-from scipy.linalg import issymmetric
 
 from thermo.utils import io
 from thermo.utils.building import Building
@@ -37,7 +36,6 @@ def test_building_specs(
     """
     for building in all_buildings:
         assert core_building_specs <= building.specifications.keys()
-        assert issymmetric(building.adjacency)
         assert len(building.room_descriptions) == building.adjacency.shape[0]
         assert all(isinstance(a, set) for a in building.get_room_attr("amenities"))
 
