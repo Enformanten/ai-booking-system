@@ -1,6 +1,6 @@
 import pytest
 
-from thermo.costs.adjacency import is_connected, is_symmetric, no_self_interactions
+from thermo.graph.adjacency import is_connected, is_symmetric, no_self_interactions
 from thermo.utils.io import load_all_buildings
 
 
