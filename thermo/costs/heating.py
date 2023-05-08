@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 import numpy as np
 from numpy.typing import NDArray
 
@@ -36,11 +38,13 @@ class HeatingCost(CostModel):
         self.heat_cost = heat_cost if heat_cost else np.ones(self.n_rooms)
         self.unavailable_cost = unavailable_cost
 
+    @lru_cache(maxsize=5)
     def _get_full_graph(self, n_time_slots: int):
         return get_time_adjacency(
             A=self.As, n_times=n_time_slots, time_weight=self.t_weight
         )
 
+    @lru_cache(maxsize=5)
     def _get_full_cost(self, n_time_slots: int):
         return np.hstack([self.heat_cost] * n_time_slots)
 
