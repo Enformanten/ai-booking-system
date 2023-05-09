@@ -1,4 +1,4 @@
-from functools import lru_cache
+from functools import cached_property
 
 import numpy as np
 from numpy.typing import NDArray
@@ -41,7 +41,7 @@ class CapacityCost(CostModel):
         self.coeff = capacity_utilization_coeff
         self.unavailable_cost = unavailable_cost
 
-    @property
+    @cached_property
     def room_capacities(self) -> NDArray:
         """Capacities of all rooms"""
         return np.array([room.capacity for room in self.room_descriptions], dtype=int)
@@ -52,8 +52,7 @@ class CapacityCost(CostModel):
         return self.room_capacities.shape[0]
 
     @staticmethod
-    @lru_cache(maxsize=5)
-    def _explode_to_shape(capacities: tuple[int], shape: tuple[int, int]) -> NDArray:
+    def _explode_to_shape(capacities: NDArray, shape: tuple[int, int]) -> NDArray:
         """Explode capacities to match state shape"""
         return np.repeat(capacities, shape[1]).reshape(shape).T
 
@@ -85,7 +84,7 @@ class CapacityCost(CostModel):
         room_costs = np.where(_filter, self.unavailable_cost, capacity_costs)
 
         room_time_capacities = self._explode_to_shape(
-            tuple(room_costs),  # cast to tuple for hashability
+            room_costs,
             shape=(self.n_rooms, n_time_slots),
         )
         return room_time_capacities.flatten()
