@@ -51,11 +51,6 @@ class CapacityCost(CostModel):
         """Number of rooms"""
         return self.room_capacities.shape[0]
 
-    @staticmethod
-    def _explode_to_shape(capacities: NDArray, n_time_slots: int) -> NDArray:
-        """Explode capacities to match state shape"""
-        return np.vstack([capacities] * n_time_slots)
-
     def _calculate_costs(self, capacities: NDArray, required_capacity: int) -> NDArray:
         """Calculate costs for each room-time combination"""
         return self.coeff * (capacities - required_capacity) / capacities
@@ -83,8 +78,5 @@ class CapacityCost(CostModel):
         capacity_costs = self._calculate_costs(self.room_capacities, required_capacity)
         room_costs = np.where(_filter, self.unavailable_cost, capacity_costs)
 
-        room_time_capacities = self._explode_to_shape(
-            room_costs,
-            n_time_slots,
-        )
-        return room_time_capacities.flatten()
+        # return explodes capacities to match state shape
+        return np.tile(room_costs, n_time_slots)

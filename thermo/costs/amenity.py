@@ -1,4 +1,4 @@
-from functools import lru_cache
+from functools import cached_property
 
 import numpy as np
 from numpy.typing import NDArray
@@ -44,16 +44,10 @@ class AmenityCost(CostModel):
         self.coeff = amenity_utilization_coeff
         self.len_map = np.vectorize(len)
 
-    @property
+    @cached_property
     def room_amenities(self) -> list[int]:
         """Amenities of all rooms"""
         return [room.amenities for room in self.room_descriptions]
-
-    @staticmethod
-    @lru_cache(maxsize=5)
-    def _explode_to_shape(values: list[int], shape: tuple[int, int]) -> NDArray:
-        """Explode values to match state shape"""
-        return np.repeat(values, shape[1]).reshape(shape).T
 
     def _calculate_costs(self, required_amenities: set[str]) -> NDArray:
         """Calculate costs for each room-time combination"""
@@ -94,8 +88,5 @@ class AmenityCost(CostModel):
 
         costs = np.where(useful_rooms, utilization, self.unavailable_cost)
 
-        rt_costs = self._explode_to_shape(
-            tuple(costs),  # cast to tuple for hashability
-            shape=(len(costs), n_time_slots),
-        )
-        return rt_costs.flatten()
+        # return exploded values to match state's shape
+        return np.tile(costs, n_time_slots)
