@@ -64,11 +64,8 @@ class HeatingCost(CostModel):
                 shape = (n_rooms*n_time_slots,),
                 if room already booked, its np.nan
         """
-        if not hasattr(self, "A"):
-            self.A = self._get_full_graph(n_time_slots=n_time_slots)
-
-        if not hasattr(self, "_full_heat_cost"):
-            self._full_heat_cost = self._get_full_cost(n_time_slots=n_time_slots)
+        self.A = self._get_full_graph(n_time_slots=n_time_slots)
+        self._full_heat_cost = self._get_full_cost(n_time_slots=n_time_slots)
 
         out = self._full_heat_cost - self.message_importance * np.matmul(self.A, state)
         return self.unavailable_cost * state + out
