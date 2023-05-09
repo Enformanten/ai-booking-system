@@ -134,3 +134,6 @@ dmypy.json
 notebooks/notepad.ipynb
 # mkdocs documentation
 site/
+
+# Ignore data directory for the time being
+data/
