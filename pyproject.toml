@@ -12,6 +12,7 @@ scipy = "^1.10.1"
 networkx = "^3.1"
 workalendar = "^17.0.0"
 pandas = {extras = ["output-formatting"], version = "^2.0.1"}
+scikit-learn = "^1.2.2"
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.22.0"
