@@ -21,6 +21,10 @@ def is_schoolday(day: date) -> bool:
     """
     week = day.isocalendar().week
 
+    if day <= date(2022, 8, 7) and day >= date(2022, 6, 25):
+        # Summer holidays in 2022, info by Mette Groenborg
+        return False
+
     if week in [7, 27, 28, 29, 42]:
         # These are school holidays known to DTU
         return False
