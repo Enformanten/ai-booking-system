@@ -1,0 +1,16 @@
+get_data:
+    municipality: Aarhus
+    year: 2022
+    files:
+        - name: bookings
+          file_path: assets/Bookings_updated.csv
+          parse_params:
+            drop_empty_rooms: true
+            aggregation_method: binary
+        - name: energy
+          file_path: assets/Energy.csv
+          parse_params:
+            measure_points:
+                - 3261220102
+            measure_types:
+                - electricity
