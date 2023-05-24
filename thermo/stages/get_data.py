@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -131,4 +132,12 @@ def get_data(building_name: str) -> None:
 
 
 if __name__ == "__main__":
-    print(get_data("strandskolen"))  # noqa
+    # Get school name
+    parser = ArgumentParser(description="Get the raw data for user-defined building.")
+    parser.add_argument("-b", "--building", help="name of the building")
+    args = parser.parse_args()
+
+    # Get data
+    dataf = get_data(args.building)
+
+    print(dataf)  # noqa
