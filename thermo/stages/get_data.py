@@ -9,9 +9,11 @@ import pandas as pd
 
 from thermo.config import WORKDIR
 from thermo.utils.io import get_building_path, load_file
+from thermo.utils.logger import ml_logger as logger
 
 
 def from_csv(file_path: str | Path, municipality: str, year: int) -> pd.DataFrame:
+    logger.info(f"Loading data from file {file_path.name}")
     # Read DataFrame and keep only info for correct municipality
     dataf = pd.read_csv(file_path, engine="pyarrow").loc[
         lambda x: x["MUNICIPALITY"].eq(municipality)
@@ -47,6 +49,7 @@ class RawDataFile:
 def select_data(
     dataf: pd.DataFrame, name: str, **parse_params: dict[str, Any]
 ) -> pd.DataFrame:
+    logger.debug(f"Select and transform {name} data")
     match name:
         case "energy":
             return select_energy_data(dataf, **parse_params)
@@ -108,7 +111,10 @@ def get_data(building_name: str) -> None:
         building_path=get_building_path(building_name), file_name="regression.yaml"
     ).get("get_data", {})
 
+    municipality = params.get("municipality")
     year = params.get("year")
+    logger.info(f"Getting data for building {building_name}")
+    logger.debug(f"Data for municipality {municipality} on year {year}.")
 
     if "files" in params:
         dataf = pd.DataFrame(
@@ -120,7 +126,7 @@ def get_data(building_name: str) -> None:
                 other=(
                     from_csv(
                         file_path=WORKDIR / fileinfo.file_path,
-                        municipality=params["municipality"],
+                        municipality=municipality,
                         year=year,
                     ).pipe(select_data, fileinfo.name, **fileinfo.parse_params)
                 ),
@@ -140,4 +146,5 @@ if __name__ == "__main__":
     # Get data
     dataf = get_data(args.building)
 
-    print(dataf)  # noqa
+    logger.debug("Saving raw data to data/raw_data.pkl")
+    dataf.to_pickle(WORKDIR / "data" / "raw_data.pkl")
