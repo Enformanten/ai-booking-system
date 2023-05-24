@@ -14,3 +14,10 @@ get_data:
                 - 3261220102
             measure_types:
                 - electricity
+
+
+preprocessing:
+  booking_hours_threshold: 100
+  drop_nights_and_school_hours: true
+  ventilation:
+    is_day: true
