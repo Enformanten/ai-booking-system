@@ -21,3 +21,11 @@ preprocessing:
   drop_nights_and_school_hours: true
   ventilation:
     is_day: true
+
+
+training:
+  target: electricity
+  estimator: RidgeRegression
+  cv_folds: 5
+  alpha_min: 0.0001
+  alpha_max: 1
