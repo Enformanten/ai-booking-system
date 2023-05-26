@@ -31,6 +31,18 @@ poetry install --with dev
 
 You may also need the flags `--with docs` if you want to test the documentation locally or `--with gui` if you want to try the GUI locally.
 
+## Machine learning:
+
+We use `dvc` to run our ML pipelines. To create a model to extract hyperparameters for a given building run the following:
+```bash
+dvc exp run buildings/<building_name>/dvc.yaml
+```
+
+For example, for **Strandskolen** in **Aarhus kommune** this would be:
+```bash
+dvc exp run buildings/strandskolen/dvc.yaml
+```
+
 ## Usage
 Building specifications are loaded from a config directory, through the `.from_config` method. The booking state is retrieved under the hood through an open API.
 
