@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
+from numpy.typing import NDArray
 
 from thermo.costs import CostName
 from thermo.ranker import RankerName
@@ -21,7 +22,7 @@ class Building:
     ranker: RankerName
     costs: dict[CostName, Any]
     room_descriptions: list[dict[str, Any]]
-    adjacency: list[list[int]]
+    adjacency: list[list[int]] | NDArray
 
     def __post_init__(self) -> None:
         """Perform some post-initialization tasks
