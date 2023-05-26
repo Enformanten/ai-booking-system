@@ -1,15 +1,11 @@
-from argparse import ArgumentParser
 from dataclasses import dataclass
 
-import joblib
 import numpy as np
 import pandas as pd
 from sklearn.base import RegressorMixin
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
 
-from thermo.config import WORKDIR
-from thermo.utils.io import get_building_path, load_file
 from thermo.utils.logger import ml_logger as logger
 
 
@@ -92,32 +88,32 @@ def train_cv(
 
 
 if __name__ == "__main__":
-    parser = ArgumentParser()
-    parser.add_argument(
-        "-b", "--building", help="name of the building", default="strandskolen"
-    )
-    args = parser.parse_args()
+    from pathlib import Path
+
+    import dvc.api
+    import joblib
 
     logger.info("Running training script")
     # Get preprocessing params:
-    params = load_file(
-        building_path=get_building_path(args.building), file_name="regression.yaml"
-    ).get("training", {})
+    params = dvc.api.params_show()["train"]
+
+    target = params["target"]
 
     # Load data:
     logger.info("Loading data...")
-    dataf = pd.read_pickle(WORKDIR / "data" / "preprocessed_data.pkl")
+    dataf = pd.read_pickle(Path("data") / "preprocessed_data.pkl")
 
     # Train by cross_validation:
     logger.info("Training model...")
-    X, y = get_feature_targets(dataf, params.get("target", "electricity"))
+    X, y = get_feature_targets(dataf, target)
     result = train_cv(X, y, **params)
 
     logger.info(f"Model training succesful, with r2 score {round(result.r2_score, 2)}")
 
     # Save cross-validation results:
     logger.info("Saving model...")
-    MODELDIR = WORKDIR / "model"
+    MODELDIR = Path("model")
+    MODELDIR.mkdir(parents=True, exist_ok=True)
     result.cv_results.to_csv(MODELDIR / "cross_validation.csv", index=False)
 
     # Save result

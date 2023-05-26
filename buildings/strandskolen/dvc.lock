@@ -1,0 +1,103 @@
+schema: '2.0'
+stages:
+  get_data:
+    cmd: python -m thermo.stages.get_data
+    params:
+      params.yaml:
+        building: strandskolen
+        get_data.files:
+        - name: bookings
+          file_path: assets/Bookings_updated.csv
+          parse_params:
+            drop_empty_rooms: true
+            aggregation_method: binary
+        - name: energy
+          file_path: assets/Energy.csv
+          parse_params:
+            measure_points:
+            - 3261220102
+            measure_types:
+            - electricity
+        municipality: Aarhus
+        year: 2022
+    outs:
+    - path: data/raw_data.pkl
+      md5: f13d80754ecd67b251d56a190ccadeb0
+      size: 907512
+      isexec: true
+  preprocessing:
+    cmd: python -m thermo.stages.preprocessing
+    deps:
+    - path: data/raw_data.pkl
+      md5: f13d80754ecd67b251d56a190ccadeb0
+      size: 907512
+    params:
+      params.yaml:
+        preprocessing.booking_hours_threshold: 100
+        preprocessing.drop_nights_and_school_hours: true
+        preprocessing.ventilation:
+          is_day: true
+    outs:
+    - path: data/preprocessed_data.pkl
+      md5: eb4e58214c2b29ecd118bdc0ed2c5cc4
+      size: 399430
+      isexec: true
+  train:
+    cmd: python -m thermo.stages.train
+    deps:
+    - path: data/preprocessed_data.pkl
+      md5: eb4e58214c2b29ecd118bdc0ed2c5cc4
+      size: 399430
+    params:
+      params.yaml:
+        train.alpha_max: 100
+        train.alpha_min: 0.01
+        train.cv_folds: 5
+        train.estimator: RidgeRegression
+        train.target: electricity
+    outs:
+    - path: model/cross_validation.csv
+      md5: 93f4be0793228d253a673f79ed62055e
+      size: 12576
+      isexec: true
+    - path: model/model.joblib
+      md5: e5868899d05899624dbeb12e4872d65f
+      size: 1360
+      isexec: true
+    - path: model/model.metadata
+      md5: 2fd47dd3e72abcffbd2808847dc40c97
+      size: 66
+      isexec: true
+  evaluate_model:
+    cmd: python -m thermo.stages.evaluate_model
+    deps:
+    - path: data/preprocessed_data.pkl
+      md5: eb4e58214c2b29ecd118bdc0ed2c5cc4
+      size: 399430
+    - path: model/cross_validation.csv
+      md5: 93f4be0793228d253a673f79ed62055e
+      size: 12576
+    - path: model/model.joblib
+      md5: e5868899d05899624dbeb12e4872d65f
+      size: 1360
+    outs:
+    - path: model/costs.csv
+      md5: 4719a8b1ada007bdd9dec0ed747b05bb
+      size: 353
+      isexec: true
+    - path: model/error_distribution.png
+      md5: 4d3ea3fec36f378c75ad8ec964587b34
+      size: 97412
+      isexec: true
+    - path: model/regularization.png
+      md5: d3391f71b87fce3fe50ef4180b769073
+      size: 19945
+      isexec: true
+    - path: model/test.json
+      md5: 13011313398091669cb4091accf34938
+      size: 117
+      isexec: true
+    - path: model/train.json
+      md5: b6035fcff8c06fd86ce9aaf66c530634
+      size: 119
+      isexec: true

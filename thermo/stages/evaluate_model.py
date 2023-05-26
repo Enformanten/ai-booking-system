@@ -10,12 +10,7 @@ import pandas as pd
 import seaborn as sns
 from sklearn.base import RegressorMixin
 
-from thermo.config import WORKDIR
 from thermo.utils.logger import ml_logger as logger
-
-
-def get_nfolds(dataf) -> int:
-    return 1 + int(max(name[5] for name in dataf.columns if name.startswith("split")))
 
 
 def get_metrics(
@@ -29,7 +24,7 @@ def get_metrics(
         "r2_err": best_model[f"std_{which}_r2"] / sqrt(nfolds),
         "rmse": -best_model[f"mean_{which}_neg_root_mean_squared_error"],
         "rmse_err": best_model[f"std_{which}_neg_root_mean_squared_error"]
-        / sqrt(nfolds),  # noqa W%03
+        / sqrt(nfolds),  # noqa W503
     }
 
 
@@ -59,10 +54,10 @@ def extract_coefficients(dataf: pd.DataFrame, model: RegressorMixin) -> pd.DataF
 
 
 def plot_error_distribution(
-    model: RegressorMixin, dataf: pd.DataFrame, figpath: Path
+    model: RegressorMixin, dataf: pd.DataFrame, target: str, figpath: Path
 ) -> None:
-    y_true = dataf["electricity"]
-    X = dataf.drop(columns="electricity")
+    y_true = dataf[target]
+    X = dataf.drop(columns=target)
     y_pred = model.predict(X)
     rmse = np.sqrt((y_true - y_pred).pow(2).mean())
 
@@ -77,13 +72,20 @@ def plot_error_distribution(
 
 
 if __name__ == "__main__":
+    import dvc.api
+
+    params = dvc.api.params_show()
+
+    nfolds = params["train"]["cv_folds"]
+    target = params["train"]["target"]
+
     logger.info("Evaluating ml model...")
-    MODELDIR = WORKDIR / "model"
+    MODELDIR = Path("model")
+    DATADIR = Path("data")
 
     # Metrics
     logger.info("Extracting metrics")
     scores = pd.read_csv(MODELDIR / "cross_validation.csv")
-    nfolds = get_nfolds(scores)
 
     for partition in ("train", "test"):
         logger.debug(f"Extracting {partition} metrics ...")
@@ -98,7 +100,7 @@ if __name__ == "__main__":
 
     # Coefficients
     model = joblib.load(MODELDIR / "model.joblib")
-    dataf = pd.read_pickle(WORKDIR / "data" / "preprocessed_data.pkl")
+    dataf = pd.read_pickle(DATADIR / "preprocessed_data.pkl")
     coefs = extract_coefficients(dataf=dataf, model=model)
     coefs.to_csv(MODELDIR / "costs.csv", index=True)
 
@@ -107,5 +109,8 @@ if __name__ == "__main__":
         f.write(f"valid costs\t{nvalid}/{coefs.shape[0]}\n")
 
     plot_error_distribution(
-        model=model, dataf=dataf, figpath=MODELDIR / "error_distribution.png"
+        model=model,
+        dataf=dataf,
+        target=target,
+        figpath=MODELDIR / "error_distribution.png",
     )

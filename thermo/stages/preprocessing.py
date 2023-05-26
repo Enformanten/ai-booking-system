@@ -1,13 +1,11 @@
 import time
-from argparse import ArgumentParser
 from functools import wraps
 from typing import Any, Callable
 
 import numpy as np
 import pandas as pd
 
-from thermo.config import WEEKDAY_HOUR_START, WEEKEND_HOUR_START, WORKDIR
-from thermo.utils.io import get_building_path, load_file
+from thermo.config import WEEKDAY_HOUR_START, WEEKEND_HOUR_START
 from thermo.utils.logger import ml_logger as logger
 from thermo.utils.time import is_schoolday
 
@@ -118,26 +116,21 @@ def preprocess(dataf: pd.DataFrame, params: dict[str, Any]) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    # Get school name
-    parser = ArgumentParser(description="Get the raw data for user-defined building.")
-    parser.add_argument(
-        "-b", "--building", help="name of the building", default="strandskolen"
-    )
-    args = parser.parse_args()
+    from pathlib import Path
+
+    import dvc.api
 
     logger.info("Running preprocessing script")
-    # Get preprocessing params:
-    params = load_file(
-        building_path=get_building_path(args.building), file_name="regression.yaml"
-    ).get("preprocessing", {})
+    params = dvc.api.params_show()["preprocessing"]
 
     # Load data
     logger.info("Loading raw data...")
-    dataf = pd.read_pickle(WORKDIR / "data" / "raw_data.pkl")
+    DATADIR = Path("data")
+    dataf = pd.read_pickle(DATADIR / "raw_data.pkl")
 
     # Preprocess the data
     dataf = dataf.pipe(preprocess, params=params)
 
     # Save to disk
     logger.info("Saving preprocessed data...")
-    dataf.to_pickle(WORKDIR / "data" / "preprocessed_data.pkl")
+    dataf.to_pickle(DATADIR / "preprocessed_data.pkl")

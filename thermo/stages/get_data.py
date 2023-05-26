@@ -1,4 +1,3 @@
-from argparse import ArgumentParser
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -8,7 +7,6 @@ import numpy as np
 import pandas as pd
 
 from thermo.config import WORKDIR
-from thermo.utils.io import get_building_path, load_file
 from thermo.utils.logger import ml_logger as logger
 
 
@@ -106,45 +104,47 @@ def binary_aggregate_bookings(dataf: pd.DataFrame) -> pd.DataFrame:
     )
 
 
-def get_data(building_name: str) -> None:
-    params = load_file(
-        building_path=get_building_path(building_name), file_name="regression.yaml"
-    ).get("get_data", {})
-
-    municipality = params.get("municipality")
-    year = params.get("year")
+def get_data(
+    building_name: str, municipality: str, year: int, files: list[dict[str, Any]]
+) -> None:
     logger.info(f"Getting data for building {building_name}")
     logger.debug(f"Data for municipality {municipality} on year {year}.")
 
-    if "files" in params:
-        dataf = pd.DataFrame(
-            index=pd.date_range(f"{year}-01-01", f"{year}-12-31", freq="H")
+    dataf = pd.DataFrame(
+        index=pd.date_range(f"{year}-01-01", f"{year}-12-31", freq="H")
+    )
+    for fileinfo in map(lambda x: RawDataFile(**x), files):
+        dataf = dataf.join(
+            how="inner",
+            other=(
+                from_csv(
+                    file_path=WORKDIR / fileinfo.file_path,
+                    municipality=municipality,
+                    year=year,
+                ).pipe(select_data, fileinfo.name, **fileinfo.parse_params)
+            ),
         )
-        for fileinfo in map(lambda x: RawDataFile(**x), params["files"]):
-            dataf = dataf.join(
-                how="inner",
-                other=(
-                    from_csv(
-                        file_path=WORKDIR / fileinfo.file_path,
-                        municipality=municipality,
-                        year=year,
-                    ).pipe(select_data, fileinfo.name, **fileinfo.parse_params)
-                ),
-            )
-    else:
-        raise ValueError(f"Origin of data not found in {building_name}/regression.yaml")
 
     return dataf
 
 
 if __name__ == "__main__":
+    import dvc.api
+
+    params = dvc.api.params_show()
+
     # Get school name
-    parser = ArgumentParser(description="Get the raw data for user-defined building.")
-    parser.add_argument("-b", "--building", help="name of the building")
-    args = parser.parse_args()
+    building = params["building"]
+    municipality = params["municipality"]
+    year = params["year"]
+    files = params["get_data"]["files"]
 
     # Get data
-    dataf = get_data(args.building)
+    dataf = get_data(
+        building_name=building, municipality=municipality, year=year, files=files
+    )
 
     logger.debug("Saving raw data to data/raw_data.pkl")
-    dataf.to_pickle(WORKDIR / "data" / "raw_data.pkl")
+    DATADIR = Path("data")
+    DATADIR.mkdir(parents=True, exist_ok=True)
+    dataf.to_pickle(DATADIR / "raw_data.pkl")

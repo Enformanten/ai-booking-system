@@ -1,6 +1,8 @@
+building: strandskolen
+municipality: Aarhus
+year: 2022
+
 get_data:
-    municipality: Aarhus
-    year: 2022
     files:
         - name: bookings
           file_path: assets/Bookings_updated.csv
@@ -23,7 +25,7 @@ preprocessing:
     is_day: true
 
 
-training:
+train:
   target: electricity
   estimator: RidgeRegression
   cv_folds: 5
