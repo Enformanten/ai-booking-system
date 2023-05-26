@@ -4,6 +4,8 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from numpy import load as npload
+from numpy.typing import NDArray
 
 from thermo.config import BUILDINGS_DIR
 from thermo.utils.building import Building
@@ -37,6 +39,10 @@ def load_json(config: TextIOWrapper, **kwargs) -> dict[str, Any]:
     return json.load(config, **kwargs)
 
 
+def load_npy(building_path: str, filename: str, **kwargs) -> NDArray:
+    return npload(building_path / filename)
+
+
 def load_file(building_path: str, file_name: str, **kwargs) -> dict[str, Any]:
     """Loads a file from the given path. Pathlib
     handles context management for us."""
@@ -56,7 +62,7 @@ def load_building(building_path: str) -> Building:
     """Loads relevant files from building config dir.
     and loads them into a Building object."""
 
-    _adjacency = load_file(building_path, "adjacency.json")
+    _adjacency = {"adjacency": load_npy(building_path, "adjacency.npy")}
     _specs = load_file(building_path, "specifications.yaml")
     _config = load_file(building_path, "config.yaml")
 
