@@ -1,3 +1,4 @@
 model		RidgeRegression
 r2 score	0.48
-l2 weight	1.0
+l2 weight	1.7782794100389228
+valid costs	0/8valid costs	3/8
