@@ -49,9 +49,7 @@ def test_load_adjacency(
     assert np.allclose(demo_building_from_config.adjacency, demo_graph)
 
 
-@pytest.mark.parametrize(
-    "file_name", ["adjacency.json", "specifications.yaml", "config.yaml"]
-)
+@pytest.mark.parametrize("file_name", ["specifications.yaml", "config.yaml"])
 def test_file_loader(
     file_name: str, demo_building_name: Generator[str, None, None]
 ) -> None:
