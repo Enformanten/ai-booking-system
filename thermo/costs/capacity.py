@@ -1,3 +1,5 @@
+from functools import cached_property
+
 import numpy as np
 from numpy.typing import NDArray
 
@@ -39,30 +41,26 @@ class CapacityCost(CostModel):
         self.coeff = capacity_utilization_coeff
         self.unavailable_cost = unavailable_cost
 
-    @property
-    def capacities(self) -> list[int]:
+    @cached_property
+    def room_capacities(self) -> NDArray:
         """Capacities of all rooms"""
-        return [room.capacity for room in self.room_descriptions]
+        return np.array([room.capacity for room in self.room_descriptions], dtype=int)
 
-    def _explode_capacities(
-        self, capacities: list[int], shape: tuple[int, int]
-    ) -> NDArray:
-        """Explode capacities to match state shape"""
-        return np.repeat(capacities, shape[1]).reshape(shape).T.flatten()
+    @property
+    def n_rooms(self) -> int:
+        """Number of rooms"""
+        return self.room_capacities.shape[0]
 
-    def _calculate_costs(
-        self, rt_capacities: NDArray, required_capacity: int
-    ) -> NDArray:
+    def _calculate_costs(self, capacities: NDArray, required_capacity: int) -> NDArray:
         """Calculate costs for each room-time combination"""
-        return self.coeff * (rt_capacities - required_capacity) / rt_capacities
+        return self.coeff * (capacities - required_capacity) / capacities
 
     def run(
         self, state: NDArray, n_time_slots: int, required_capacity: int = 10, **kwargs
     ) -> NDArray:
         """
         Calculate the capacity cost for each room-time combination,
-        setting the cost to a very high number if the room is too small
-        or already booked.
+        setting the cost to a very high number if the room is too small.
 
         Args:
             state: ones and zeros representing bookings
@@ -73,17 +71,12 @@ class CapacityCost(CostModel):
 
         Returns:
             cost: where the lower the better and very high if room
-                is too small or already booked.
-                shape = (n_rooms*n_time_slots,)
+                is too small. Shape = (n_rooms*n_time_slots,)
         """
 
-        rt_capacities = self._explode_capacities(
-            self.capacities, shape=(len(self.capacities), n_time_slots)
-        )
-        capacity_costs = self._calculate_costs(rt_capacities, required_capacity)
+        _filter = self.room_capacities < required_capacity
+        capacity_costs = self._calculate_costs(self.room_capacities, required_capacity)
+        room_costs = np.where(_filter, self.unavailable_cost, capacity_costs)
 
-        # check if room is too small or already booked
-        _filter = rt_capacities < required_capacity | (state == 1)
-        costs = np.where(_filter, self.unavailable_cost, capacity_costs)
-
-        return costs.flatten()
+        # return explodes capacities to match state shape
+        return np.tile(room_costs, n_time_slots)
