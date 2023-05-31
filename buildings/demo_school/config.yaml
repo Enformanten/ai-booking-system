@@ -2,18 +2,14 @@
 # Contains ranker and cost model parameters
 
 # ranker specification
-ranker: "FullRanker"
+ranker: FullRanker
 
 # cost specifications
-costs: {
-  "HeatingCost": {
-    "t_weight": 1.0,
-    "message_importance": 0.5
-  },
-  "CapacityCost": {
-    "capacity_utilization_coeff": 1
-  },
-  "AmenityCost": {
-    "amenity_utilization_coeff": 0.15
-  },
-}
+costs:
+  HeatingCost:
+    t_weight: 1.0
+    message_importance: 0.5
+  CapacityCost:
+    capacity_utilization_coeff: 1
+  AmenityCost:
+    amenity_utilization_coeff: 0.15
