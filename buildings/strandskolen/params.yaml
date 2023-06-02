@@ -8,7 +8,7 @@ get_data:
           file_path: assets/Bookings_updated.csv
           parse_params:
             drop_empty_rooms: true
-            aggregation_method: binary
+            aggregation_method: fractional
         - name: energy
           file_path: assets/Energy.csv
           parse_params:

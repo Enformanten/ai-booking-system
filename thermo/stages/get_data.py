@@ -87,6 +87,8 @@ def select_bookings_data(
     match parse_params.get("aggregation_method", "binary"):
         case "binary":
             dataf = dataf.pipe(binary_aggregate_bookings)
+        case "fractional":
+            dataf = dataf.pipe(fractional_aggregate_bookings)
         case other:
             raise NotImplementedError(f"Aggregation method {other}.")
 
@@ -98,6 +100,22 @@ def select_bookings_data(
 def binary_aggregate_bookings(dataf: pd.DataFrame) -> pd.DataFrame:
     return (
         dataf.groupby(["TIMESTAMP", "ROOM_ID"])["BOOKED"]
+        .sum()
+        .clip(upper=1)
+        .reset_index()
+    )
+
+
+def fractional_aggregate_bookings(dataf: pd.DataFrame) -> pd.DataFrame:
+    return (
+        dataf.assign(
+            BOOKED=np.where(
+                dataf["TIME_LEFT_OF_BOOKING"].gt(1),
+                dataf["BOOKED"],
+                dataf["TIME_LEFT_OF_BOOKING"],
+            )
+        )
+        .groupby(["TIMESTAMP", "ROOM_ID"])["BOOKED"]
         .sum()
         .clip(upper=1)
         .reset_index()
