@@ -34,7 +34,7 @@ def mock_raw_booking1():
             "TIME_LEFT_OF_BOOKING": [np.nan, 1.5, 0.5, 0, 1, 0, 0, 0, 0],
             "TIMESTAMP": pd.period_range(
                 start="2022-01-06 15:00:00", end="2022-01-06 23:00:00", freq="H"
-            ),
+            ).to_timestamp(),
         }
     )
 
