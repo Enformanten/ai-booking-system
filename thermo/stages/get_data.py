@@ -11,6 +11,18 @@ from thermo.utils.logger import ml_logger as logger
 
 
 def from_csv(file_path: str | Path, municipality: str, year: int) -> pd.DataFrame:
+    """
+    Reads data from a CSV file and selects the data for a specific municipality
+    and year.
+
+    Args:
+        file_path: The path to the CSV file.
+        municipality: The name of the municipality to filter the data for.
+        year: The target year to keep in the data.
+
+    Returns:
+        The filtered dataset.
+    """
     logger.info(f"Loading data from file {file_path.name}")
     # Read DataFrame and keep only info for correct municipality
     dataf = pd.read_csv(file_path, engine="pyarrow").loc[
@@ -39,6 +51,8 @@ def from_csv(file_path: str | Path, municipality: str, year: int) -> pd.DataFram
 
 @dataclass
 class RawDataFile:
+    """Represents a raw data file with the instructions for parsing it"""
+
     name: str
     file_path: str
     parse_params: dict[str, Any] = field(default_factory=dict)
@@ -47,6 +61,20 @@ class RawDataFile:
 def select_data(
     dataf: pd.DataFrame, name: str, **parse_params: dict[str, Any]
 ) -> pd.DataFrame:
+    """Selects and cleans a specific dataset based on the type of data
+    (i.e. energy, bookings) and parsing parameters.
+
+    Args:
+        dataf: The input data.
+        name: The name of the kind of data (i.e. energy, bookings)
+        **parse_params: Additional parameters for data parsing.
+
+    Returns:
+        The selected and cleaned DataFrame.
+
+    Raises:
+        NotImplementedError: If a handler for the given file name is not implemented.
+    """
     logger.debug(f"Select and transform {name} data")
     match name:
         case "energy":
@@ -60,6 +88,24 @@ def select_data(
 def select_energy_data(
     dataf: pd.DataFrame, **parse_params: dict[str, Any]
 ) -> pd.DataFrame:
+    """
+    Selects data from the input energy DataFrame based on specified parameters;
+    as for example measure points or measure types (i.e. electricity).
+
+    Note this flexibility is needed since "electricity" can be spelled in different
+    ways for different schools.
+
+    Args:
+        dataf: The input data.
+        **parse_params: Additional parameters for data parsing.
+
+    Returns:
+        The clean energy data DataFrame with "TIMESTAMP" as index.
+
+    Raises:
+        NotImplementedError: If handling for more than one measure point or type
+        is not implemented.
+    """
     measure_points = parse_params.get("measure_points", dataf["MEASURE_POINT"].unique())
     measure_types = parse_params.get("measure_types", dataf["MEASURE_TYPE"].unique())
     if len(measure_points) != 1 or len(measure_types) != 1:
@@ -75,6 +121,19 @@ def select_energy_data(
 def select_bookings_data(
     dataf: pd.DataFrame, **parse_params: dict[str, Any]
 ) -> pd.DataFrame:
+    """
+    Selects data from the input bookings DataFrame based on specified parameters.
+    It can drop rooms that have never been dropped from the input DataFrame.
+    It aggregates bookings for the same room and timestamp using one of the
+    aggregation methods and sets "TIMESTAMP" as index.
+
+    Args:
+        dataf: The input data.
+        **parse_params: Additional parameters for data parsing.
+
+    Returns:
+        The selected bookings data DataFrame.
+    """
     if parse_params.get("drop_empty_rooms", False):
         non_empty_rooms = (
             dataf.groupby("ROOM_ID")["BOOKED"]
@@ -125,6 +184,20 @@ def fractional_aggregate_bookings(dataf: pd.DataFrame) -> pd.DataFrame:
 def get_data(
     building_name: str, municipality: str, year: int, files: list[dict[str, Any]]
 ) -> None:
+    """
+    Gets data for a specific building, municipality, and year from different sources
+    and outputs it as a single DataFrame.
+
+    Args:
+        building_name: The name of the building.
+        municipality: The name of the municipality.
+        year: The target year.
+        files: List of file information and processing instructions.
+
+    Returns:
+        pd.DataFrame: The merged DataFrame containing the data.
+
+    """
     logger.info(f"Getting data for building {building_name}")
     logger.debug(f"Data for municipality {municipality} on year {year}.")
 

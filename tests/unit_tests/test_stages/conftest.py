@@ -4,7 +4,7 @@ import pytest
 
 
 @pytest.fixture
-def mock_raw_booking1():
+def mock_raw_booking():
     return pd.DataFrame(
         {
             "BOOKED": [0, 1, 1, 0, 1, 0, 0, 0, 0],

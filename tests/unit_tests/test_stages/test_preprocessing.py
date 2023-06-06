@@ -14,6 +14,10 @@ from thermo.stages.preprocessing import mock_ventilation
     ],
 )
 def test_ventilation(dataf, expected, request):
+    """
+    Test that mock_ventilation is in day mode the correct
+    hours for different inputs.
+    """
     dataf = request.getfixturevalue(dataf)
     result = mock_ventilation(dataf, params={"is_day": True})
     assert result.shape == (len(expected), 2)
