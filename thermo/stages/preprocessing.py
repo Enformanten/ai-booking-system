@@ -97,7 +97,9 @@ def mock_ventilation(
                     .drop(columns="level_0")
                 )
                 - bookings  # noqa W503
-            ).rename(columns={col: col.split("_")[0] + "_day" for col in room_columns}),
+            ).rename(
+                columns={col: col.split("_booked")[0] + "_day" for col in room_columns}
+            ),
         )
 
     return dataf

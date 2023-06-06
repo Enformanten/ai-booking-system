@@ -37,3 +37,27 @@ def mock_raw_booking1():
             ),
         }
     )
+
+
+@pytest.fixture
+def mock_binary_booking():
+    return pd.DataFrame(
+        {
+            "ROOM_A_booked": [0, 1, 1, 0, 1, 0, 0, 0, 0],
+            "TIMESTAMP": pd.period_range(
+                start="2022-01-06 15:00:00", end="2022-01-06 23:00:00", freq="H"
+            ).to_timestamp(),
+        }
+    ).set_index("TIMESTAMP")
+
+
+@pytest.fixture
+def mock_fractional_booking():
+    return pd.DataFrame(
+        {
+            "ROOM_A_booked": [0, 1, 0.5, 0, 1, 0, 0, 0, 0],
+            "TIMESTAMP": pd.period_range(
+                start="2022-01-06 15:00:00", end="2022-01-06 23:00:00", freq="H"
+            ).to_timestamp(),
+        }
+    ).set_index("TIMESTAMP")
