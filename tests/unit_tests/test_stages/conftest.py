@@ -61,3 +61,39 @@ def mock_fractional_booking():
             ).to_timestamp(),
         }
     ).set_index("TIMESTAMP")
+
+
+@pytest.fixture
+def mock_morning_weekend():
+    return pd.DataFrame(
+        {
+            "ROOM_A_booked": [1] + 7 * [0] + [1, 1, 0, 1, 0, 0, 0, 0],
+            "TIMESTAMP": pd.period_range(
+                start="2022-01-06 08:00:00", end="2022-01-06 23:00:00", freq="H"
+            ).to_timestamp(),
+        }
+    ).set_index("TIMESTAMP")
+
+
+@pytest.fixture
+def mock_evening_weekend():
+    return pd.DataFrame(
+        {
+            "ROOM_A_booked": 8 * [0] + [1, 1, 0, 1, 0, 0, 0, 0],
+            "TIMESTAMP": pd.period_range(
+                start="2022-01-06 08:00:00", end="2022-01-06 23:00:00", freq="H"
+            ).to_timestamp(),
+        }
+    ).set_index("TIMESTAMP")
+
+
+@pytest.fixture
+def mock_unused():
+    return pd.DataFrame(
+        {
+            "ROOM_A_booked": 9 * [0],
+            "TIMESTAMP": pd.period_range(
+                start="2022-01-06 15:00:00", end="2022-01-06 23:00:00", freq="H"
+            ).to_timestamp(),
+        }
+    ).set_index("TIMESTAMP")
