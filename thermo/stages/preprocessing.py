@@ -38,6 +38,17 @@ def log_transformation(
 
 @log_transformation
 def drop_unfrequent_rooms(dataf: pd.DataFrame, threshold: int | None) -> pd.DataFrame:
+    """
+    Drops the columns for rooms with low booking frequency from the DataFrame.
+
+    Args:
+        dataf: The input DataFrame.
+        threshold: Rooms with less bookings than this threshold will be dropped.
+            If None, no rooms are dropped.
+
+    Returns:
+        The DataFrame with the columns with infrequent rooms dropped.
+    """
     if not threshold:
         return dataf
 
@@ -50,6 +61,15 @@ def drop_unfrequent_rooms(dataf: pd.DataFrame, threshold: int | None) -> pd.Data
 
 @log_transformation
 def drop_unused_days(dataf: pd.DataFrame) -> pd.DataFrame:
+    """
+    Drops the rows corresponding to days where no room was used from the DataFrame.
+
+    Args:
+        dataf: The input DataFrame.
+
+    Returns:
+        The DataFrame with the days where no room was used dropped.
+    """
     room_columns = [col for col in dataf.columns if col.endswith("booked")]
     is_used = np.vectorize(
         dataf[room_columns]
@@ -65,6 +85,16 @@ def drop_unused_days(dataf: pd.DataFrame) -> pd.DataFrame:
 
 @log_transformation
 def drop_nights_and_school(dataf: pd.DataFrame, drop: bool = True) -> pd.DataFrame:
+    """Drops nights and school hours from the DataFrame.
+
+    Args:
+        dataf: The input DataFrame.
+        drop: Indicates whether to drop nights and school days.
+            If False, no data is dropped. Defaults to True.
+
+    Returns:
+        The processed DataFrame.
+    """
     if not drop:
         return dataf
     schoolday = np.vectorize(is_schoolday)(dataf.index.date)
@@ -79,6 +109,16 @@ def drop_nights_and_school(dataf: pd.DataFrame, drop: bool = True) -> pd.DataFra
 def mock_ventilation(
     dataf: pd.DataFrame, params: dict[str, Any] | None
 ) -> pd.DataFrame:
+    """Mocks ventilation data based on booking information.
+
+    Args:
+        dataf: The input DataFrame.
+        params: Parameters for ventilation mocking.
+            If None, no mocking is performed.
+
+    Returns:
+        The DataFrame with mocked ventilation data.
+    """
     if not params:
         return dataf
 
@@ -106,6 +146,16 @@ def mock_ventilation(
 
 
 def preprocess(dataf: pd.DataFrame, params: dict[str, Any]) -> pd.DataFrame:
+    """
+    Preprocesses the data based on the given parameters.
+
+    Args:
+        dataf: The input DataFrame.
+        params: Parameters for data preprocessing.
+
+    Returns:
+        pd.DataFrame: The preprocessed DataFrame.
+    """
     return (
         dataf.pipe(drop_unused_days)
         .pipe(drop_unfrequent_rooms, threshold=params.get("booking_hours_threshold"))

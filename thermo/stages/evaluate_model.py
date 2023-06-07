@@ -16,6 +16,19 @@ from thermo.utils.logger import ml_logger as logger
 def get_metrics(
     dataf: pd.DataFrame, nfolds: int, which: str = "test"
 ) -> dict[str, Any]:
+    """
+    Returns metrics of the best model from grid search results.
+
+    Args:
+        dataf: Grid search results.
+        nfolds: Number of cross-validation folds in dataf.
+        which: The type of metrics to retrieve ("test" or "train").
+        Defaults to "test".
+
+    Returns:
+        dict: Dictionary containing the metrics.
+    """
+
     idx = dataf["mean_test_r2"].argmax()
     best_model = dataf.iloc[idx]
 
@@ -29,6 +42,13 @@ def get_metrics(
 
 
 def plot_gridsearch(dataf: pd.DataFrame, nfolds: int, figpath: Path) -> None:
+    """Plots the results of the grid search for the L2 regularization.
+
+    Args:
+        dataf: Grid search results.
+        nfolds: Number of cross-validation folds in dataf.
+        figpath: Filepath to save the plot.
+    """
     x = dataf["param_regression__alpha"]
     y = dataf["mean_test_r2"]
     y_err = dataf["std_test_r2"] / sqrt(nfolds)
@@ -41,6 +61,16 @@ def plot_gridsearch(dataf: pd.DataFrame, nfolds: int, figpath: Path) -> None:
 
 
 def extract_coefficients(dataf: pd.DataFrame, model: RegressorMixin) -> pd.DataFrame:
+    """
+    Extracts the cost coefficients for different room from the model.
+
+    Args:
+        dataf: The training set.
+        model: Fitted regression model.
+
+    Returns:
+        DataFrame with the cost coefficients of the rooms given their status.
+    """
     names = [
         col for col in dataf.columns if col.endswith("booked") or col.endswith("day")
     ]
@@ -56,6 +86,16 @@ def extract_coefficients(dataf: pd.DataFrame, model: RegressorMixin) -> pd.DataF
 def plot_error_distribution(
     model: RegressorMixin, dataf: pd.DataFrame, target: str, figpath: Path
 ) -> None:
+    """
+    Creates the scatter plot showing the relationship between
+    the true and predicted values.
+
+    Args:
+        model: Fitted regression model.
+        dataf: training set.
+        target: Name of the target column.
+        figpath: Filepath to save the plot.
+    """
     y_true = dataf[target]
     X = dataf.drop(columns=target)
     y_pred = model.predict(X)

@@ -10,6 +10,18 @@ from thermo.utils.logger import ml_logger as logger
 
 
 def get_estimator(name: str) -> RegressorMixin:
+    """
+    Returns a sklearn estimator based on the given name.
+
+    Args:
+        name: The name of the estimator.
+
+    Returns:
+        The corresponding sklearn estimator.
+
+    Raises:
+        NameError: If the estimator name is not supported.
+    """
     match name:
         case "RidgeRegression":
             from sklearn.linear_model import Ridge
@@ -27,6 +39,17 @@ def get_estimator(name: str) -> RegressorMixin:
 def get_feature_targets(
     dataf: pd.DataFrame, target: str
 ) -> tuple[pd.DataFrame, pd.Series]:
+    """
+    Splits the DataFrame into feature matrix X and target vector y.
+
+    Args:
+        dataf: The input DataFrame.
+        target: The name of the target column.
+
+    Returns:
+        tuple: A tuple containing the feature matrix X
+            and the target vector y.
+    """
     dataf = dataf.sample(frac=1, random_state=42)  # Shuffle
     y = dataf[target]
     X = dataf.drop(columns=target)
@@ -35,6 +58,19 @@ def get_feature_targets(
 
 @dataclass
 class CVResult:
+    """Class representing the results of cross-validation.
+
+    Attributes:
+        name (str): The name of the model.
+        estimator (RegressorMixin): The fitted estimator.
+        cv_results (pd.DataFrame): The cross-validation results.
+        r2_score (float): The R-squared score.
+        l2_weight (float): The L2 weight.
+
+    Methods:
+        __repr__(): Returns a string representation of the CVResult object.
+    """
+
     name: str
     estimator: RegressorMixin
     cv_results: pd.DataFrame
@@ -57,7 +93,27 @@ def train_cv(
     alpha_min: float = 0.001,
     alpha_max: float = 1,
     **_,
-):
+) -> CVResult:
+    """
+    Trains a ML regression model and finds the optimal L2 regularization coefficient
+    (alpha) using cross-validation.
+
+    Args:
+        X: The feature matrix.
+        y: The target vector.
+        estimator_name: The name of the estimator to use. Defaults to "RidgeRegression".
+        cv_folds: The number of cross-validation folds. Defaults to 5.
+        alpha_min: The minimum alpha value for hyperparameter search. Defaults to 0.001.
+        alpha_max: The maximum alpha value for hyperparameter search. Defaults to 1.
+        **_: Optional additional keyword arguments (ignored).
+
+    Returns:
+        CVResult: The cross-validation results.
+
+    Note:
+        The function performs a grid search to find the best
+        hyperparameters for the specified estimator.
+    """
     # Get hyperparameters range
     log_alpha = tuple(map(np.log10, (alpha_min, alpha_max)))
     alphas = 10 ** np.linspace(
