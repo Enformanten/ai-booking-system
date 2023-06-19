@@ -1,0 +1,8 @@
+/model.joblib
+/model.metadata
+/cross_validation.csv
+/costs.csv
+/error_distribution.png
+/regularization.png
+/train.json
+/test.json

@@ -1,0 +1,113 @@
+schema: '2.0'
+stages:
+  get_data:
+    cmd: python -m thermo.stages.get_data
+    deps:
+    - path: params.yaml
+      md5: 3ddd4855c7a43fd83a7ac1002dd56ef0
+      size: 679
+    params:
+      params.yaml:
+        building: strandskolen
+        get_data.files:
+        - name: bookings
+          file_path: assets/Bookings_updated.csv
+          parse_params:
+            drop_empty_rooms: true
+            aggregation_method: fractional
+        - name: energy
+          file_path: assets/Energy.csv
+          parse_params:
+            measure_points:
+            - 3261220102
+            measure_types:
+            - electricity
+        municipality: Aarhus
+        year: 2022
+    outs:
+    - path: data/raw_data.pkl
+      md5: 0188ce77a02b1143492ab7e04d664625
+      size: 907478
+      isexec: true
+  preprocessing:
+    cmd: python -m thermo.stages.preprocessing
+    deps:
+    - path: data/raw_data.pkl
+      md5: 0188ce77a02b1143492ab7e04d664625
+      size: 907478
+    - path: params.yaml
+      md5: 3ddd4855c7a43fd83a7ac1002dd56ef0
+      size: 679
+    params:
+      params.yaml:
+        preprocessing.booking_hours_threshold: 100
+        preprocessing.drop_nights_and_school_hours: true
+        preprocessing.ventilation:
+          is_day: true
+    outs:
+    - path: data/preprocessed_data.pkl
+      md5: 49465728d82599a5d2a1310633016c2f
+      size: 399396
+      isexec: true
+  train:
+    cmd: python -m thermo.stages.train
+    deps:
+    - path: data/preprocessed_data.pkl
+      md5: 49465728d82599a5d2a1310633016c2f
+      size: 399396
+    - path: params.yaml
+      md5: 3ddd4855c7a43fd83a7ac1002dd56ef0
+      size: 679
+    params:
+      params.yaml:
+        train.alpha_max: 100
+        train.alpha_min: 0.01
+        train.cv_folds: 5
+        train.estimator: RidgeRegression
+        train.target: electricity
+    outs:
+    - path: model/cross_validation.csv
+      md5: 62f69303e9f0afd29431dcca774718d4
+      size: 12590
+      isexec: true
+    - path: model/model.joblib
+      md5: 427b1923e614b258b5aa17d2bd8d3e2c
+      size: 1392
+      isexec: true
+    - path: model/model.metadata
+      md5: 2fd47dd3e72abcffbd2808847dc40c97
+      size: 66
+      isexec: true
+  evaluate_model:
+    cmd: python -m thermo.stages.evaluate_model
+    deps:
+    - path: data/preprocessed_data.pkl
+      md5: 49465728d82599a5d2a1310633016c2f
+      size: 399396
+    - path: model/cross_validation.csv
+      md5: 62f69303e9f0afd29431dcca774718d4
+      size: 12590
+    - path: model/model.joblib
+      md5: 427b1923e614b258b5aa17d2bd8d3e2c
+      size: 1392
+    outs:
+    - path: model/costs.csv
+      md5: 8e1718035fc4c2bae70d3084a0924541
+      size: 353
+      isexec: true
+    - path: model/error_distribution.png
+      md5: c47c80122d212c10e57d98060dbb9be2
+      size: 98273
+      isexec: true
+    - path: model/regularization.png
+      md5: c2322eaaa0e8b2949517271a25b9140a
+      size: 18801
+      isexec: true
+    - path: model/test.json
+      md5: d983612022d6b2393cd5ef19ed188dec
+      size: 118
+      isexec: true
+    - path: model/train.json
+      md5: a677c96a0ddd4752826026428c4c2543
+      size: 115
+      isexec: true

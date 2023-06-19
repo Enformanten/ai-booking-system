@@ -136,8 +136,8 @@ notebooks/notepad.ipynb
 site/
 
 # Ignore data directory for the time being
-data/
-
+data/*.pkl
+model/*.joblib
 
 # Ignore other experiments
 notebooks/experiment*.ipynb

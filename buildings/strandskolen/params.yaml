@@ -1,0 +1,33 @@
+building: strandskolen
+municipality: Aarhus
+year: 2022
+
+get_data:
+    files:
+        - name: bookings
+          file_path: assets/Bookings_updated.csv
+          parse_params:
+            drop_empty_rooms: true
+            aggregation_method: fractional
+        - name: energy
+          file_path: assets/Energy.csv
+          parse_params:
+            measure_points:
+                - 3261220102
+            measure_types:
+                - electricity
+
+
+preprocessing:
+  booking_hours_threshold: 100
+  drop_nights_and_school_hours: true
+  ventilation:
+    is_day: true
+
+
+train:
+  target: electricity
+  estimator: RidgeRegression
+  cv_folds: 5
+  alpha_min: 0.01
+  alpha_max: 100
