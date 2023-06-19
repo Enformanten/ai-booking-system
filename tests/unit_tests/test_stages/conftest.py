@@ -5,7 +5,7 @@ import pytest
 
 @pytest.fixture
 def mock_raw_booking():
-    return pd.DataFrame(
+    yield pd.DataFrame(
         {
             "BOOKED": [0, 1, 1, 0, 1, 0, 0, 0, 0],
             "ROOM_ID": 9 * ["ROOM_A"],
@@ -41,7 +41,7 @@ def mock_raw_booking():
 
 @pytest.fixture
 def mock_binary_booking():
-    return pd.DataFrame(
+    yield pd.DataFrame(
         {
             "ROOM_A_booked": [0, 1, 1, 0, 1, 0, 0, 0, 0],
             "TIMESTAMP": pd.period_range(
@@ -53,7 +53,7 @@ def mock_binary_booking():
 
 @pytest.fixture
 def mock_fractional_booking():
-    return pd.DataFrame(
+    yield pd.DataFrame(
         {
             "ROOM_A_booked": [0, 1, 0.5, 0, 1, 0, 0, 0, 0],
             "TIMESTAMP": pd.period_range(
@@ -65,7 +65,7 @@ def mock_fractional_booking():
 
 @pytest.fixture
 def mock_morning_weekend():
-    return pd.DataFrame(
+    yield pd.DataFrame(
         {
             "ROOM_A_booked": [1] + 7 * [0] + [1, 1, 0, 1, 0, 0, 0, 0],
             "TIMESTAMP": pd.period_range(
@@ -77,7 +77,7 @@ def mock_morning_weekend():
 
 @pytest.fixture
 def mock_evening_weekend():
-    return pd.DataFrame(
+    yield pd.DataFrame(
         {
             "ROOM_A_booked": 8 * [0] + [1, 1, 0, 1, 0, 0, 0, 0],
             "TIMESTAMP": pd.period_range(
@@ -89,7 +89,7 @@ def mock_evening_weekend():
 
 @pytest.fixture
 def mock_unused():
-    return pd.DataFrame(
+    yield pd.DataFrame(
         {
             "ROOM_A_booked": 9 * [0],
             "TIMESTAMP": pd.period_range(
