@@ -149,6 +149,8 @@ if __name__ == "__main__":
     import dvc.api
     import joblib
 
+    from thermo.utils.formatting import prettyparams
+
     logger.info("Running training script")
     # Get preprocessing params:
     params = dvc.api.params_show()["train"]
@@ -161,10 +163,11 @@ if __name__ == "__main__":
 
     # Train by cross_validation:
     logger.info("Training model...")
+    logger.debug(f"\n{prettyparams(params)}")
     X, y = get_feature_targets(dataf, target)
     result = train_cv(X, y, **params)
 
-    logger.info(f"Model training succesful, with r2 score {result.r2_score:.2f}")
+    logger.info(f"Model training successful, with r2 score {result.r2_score:.2f}")
 
     # Save cross-validation results:
     logger.info("Saving model...")

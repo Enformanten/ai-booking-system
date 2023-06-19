@@ -173,6 +173,8 @@ if __name__ == "__main__":
 
     import dvc.api
 
+    from thermo.utils.formatting import prettyparams
+
     logger.info("Running preprocessing script")
     params = dvc.api.params_show()["preprocessing"]
 
@@ -182,6 +184,8 @@ if __name__ == "__main__":
     dataf = pd.read_pickle(DATADIR / "raw_data.pkl")
 
     # Preprocess the data
+    logger.info("Preprocessing data...")
+    logger.debug(f"\n{prettyparams(params)}")
     dataf = dataf.pipe(preprocess, params=params)
 
     # Save to disk
