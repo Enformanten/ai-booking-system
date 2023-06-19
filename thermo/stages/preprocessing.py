@@ -124,7 +124,7 @@ def mock_ventilation(
         return dataf
 
     room_columns = [col for col in dataf.columns if col.endswith("booked")]
-    bookings = dataf.copy()[room_columns]
+    bookings = dataf[room_columns].copy()
 
     # Add is_day column per room
     if params.get("is_day", True):
