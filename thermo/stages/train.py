@@ -164,7 +164,7 @@ if __name__ == "__main__":
     X, y = get_feature_targets(dataf, target)
     result = train_cv(X, y, **params)
 
-    logger.info(f"Model training succesful, with r2 score {round(result.r2_score, 2)}")
+    logger.info(f"Model training succesful, with r2 score {result.r2_score:.2f}")
 
     # Save cross-validation results:
     logger.info("Saving model...")

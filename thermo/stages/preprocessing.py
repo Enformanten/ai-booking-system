@@ -23,10 +23,11 @@ def log_transformation(
         logger.debug(f"{func.__name__} running \t parameters: {params}.")
         tic = time.perf_counter()
         result = func(dataf, **kwargs)
-        time_taken = round(time.perf_counter() - tic, 3)
+        time_taken = time.perf_counter() - tic
 
         logger.info(
-            f"{func.__name__} completed \t shape {result.shape} \t time {time_taken}s"
+            f"{func.__name__} completed \t shape {result.shape}"
+            f"\t time {time_taken:.3f}s"
         )
 
         if not result.shape[0]:
