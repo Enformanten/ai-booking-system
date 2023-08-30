@@ -26,10 +26,11 @@ poetry install
 ### Developer installation:
 You will need the development dependencies:
 ```bash
-poetry install --with dev
+poetry install --with=dev
 ```
 
-You may also need the flags `--with docs` if you want to test the documentation locally or `--with gui` if you want to try the GUI locally.
+You may also need the flags `--with docs` if you want to test the documentation locally or `--with gui` if you want to try the GUI locally. You will need the flag `--with eda` if you wish to do run the notebooks for exploratory data analysis (EDA) or prototypes.
+
 
 ## Machine learning:
 
