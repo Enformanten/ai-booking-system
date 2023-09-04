@@ -67,8 +67,8 @@ stages:
         train.target: electricity
     outs:
     - path: model/cross_validation.csv
-      md5: 62f69303e9f0afd29431dcca774718d4
-      size: 12590
+      md5: c3d8a4f3ff736eb24f11d29aa0561e27
+      size: 12568
       isexec: true
     - path: model/model.joblib
       md5: 427b1923e614b258b5aa17d2bd8d3e2c
@@ -85,8 +85,8 @@ stages:
       md5: 49465728d82599a5d2a1310633016c2f
       size: 399396
     - path: model/cross_validation.csv
-      md5: 62f69303e9f0afd29431dcca774718d4
-      size: 12590
+      md5: c3d8a4f3ff736eb24f11d29aa0561e27
+      size: 12568
     - path: model/model.joblib
       md5: 427b1923e614b258b5aa17d2bd8d3e2c
       size: 1392

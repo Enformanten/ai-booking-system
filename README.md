@@ -43,6 +43,18 @@ For example, for **Strandskolen** in **Aarhus kommune** this would be:
 dvc exp run buildings/strandskolen/dvc.yaml
 ```
 
+If you would like to add a machine learning model for a new school, you should do the following:
+
+```bash
+mkdir buildings/<building_name>  # This creates the directory, skip it if you already have one
+cd buildings/<building_name>
+dvc init --subdir
+git add .
+git commit -m "Add dvc tracking for school <building_name>"
+```
+
+This will create a DVC project for the school and commit al the DVC metafiles and directories. You can read more on this [here](https://dvc.org/doc/user-guide/basic-concepts/dvc-project).
+
 ## Usage
 Building specifications are loaded from a config directory, through the `.from_config` method. The booking state is retrieved under the hood through an open API.
 
