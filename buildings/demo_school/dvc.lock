@@ -1,0 +1,110 @@
+schema: '2.0'
+stages:
+  get_data:
+    cmd: python -m thermo.stages.get_data
+    deps:
+    - path: params.yaml
+      md5: 0ef1bef0dceabe4edb7fd101a1018a61
+      size: 683
+      isexec: true
+    params:
+      params.yaml:
+        building: demo_school
+        get_data.files:
+        - name: bookings
+          file_path: assets/demo_bookings.csv
+          parse_params:
+            drop_empty_rooms: true
+            aggregation_method: binary
+        - name: energy
+          file_path: assets/demo_energy.csv
+          parse_params:
+            measure_points:
+            - 12892834
+            measure_types:
+            - electricity
+        municipality: demo_municipality
+        year: 2022
+    outs:
+    - path: data/raw_data.pkl
+      md5: 32543cb9b139788fa3e8b2bc3ca79f23
+      size: 24274
+      isexec: true
+  preprocessing:
+    cmd: python -m thermo.stages.preprocessing
+    deps:
+    - path: data/raw_data.pkl
+      md5: 32543cb9b139788fa3e8b2bc3ca79f23
+      size: 24274
+    - path: params.yaml
+      md5: 0ef1bef0dceabe4edb7fd101a1018a61
+      size: 683
+    params:
+      params.yaml:
+        preprocessing.booking_hours_threshold: 0
+        preprocessing.drop_nights_and_school_hours: true
+        preprocessing.ventilation:
+          is_day: true
+    outs:
+    - path: data/preprocessed_data.pkl
+      md5: 4ec6f3098085f9fd521b42302d424c2d
+      size: 20970
+      isexec: true
+  train:
+    cmd: python -m thermo.stages.train
+    deps:
+    - path: data/preprocessed_data.pkl
+      md5: 4ec6f3098085f9fd521b42302d424c2d
+      size: 20970
+    - path: params.yaml
+      md5: 0ef1bef0dceabe4edb7fd101a1018a61
+      size: 683
+    params:
+      params.yaml:
+        train.alpha_max: 100
+        train.alpha_min: 0.01
+        train.cv_folds: 5
+        train.estimator: RidgeRegression
+        train.target: electricity
+    outs:
+    - path: model/cross_validation.csv
+      md5: b9050c4986d68d6d0303c66fca5e01bf
+      size: 12740
+      isexec: true
+    - path: model/model.joblib
+      md5: 8db6a636ecc6b6106a956fdcf6c3627e
+      size: 1456
+      isexec: true
+    - path: model/model.metadata
+      md5: fb38b68e4568e3aa4d6d65c1eb89945d
+      size: 66
+      isexec: true
+  evaluate_model:
+    cmd: python -m thermo.stages.evaluate_model
+    deps:
+    - path: data/preprocessed_data.pkl
+      md5: 4ec6f3098085f9fd521b42302d424c2d
+      size: 20970
+    - path: model/cross_validation.csv
+      md5: b9050c4986d68d6d0303c66fca5e01bf
+      size: 12740
+    - path: model/model.joblib
+      md5: 8db6a636ecc6b6106a956fdcf6c3627e
+      size: 1456
+    outs:
+    - path: model/error_distribution.png
+      md5: cf8b73a12905366f15fd995c1a90a7d6
+      size: 30302
+      isexec: true
+    - path: model/regularization.png
+      md5: ebb0efff4272600f5422a20f8c9e4f51
+      size: 23162
+      isexec: true
+    - path: model/test.json
+      md5: 39053f4961f56cd2ca48e3ec835c35e5
+      size: 121
+      isexec: true
+    - path: model/train.json
+      md5: e261b3b0183fb58b6593fc7151980ee0
+      size: 123
+      isexec: true

@@ -48,7 +48,7 @@ stages:
       - model/model.joblib
       - model/cross_validation.csv
     outs:
-      - model/costs.csv
+      # - model/costs.csv
       - model/error_distribution.png
       - model/regularization.png
     metrics:
