@@ -35,12 +35,14 @@ You may also need the flags `--with docs` if you want to test the documentation 
 
 We use `dvc` to run our ML pipelines. To create a model to extract hyperparameters for a given building run the following:
 ```bash
-dvc exp run buildings/<building_name>/dvc.yaml
+cd buildings/<building_name>
+dvc exp run dvc.yaml
 ```
 
 For example, for **Strandskolen** in **Aarhus kommune** this would be:
 ```bash
-dvc exp run buildings/strandskolen/dvc.yaml
+cd buildings/strandskolen
+dvc exp run dvc.yaml
 ```
 
 If you would like to add a machine learning model for a new school, you should do the following:
