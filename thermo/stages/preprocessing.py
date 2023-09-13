@@ -120,30 +120,38 @@ def mock_ventilation(
     Returns:
         The DataFrame with mocked ventilation data.
     """
+    # Extract flags from params
+    is_on = params.get("is_on", False)
+    is_day = params.get("is_day", not is_on)
+
+    # Deal with corner cases
     if not params:
         return dataf
+    elif not is_on and not is_day:
+        return dataf
+    elif is_on and is_day:
+        raise ValueError("Both is_day and is_on cannot be True at the same time.")
 
+    # Get room names
     room_columns = [col for col in dataf.columns if col.endswith("booked")]
     bookings = dataf[room_columns].copy()
 
+    ventilation = (
+        bookings.groupby([bookings.index.date])
+        .apply(lambda x: x.iloc[::-1, :].cummax().iloc[::-1, :])
+        .reset_index(level=0)
+        .drop(columns="level_0")
+    )
     # Add is_day column per room
-    if params.get("is_day", True):
-        dataf = dataf.join(
+    if is_day:
+        ventilation = dataf.join(
             how="inner",
-            other=(
-                (
-                    bookings.groupby([bookings.index.date])
-                    .apply(lambda x: x.iloc[::-1, :].cummax().iloc[::-1, :])
-                    .reset_index(level=0)
-                    .drop(columns="level_0")
-                )
-                - bookings  # noqa W503
-            ).rename(
+            other=(ventilation - bookings).rename(
                 columns={col: col.split("_booked")[0] + "_day" for col in room_columns}
             ),
         )
 
-    return dataf
+    return ventilation
 
 
 def preprocess(dataf: pd.DataFrame, params: dict[str, Any]) -> pd.DataFrame:

@@ -1,0 +1,62 @@
+vars:
+  - BUILDING: "strandskolen"
+
+stages:
+  get_data:
+    cmd: python -m thermo.stages.get_data
+    deps:
+      - params.yaml  # ML parameters
+    params:
+      - building  # name of the building
+      - municipality
+      - year
+      - get_data.files  # filenames and specifications for data sources
+    outs:
+    - data/raw_data.pkl
+
+  preprocessing:
+    cmd: python -m thermo.stages.preprocessing
+    params:
+      - preprocessing.booking_hours_threshold
+      - preprocessing.drop_nights_and_school_hours
+      - preprocessing.ventilation
+    deps:
+    - params.yaml  # ML parameters
+    - data/raw_data.pkl
+    outs:
+    - data/preprocessed_data.pkl
+
+  train:
+    cmd: python -m thermo.stages.train
+    params:
+      - train.target  # name of the target variable
+      - train.estimator  # name of the regression algorithm
+      - train.cv_folds  # number of cross validation folds
+      - train.alpha_min  # min L2 regularization for grid search
+      - train.alpha_max  # max L2 regularization for grid search
+    deps:
+      - params.yaml  # ML parameters
+      - data/preprocessed_data.pkl
+    outs:
+      - model/model.joblib
+      - model/model.metadata
+      - model/cross_validation.csv
+  evaluate_model:
+    cmd: python -m thermo.stages.evaluate_model
+    deps:
+      - data/preprocessed_data.pkl
+      - model/model.joblib
+      - model/cross_validation.csv
+    outs:
+      # - model/costs.csv
+      - model/error_distribution.png
+      - model/regularization.png
+    metrics:
+      - model/train.json
+      - model/test.json
+
+plots:
+  model/error_distribution.png:
+    title: Distribution of the error on the training set
+  model/regularization.png:
+    title: Cross validated regularization

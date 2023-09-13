@@ -4,60 +4,61 @@ stages:
     cmd: python -m thermo.stages.get_data
     deps:
     - path: params.yaml
-      md5: 3ddd4855c7a43fd83a7ac1002dd56ef0
-      size: 679
+      md5: 0ef1bef0dceabe4edb7fd101a1018a61
+      size: 683
+      isexec: true
     params:
       params.yaml:
-        building: strandskolen
+        building: demo_school
         get_data.files:
         - name: bookings
-          file_path: assets/Bookings_updated.csv
+          file_path: assets/demo_bookings.csv
           parse_params:
             drop_empty_rooms: true
-            aggregation_method: fractional
+            aggregation_method: binary
         - name: energy
-          file_path: assets/Energy.csv
+          file_path: assets/demo_energy.csv
           parse_params:
             measure_points:
-            - 3261220102
+            - 12892834
             measure_types:
             - electricity
-        municipality: Aarhus
+        municipality: demo_municipality
         year: 2022
     outs:
     - path: data/raw_data.pkl
-      md5: 0188ce77a02b1143492ab7e04d664625
-      size: 907478
+      md5: 32543cb9b139788fa3e8b2bc3ca79f23
+      size: 24274
       isexec: true
   preprocessing:
     cmd: python -m thermo.stages.preprocessing
     deps:
     - path: data/raw_data.pkl
-      md5: 0188ce77a02b1143492ab7e04d664625
-      size: 907478
+      md5: 32543cb9b139788fa3e8b2bc3ca79f23
+      size: 24274
     - path: params.yaml
-      md5: 3ddd4855c7a43fd83a7ac1002dd56ef0
-      size: 679
+      md5: 0ef1bef0dceabe4edb7fd101a1018a61
+      size: 683
     params:
       params.yaml:
-        preprocessing.booking_hours_threshold: 100
+        preprocessing.booking_hours_threshold: 0
         preprocessing.drop_nights_and_school_hours: true
         preprocessing.ventilation:
           is_day: true
     outs:
     - path: data/preprocessed_data.pkl
-      md5: 49465728d82599a5d2a1310633016c2f
-      size: 399396
+      md5: 4ec6f3098085f9fd521b42302d424c2d
+      size: 20970
       isexec: true
   train:
     cmd: python -m thermo.stages.train
     deps:
     - path: data/preprocessed_data.pkl
-      md5: 49465728d82599a5d2a1310633016c2f
-      size: 399396
+      md5: 4ec6f3098085f9fd521b42302d424c2d
+      size: 20970
     - path: params.yaml
-      md5: 3ddd4855c7a43fd83a7ac1002dd56ef0
-      size: 679
+      md5: 0ef1bef0dceabe4edb7fd101a1018a61
+      size: 683
     params:
       params.yaml:
         train.alpha_max: 100
@@ -67,47 +68,43 @@ stages:
         train.target: electricity
     outs:
     - path: model/cross_validation.csv
-      md5: c3d8a4f3ff736eb24f11d29aa0561e27
-      size: 12568
+      md5: b9050c4986d68d6d0303c66fca5e01bf
+      size: 12740
       isexec: true
     - path: model/model.joblib
-      md5: 427b1923e614b258b5aa17d2bd8d3e2c
-      size: 1392
+      md5: 8db6a636ecc6b6106a956fdcf6c3627e
+      size: 1456
       isexec: true
     - path: model/model.metadata
-      md5: 2fd47dd3e72abcffbd2808847dc40c97
+      md5: fb38b68e4568e3aa4d6d65c1eb89945d
       size: 66
       isexec: true
   evaluate_model:
     cmd: python -m thermo.stages.evaluate_model
     deps:
     - path: data/preprocessed_data.pkl
-      md5: 49465728d82599a5d2a1310633016c2f
-      size: 399396
+      md5: 4ec6f3098085f9fd521b42302d424c2d
+      size: 20970
     - path: model/cross_validation.csv
-      md5: c3d8a4f3ff736eb24f11d29aa0561e27
-      size: 12568
+      md5: b9050c4986d68d6d0303c66fca5e01bf
+      size: 12740
     - path: model/model.joblib
-      md5: 427b1923e614b258b5aa17d2bd8d3e2c
-      size: 1392
+      md5: 8db6a636ecc6b6106a956fdcf6c3627e
+      size: 1456
     outs:
-    - path: model/costs.csv
-      md5: 8e1718035fc4c2bae70d3084a0924541
-      size: 353
-      isexec: true
     - path: model/error_distribution.png
-      md5: c47c80122d212c10e57d98060dbb9be2
-      size: 98273
+      md5: cf8b73a12905366f15fd995c1a90a7d6
+      size: 30302
       isexec: true
     - path: model/regularization.png
-      md5: c2322eaaa0e8b2949517271a25b9140a
-      size: 18801
+      md5: ebb0efff4272600f5422a20f8c9e4f51
+      size: 23162
       isexec: true
     - path: model/test.json
-      md5: d983612022d6b2393cd5ef19ed188dec
-      size: 118
+      md5: 39053f4961f56cd2ca48e3ec835c35e5
+      size: 121
       isexec: true
     - path: model/train.json
-      md5: a677c96a0ddd4752826026428c4c2543
-      size: 115
+      md5: e261b3b0183fb58b6593fc7151980ee0
+      size: 123
       isexec: true

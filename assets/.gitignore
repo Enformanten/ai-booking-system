@@ -1,2 +1,4 @@
 # ignore all csvs in this folder
 *.csv
+# except the demo data, those are fabricated.
+!demo*.csv

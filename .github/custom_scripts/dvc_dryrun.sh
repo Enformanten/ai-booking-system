@@ -3,7 +3,9 @@
 for i in buildings/*; do
 	if [[ -e "$i/dvc.yaml" ]]; then
 		echo "Running dvc workflow for ${i##*/}."
-  		poetry run dvc exp run $i/dvc.yaml --force --dry
+		cd buildings/i
+  		poetry run dvc exp run dvc.yaml --force --dry
+		cd ../..
 	else
 		echo "No dvc workflow exists for ${i##*/}."
 fi

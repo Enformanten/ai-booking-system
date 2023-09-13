@@ -36,13 +36,27 @@ You may also need the flags `--with docs` if you want to test the documentation 
 
 We use `dvc` to run our ML pipelines. To create a model to extract hyperparameters for a given building run the following:
 ```bash
-dvc exp run buildings/<building_name>/dvc.yaml
+cd buildings/<building_name>
+dvc exp run dvc.yaml
 ```
 
 For example, for **Strandskolen** in **Aarhus kommune** this would be:
 ```bash
-dvc exp run buildings/strandskolen/dvc.yaml
+cd buildings/strandskolen
+dvc exp run dvc.yaml
 ```
+
+If you would like to add a machine learning model for a new school, you should do the following:
+
+```bash
+mkdir buildings/<building_name>  # This creates the directory, skip it if you already have one
+cd buildings/<building_name>
+dvc init --subdir
+git add .
+git commit -m "Add dvc tracking for school <building_name>"
+```
+
+This will create a DVC project for the school and commit al the DVC metafiles and directories. You can read more on this [here](https://dvc.org/doc/user-guide/basic-concepts/dvc-project).
 
 ## Usage
 Building specifications are loaded from a config directory, through the `.from_config` method. The booking state is retrieved under the hood through an open API.
