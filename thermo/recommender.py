@@ -43,10 +43,10 @@ class Recommendation:
         return self.ranking.fillna(" ").__repr__()
 
     @property
-    def shape(self) -> tuple[int]:
+    def shape(self) -> tuple[int, int]:
         return self.ranking.shape
 
-    def top_recommendations(self) -> pd.DataFrame:
+    def top_recommendations(self) -> pd.Series:
         """
         Returns a sorted list of recommendations, with columns
         "Time Slot", "Room", "Score"
