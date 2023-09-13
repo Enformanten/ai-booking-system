@@ -27,6 +27,9 @@ matplotlib = "^3.7.1"
 seaborn = "^0.12.2"
 pytest-parallel = "^0.1.1"
 pytest-cov = "^4.1.0"
+mypy = "^1.5.1"
+pandas-stubs = "^2.0.3.230814"
+types-pyyaml = "^6.0.12.11"
 
 [tool.poetry.group.eda]
 optional = true
