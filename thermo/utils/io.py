@@ -67,7 +67,7 @@ def load_building(building_path: Path) -> Building:
     _config = load_file(building_path, "config.yaml")
 
     data = _adjacency | _specs | _config
-    return Building(**data)
+    return Building(**data)  # type: ignore[arg-type]
 
 
 def load_all_buildings() -> list[Building]:
