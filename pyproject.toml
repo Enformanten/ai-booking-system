@@ -39,7 +39,7 @@ optional = true
 
 [tool.poetry.group.docs.dependencies]
 mkdocs-material = "^8.5.11"
-mkdocstrings = {extras = ["python"], version = "^0.19.1"}
+mkdocstrings-python =  "^1.6.3"
 mkdocs-print-site-plugin = "^2.3.4"
 
 [tool.poetry.group.gui]
