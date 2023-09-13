@@ -21,18 +21,18 @@ class Building:
     municipality: str
     ranker: RankerName
     costs: dict[CostName, Any]
-    room_descriptions: list[dict[str, Any]]
+    room_descriptions: list[dict[str, Any] | Room]
     adjacency: list[list[int]] | NDArray
 
     def __post_init__(self) -> None:
         """Perform some post-initialization tasks
         1. Room descriptions are converted to Room objects
         2. The adjacency matrix is converted to a NDArray."""
-        if not isinstance(self.room_descriptions[0], Room):
-            self.room_descriptions = [
-                Room(index=index, **specs)
-                for index, specs in enumerate(self.room_descriptions)
-            ]
+
+        self.room_descriptions = [
+            Room(index=index, **room) if not isinstance(room, Room) else room
+            for index, room in enumerate(self.room_descriptions)
+        ]
 
         if not isinstance(self.adjacency, np.ndarray):
             self.adjacency = np.array(self.adjacency)
