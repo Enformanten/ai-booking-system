@@ -39,11 +39,11 @@ def load_json(config: TextIOWrapper, **kwargs) -> dict[str, Any]:
     return json.load(config, **kwargs)
 
 
-def load_npy(building_path: str, filename: str, **kwargs) -> NDArray:
+def load_npy(building_path: Path, filename: str, **kwargs) -> NDArray:
     return npload(building_path / filename)
 
 
-def load_file(building_path: str, file_name: str, **kwargs) -> dict[str, Any]:
+def load_file(building_path: Path, file_name: str, **kwargs) -> dict[str, Any]:
     """Loads a file from the given path. Pathlib
     handles context management for us."""
     p = Path(building_path / file_name)
@@ -58,7 +58,7 @@ def load_file(building_path: str, file_name: str, **kwargs) -> dict[str, Any]:
             raise ValueError(f"File type {p.suffix} not supported.")
 
 
-def load_building(building_path: str) -> Building:
+def load_building(building_path: Path) -> Building:
     """Loads relevant files from building config dir.
     and loads them into a Building object."""
 
