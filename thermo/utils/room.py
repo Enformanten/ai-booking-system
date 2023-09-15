@@ -4,8 +4,8 @@ from dataclasses import dataclass, field
 @dataclass
 class Room:
     name: str
-    index: int = None
-    capacity: int = None
+    index: int | None = None
+    capacity: int | None = None
     amenities: set[str] = field(default_factory=set)
 
     def __post_init__(self) -> None:

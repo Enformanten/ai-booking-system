@@ -46,7 +46,7 @@ def show_recommendations(df: pd.DataFrame) -> Styler:
     ).format(precision=1, na_rep=" ")
 
 
-def list_recommendations(df: pd.DataFrame) -> pd.DataFrame:
+def list_recommendations(df: pd.DataFrame) -> pd.Series:
     """Converts broad dataframe of shape (time_slots, rooms)
     to long format, where each row is a room-time combination.
     Renames columns to "Time Slot", "Room", "Score", and sorts
