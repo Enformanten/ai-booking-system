@@ -1,14 +1,7 @@
-from pathlib import Path
-
 import pandas as pd
 import pytest
 
 from thermo.utils.room import Room
-
-
-@pytest.fixture
-def raw_dataf(DATADIR: Path) -> pd.DataFrame:
-    yield pd.read_pickle(DATADIR / "raw_data.pkl")
 
 
 @pytest.mark.ml_integration
