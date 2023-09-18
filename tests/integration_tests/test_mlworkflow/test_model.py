@@ -1,3 +1,14 @@
+"""
+Integration tests for the ML model produced by the
+demo data at `assets/demo_*.csv` by the dvc workflow
+`buildings/demo_school/dvc.yaml`. It checks the quality
+of the final model.
+
+These tests do not run by default, unless they are called
+by running:
+
+>> pytest -m ml_integration
+"""
 import json
 from pathlib import Path
 

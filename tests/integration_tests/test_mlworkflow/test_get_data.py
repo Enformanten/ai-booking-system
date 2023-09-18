@@ -1,3 +1,14 @@
+"""
+Integration tests for the ML model produced by the
+demo data at `assets/demo_*.csv` by the dvc workflow
+`buildings/demo_school/dvc.yaml`. It checks that the
+data is extracted from the different sources correctly.
+
+These tests do not run by default, unless they are called
+by running:
+
+>> pytest -m ml_integration
+"""
 import pandas as pd
 import pytest
 
