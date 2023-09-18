@@ -16,6 +16,9 @@ theme:
 
 nav:
   - Introduction: index.md
+  - Machine Learning:
+      - Usage: ml/usage.md
+      - Development: ml/dev.md
   - Principles behind the code:
       - The heat equation: thermo.md
       - School as a graph: graph.md
