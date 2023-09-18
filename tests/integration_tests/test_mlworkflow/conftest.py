@@ -12,7 +12,7 @@ def SCHOOLDIR() -> Path:
 
 
 @pytest.fixture
-def MODELSDIR(SCHOOLDIR: Path) -> Path:
+def MODELDIR(SCHOOLDIR: Path) -> Path:
     yield SCHOOLDIR / "model"
 
 
