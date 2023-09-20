@@ -27,16 +27,3 @@ dvc exp run dvc.yaml
 Make sure to store that the source data is stored in the `assets` directory into `csv` files, so that the pipeline is able to find them.
 
 You might need to indicate to the pipeline the name and the contents of the original files. This can be done by modifying the `params.yaml` file in the `building/<building_name>` folder.
-
-## Creating a new pipeline for a new building / school:
-If you would like to add a machine learning model for a new school, you should do the following:
-
-```bash
-mkdir buildings/<building_name>  # This creates the directory, skip it if you already have one
-cd buildings/<building_name>
-dvc init --subdir
-git add .
-git commit -m "Add dvc tracking for school <building_name>"
-```
-
-This will create a DVC project for the school and commit al the DVC metafiles and directories. You can read more on this [here](https://dvc.org/doc/user-guide/basic-concepts/dvc-project).
