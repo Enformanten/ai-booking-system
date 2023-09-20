@@ -13,6 +13,9 @@ def get_estimator(name: str) -> RegressorMixin:
     """
     Returns a sklearn estimator based on the given name.
 
+    Note: this function is ready to take other linear models
+        but we havent implemented that yet.
+
     Args:
         name: The name of the estimator.
 
@@ -27,11 +30,6 @@ def get_estimator(name: str) -> RegressorMixin:
             from sklearn.linear_model import Ridge
 
             return Ridge(positive=True)
-        case "ConstrainedRidge":
-            from thermo.models.constrained import ConstrainedRidge
-
-            logger.warning("Constraints not implemented for ConstrainedRidge")
-            return ConstrainedRidge()
         case _:
             raise NameError(f"Estimator {name} is not supported")
 
