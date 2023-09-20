@@ -35,7 +35,7 @@ The GitHub repository for [thermo](https://nttdatainnovation.github.io/thermo/) 
 Unit tests have been written to ensure the integrity of the different components of the pipeline. They can be found [here](https://github.com/NTTDATAInnovation/thermo/tree/main/tests/unit_tests/test_stages). These tests are run, together with the other unit tests of the project, as part of the `testing/pytest` job every time code is pushed to the repository.
 
 ### Intergrity test for all pipelines:
-The job `testing/test_dvc` is run every time code is pushed to the repository. This component does a **dry run** of all the `dvc` pipelines under `buildings`, that is: `bulidings/*/dvc.yaml`.
+The job `testing/test_dvc` is run every time a **pull request** is opened in this repository. This component does a **dry run** of all the `dvc` pipelines under `buildings`, that is: `bulidings/*/dvc.yaml`.
 
 This checks that the pipeline files are understandable to `dvc` themselves, but does not ensure that they run with no errors (that will depend on the data, among other things).
 
@@ -60,5 +60,5 @@ pytest -m ml_integration
 ```
 
 #### Running the ml_integration tests in GitHub Actions:
-The ML integration tests are run automatically every time code is pushed to the repository, if the unit tests and the dvc tests complete.
+The ML integration tests are run automatically every time a pull request is opened, if the dvc integrity tests complete.
 The job first runs the `demo_school` dvc pipeline and then runs the tests marked as `ml_integration`.
