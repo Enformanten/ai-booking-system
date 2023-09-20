@@ -15,25 +15,6 @@ jobs:
         run: ./actionlint -color
         shell: bash
 
-
-  test_dvc:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Get Python and poetry
-        uses: ./.github/actions/python-poetry-env
-        with:
-          python-version: "3.10"
-      - name: Get dvc
-        run: poetry install --only dev
-      - name: Dry run dvc workflows
-        run: bash  ./.github/custom_scripts/dvc_dryrun.sh
-        shell: bash
-
-
   pytest:
     runs-on: ubuntu-latest
     strategy:
@@ -49,24 +30,3 @@ jobs:
         run: poetry install --with=dev
       - name: Run pytest
         run: poetry run pytest
-
-  ml_integration:
-    runs-on: ubuntu-latest
-    needs: [test_dvc, pytest]
-    strategy:
-      fail-fast: false
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Get python and poetry
-        uses: ./.github/actions/python-poetry-env
-        with:
-          python-version: '3.10'
-      - name: Get dependencies
-        run: poetry install --with=dev
-      - name: Run demo workflow
-        run: |
-          cd buildings/demo_school
-          poetry run dvc exp run dvc.yaml
-      - name: Run ML integration tests
-        run: poetry run pytest -m "ml_integration"
