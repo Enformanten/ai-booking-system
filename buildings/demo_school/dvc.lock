@@ -68,11 +68,11 @@ stages:
         train.target: electricity
     outs:
     - path: model/cross_validation.csv
-      md5: b9050c4986d68d6d0303c66fca5e01bf
-      size: 12740
+      md5: e9c105a0c486f7f2a20a7b7629a17b9e
+      size: 12682
       isexec: true
     - path: model/model.joblib
-      md5: 8db6a636ecc6b6106a956fdcf6c3627e
+      md5: 4cb13fadbbfa24398d6b4e489ec2d120
       size: 1456
       isexec: true
     - path: model/model.metadata
@@ -86,18 +86,18 @@ stages:
       md5: 4ec6f3098085f9fd521b42302d424c2d
       size: 20970
     - path: model/cross_validation.csv
-      md5: b9050c4986d68d6d0303c66fca5e01bf
-      size: 12740
+      md5: e9c105a0c486f7f2a20a7b7629a17b9e
+      size: 12682
     - path: model/model.joblib
-      md5: 8db6a636ecc6b6106a956fdcf6c3627e
+      md5: 4cb13fadbbfa24398d6b4e489ec2d120
       size: 1456
     outs:
     - path: model/error_distribution.png
-      md5: cf8b73a12905366f15fd995c1a90a7d6
-      size: 30302
+      md5: 5a4e01ac19c27e2d9938a8571419a9b0
+      size: 30298
       isexec: true
     - path: model/regularization.png
-      md5: ebb0efff4272600f5422a20f8c9e4f51
+      md5: c6b38526cb60f0b0df65233610c0a1f8
       size: 23162
       isexec: true
     - path: model/test.json
