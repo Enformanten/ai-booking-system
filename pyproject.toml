@@ -51,6 +51,8 @@ optional = true
 [tool.poetry.group.gui.dependencies]
 streamlit = "^1.21.0"
 
+[tool.pytest]
+addopts = "--cov=thermo --cov-config=.coveragerc"
 
 [tool.pytest.ini_options]
 markers = [
