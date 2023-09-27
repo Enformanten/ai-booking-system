@@ -76,14 +76,14 @@ def drop_unused_days(dataf: pd.DataFrame) -> pd.DataFrame:
     room_columns = [col for col in dataf.columns if col.endswith("booked")]
     is_used = np.vectorize(
         dataf[room_columns]
-        .groupby([dataf.index.date])
+        .groupby([dataf.index.date])  # type: ignore[attr-defined]
         .sum()
         .sum(axis=1)
         .astype(bool)
         .to_dict()
         .__getitem__
     )
-    return dataf.loc[lambda x: is_used(x.index.date)]
+    return dataf.loc[lambda x: is_used(x.index.date)]  # type: ignore[attr-defined]
 
 
 @log_transformation
@@ -100,8 +100,9 @@ def drop_nights_and_school(dataf: pd.DataFrame, drop: bool = True) -> pd.DataFra
     """
     if not drop:
         return dataf
-    schoolday = np.vectorize(is_schoolday)(dataf.index.date)
-    hour = dataf.index.hour
+    v_schoolday = np.vectorize(is_schoolday)
+    schoolday = v_schoolday(dataf.index.date)  # type: ignore[attr-defined]
+    hour = dataf.index.hour  # type: ignore[attr-defined]
     return dataf.loc[
         (schoolday & (hour >= WEEKDAY_HOUR_START))
         | (~schoolday & (hour >= WEEKEND_HOUR_START))  # noqa W503
@@ -141,7 +142,7 @@ def mock_ventilation(
     bookings = dataf[room_columns].copy()
 
     ventilation = (
-        bookings.groupby([bookings.index.date])
+        bookings.groupby([bookings.index.date])  # type: ignore[attr-defined]
         .apply(lambda x: x.iloc[::-1, :].cummax().iloc[::-1, :])
         .reset_index(level=0)
         .drop(columns="level_0")
