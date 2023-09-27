@@ -122,14 +122,16 @@ def mock_ventilation(
     Returns:
         The DataFrame with mocked ventilation data.
     """
+    # If there are no parameters, do nothing
+    if not params:
+        return dataf
+
     # Extract flags from params
     is_on = params.get("is_on", False)
     is_day = params.get("is_day", not is_on)
 
     # Deal with corner cases
-    if not params:
-        return dataf
-    elif not is_on and not is_day:
+    if not is_on and not is_day:
         return dataf
     elif is_on and is_day:
         raise ValueError("Both is_day and is_on cannot be True at the same time.")
