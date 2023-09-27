@@ -9,10 +9,12 @@ from thermo.config import WEEKDAY_HOUR_START, WEEKEND_HOUR_START
 from thermo.utils.logger import ml_logger as logger
 from thermo.utils.time import is_schoolday
 
+Transformation = (
+    Callable[[pd.DataFrame, Any], pd.DataFrame] | Callable[[pd.DataFrame], pd.DataFrame]
+)
 
-def log_transformation(
-    func: Callable[[pd.DataFrame, Any], pd.DataFrame]
-) -> Callable[[pd.DataFrame, Any], pd.DataFrame]:
+
+def log_transformation(func: Transformation) -> Transformation:
     """
     Time logger for preprocessing transformations
     """
