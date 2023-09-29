@@ -4520,6 +4520,17 @@ files = [
 ]
 
 [[package]]
+name = "types-workalendar"
+version = "17.0.0.0"
+description = "Typing stubs for workalendar"
+optional = false
+python-versions = "*"
+files = [
+    {file = "types-workalendar-17.0.0.0.tar.gz", hash = "sha256:253c51c9d1fe9ffb5ad85d9bd0eb2641e17f812947ae7c64c2fd104743bb02aa"},
+    {file = "types_workalendar-17.0.0.0-py3-none-any.whl", hash = "sha256:dc46c9e4373a77d59bc1591baba9bd4a39bdbb4255c62ab8bc1b632147d3ecdb"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.7.1"
 description = "Backported and Experimental Type Hints for Python 3.7+"
@@ -4833,4 +4844,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "063eb91e73d47246155020e7a79d8e3fe07b1d1d45893b3a88cdf7bc12241f4d"
+content-hash = "ace58ddb57f372937f6b53fe2fe114413f6d1137980fd69fd4df769c2c89c0d1"

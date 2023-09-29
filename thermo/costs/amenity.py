@@ -45,7 +45,7 @@ class AmenityCost(CostModel):
         self.len_map = np.vectorize(len)
 
     @cached_property
-    def room_amenities(self) -> list[int]:
+    def room_amenities(self) -> list[set[str]]:
         """Amenities of all rooms"""
         return [room.amenities for room in self.room_descriptions]
 

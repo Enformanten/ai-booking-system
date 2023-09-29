@@ -10,7 +10,7 @@ from thermo.config import WORKDIR
 from thermo.utils.logger import ml_logger as logger
 
 
-def from_csv(file_path: str | Path, municipality: str, year: int) -> pd.DataFrame:
+def from_csv(file_path: Path, municipality: str, year: int) -> pd.DataFrame:
     """
     Reads data from a CSV file and selects the data for a specific municipality
     and year.
@@ -183,7 +183,7 @@ def fractional_aggregate_bookings(dataf: pd.DataFrame) -> pd.DataFrame:
 
 def get_data(
     building_name: str, municipality: str, year: int, files: list[dict[str, Any]]
-) -> None:
+) -> pd.DataFrame:
     """
     Gets data for a specific building, municipality, and year from different sources
     and outputs it as a single DataFrame.

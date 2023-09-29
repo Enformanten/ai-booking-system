@@ -113,9 +113,9 @@ def train_cv(
         hyperparameters for the specified estimator.
     """
     # Get hyperparameters range
-    log_alpha = tuple(map(np.log10, (alpha_min, alpha_max)))
+    log_min, log_max = tuple(map(np.log10, (alpha_min, alpha_max)))
     alphas = 10 ** np.linspace(
-        *log_alpha, 1 + 4 * int(log_alpha[1] - log_alpha[0]), endpoint=True
+        log_min, log_max, 1 + 4 * int(log_max - log_min), endpoint=True
     )
 
     # Find parameters and hyperparameters

@@ -24,6 +24,15 @@ repos:
         args: ["--profile", "black"]
     repo: https://github.com/pycqa/isort
     rev: 5.12.0
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: poetry run mypy thermo --disable-recursive-aliases
+        require_serial: true
+        language: system
+        types: [python]
+        pass_filenames: false
   - hooks:
       - args:
           - --maxkb=1000

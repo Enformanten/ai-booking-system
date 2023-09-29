@@ -13,7 +13,7 @@ class CostModel(ABC):
     """
 
     @abstractmethod
-    def run(self, state: NDArray, **kwargs) -> NDArray:
+    def run(self, state: NDArray, n_time_slots: int, **kwargs) -> NDArray:
         """
         Base method, that computes the cost given the current
         state of bookings and some internal parameters.
@@ -21,6 +21,8 @@ class CostModel(ABC):
         Args:
             state: a flat array containing 1 if the room is booked
                 at that time a zero otherwise.
+            n_time_slots: number of time slots in the schedule
+                (per day)
             kwargs: other possible arguments to the run method.
 
         Returns:

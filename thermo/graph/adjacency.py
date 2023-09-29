@@ -76,7 +76,7 @@ def is_connected(A: NDArray) -> bool:
     # Check that the laplacian has no other zero eigenvalues.
     # If it had other zero eigenvalues, it would mean the graph can be split.
     fieldler_icond = v[1] / v[-1]
-    return is_laplacian and (fieldler_icond >= 1e-14)
+    return np.all((is_laplacian, fieldler_icond >= 1e-14)).item()
 
 
 def get_time_adjacency(A: NDArray, n_times: int, time_weight: float = 1.0) -> NDArray:

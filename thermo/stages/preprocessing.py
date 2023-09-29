@@ -9,20 +9,22 @@ from thermo.config import WEEKDAY_HOUR_START, WEEKEND_HOUR_START
 from thermo.utils.logger import ml_logger as logger
 from thermo.utils.time import is_schoolday
 
+Transformation = (
+    Callable[[pd.DataFrame, Any], pd.DataFrame] | Callable[[pd.DataFrame], pd.DataFrame]
+)
 
-def log_transformation(
-    func: Callable[[pd.DataFrame, Any], pd.DataFrame]
-) -> Callable[[pd.DataFrame, Any], pd.DataFrame]:
+
+def log_transformation(func: Transformation) -> Transformation:
     """
     Time logger for preprocessing transformations
     """
 
     @wraps(func)
-    def wrapper(dataf: pd.DataFrame, **kwargs) -> pd.DataFrame:
+    def wrapper(dataf: pd.DataFrame, *args, **kwargs) -> pd.DataFrame:
         params = ", ".join(f"{key}={value}" for key, value in kwargs.items())
-        logger.debug(f"{func.__name__} running \t parameters: {params}.")
+        logger.info(f"{func.__name__} running \t parameters: {params}.")
         tic = time.perf_counter()
-        result = func(dataf, **kwargs)
+        result = func(dataf, *args, **kwargs)
         time_taken = time.perf_counter() - tic
 
         logger.info(
@@ -74,14 +76,14 @@ def drop_unused_days(dataf: pd.DataFrame) -> pd.DataFrame:
     room_columns = [col for col in dataf.columns if col.endswith("booked")]
     is_used = np.vectorize(
         dataf[room_columns]
-        .groupby([dataf.index.date])
+        .groupby([dataf.index.date])  # type: ignore[attr-defined]
         .sum()
         .sum(axis=1)
         .astype(bool)
         .to_dict()
         .__getitem__
     )
-    return dataf.loc[lambda x: is_used(x.index.date)]
+    return dataf.loc[lambda x: is_used(x.index.date)]  # type: ignore[attr-defined]
 
 
 @log_transformation
@@ -98,8 +100,9 @@ def drop_nights_and_school(dataf: pd.DataFrame, drop: bool = True) -> pd.DataFra
     """
     if not drop:
         return dataf
-    schoolday = np.vectorize(is_schoolday)(dataf.index.date)
-    hour = dataf.index.hour
+    v_schoolday = np.vectorize(is_schoolday)
+    schoolday = v_schoolday(dataf.index.date)  # type: ignore[attr-defined]
+    hour = dataf.index.hour  # type: ignore[attr-defined]
     return dataf.loc[
         (schoolday & (hour >= WEEKDAY_HOUR_START))
         | (~schoolday & (hour >= WEEKEND_HOUR_START))  # noqa W503
@@ -120,14 +123,16 @@ def mock_ventilation(
     Returns:
         The DataFrame with mocked ventilation data.
     """
+    # If there are no parameters, do nothing
+    if not params:
+        return dataf
+
     # Extract flags from params
     is_on = params.get("is_on", False)
     is_day = params.get("is_day", not is_on)
 
     # Deal with corner cases
-    if not params:
-        return dataf
-    elif not is_on and not is_day:
+    if not is_on and not is_day:
         return dataf
     elif is_on and is_day:
         raise ValueError("Both is_day and is_on cannot be True at the same time.")
@@ -137,7 +142,7 @@ def mock_ventilation(
     bookings = dataf[room_columns].copy()
 
     ventilation = (
-        bookings.groupby([bookings.index.date])
+        bookings.groupby([bookings.index.date])  # type: ignore[attr-defined]
         .apply(lambda x: x.iloc[::-1, :].cummax().iloc[::-1, :])
         .reset_index(level=0)
         .drop(columns="level_0")

@@ -1,3 +1,4 @@
+import numpy as np
 from numpy.typing import NDArray
 
 from thermo.costs import CostModel
@@ -28,4 +29,4 @@ class FullRanker(Ranker):
         Returns:
             An array of the same shape as the state, containing the costs.
         """
-        return sum(cost.run(state, **kwargs) for cost in self.costs)
+        return np.sum([cost.run(state, **kwargs) for cost in self.costs], axis=0)
