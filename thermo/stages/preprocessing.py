@@ -22,7 +22,7 @@ def log_transformation(func: Transformation) -> Transformation:
     @wraps(func)
     def wrapper(dataf: pd.DataFrame, *args, **kwargs) -> pd.DataFrame:
         params = ", ".join(f"{key}={value}" for key, value in kwargs.items())
-        logger.debug(f"{func.__name__} running \t parameters: {params}.")
+        logger.info(f"{func.__name__} running \t parameters: {params}.")
         tic = time.perf_counter()
         result = func(dataf, *args, **kwargs)
         time_taken = time.perf_counter() - tic
