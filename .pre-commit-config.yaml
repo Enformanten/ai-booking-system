@@ -24,6 +24,14 @@ repos:
         args: ["--profile", "black"]
     repo: https://github.com/pycqa/isort
     rev: 5.12.0
+  - hooks:
+     - id: poetry-check
+     - id: poetry-export
+       name: poetry-export
+       args: ["--without-hashes", "--with", "gui", "-f", "requirements.txt", "-o", "gui/requirements.txt"]
+       verbose: true
+    repo: https://github.com/python-poetry/poetry
+    rev: 1.6.1
   - repo: local
     hooks:
       - id: mypy
