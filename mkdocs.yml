@@ -18,6 +18,7 @@ nav:
   - Introduction: index.md
   - Machine Learning:
       - Usage: ml/usage.md
+      - Description: ml/workflow.md
       - Development: ml/dev.md
   - Principles behind the code:
       - The heat equation: thermo.md
@@ -30,6 +31,11 @@ nav:
 
 
 markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences
   - pymdownx.snippets:
       check_paths: true
   - pymdownx.arithmatex:
