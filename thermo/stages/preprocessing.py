@@ -1,3 +1,12 @@
+"""
+This script takes care of the feature engineering:
+it produces the insights we know are there so they
+can be fed to the machine learning algorithm in the next step.
+
+It takes in the raw bookings and does two main tasks:
+- Drops data that is not interesting
+- Feature engineering: simulates the ventilation system.
+"""
 import time
 from functools import wraps
 from typing import Any, Callable

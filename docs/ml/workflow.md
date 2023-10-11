@@ -115,7 +115,7 @@ train:
 ```
 **Note**: Currently, only `RidgeRegression` is supported as estimator.
 
-## Evaluate
+## Evaluate_model
 
 This script validates the results of the rest of the workflow and produces plots and charts so that the quality can be further evaluated by the user.
 

@@ -1,3 +1,9 @@
+"""
+Train a linear regression to extract the cost of booking each
+room from the data. The model is trained using n-fold cross validation
+and grid search to decide the value of the L2 regularization
+that best fits the data.
+"""
 from dataclasses import dataclass
 
 import numpy as np

@@ -28,6 +28,11 @@ nav:
       - Recommender and Recommendation: ref/recommender.md
       - Rankers: ref/ranker.md
       - Costs: ref/cost.md
+      - Machine Learning workflow:
+          - get_data.py: ref/ml/get_data.md
+          - preprocessing.py: ref/ml/preprocessing.md
+          - train.py: ref/ml/train.md
+          - evaluate_model.py: ref/ml/evaluate.md
 
 
 markdown_extensions:
