@@ -62,7 +62,9 @@ Files in `params.yaml` for `get_data` must be described by a **name**, a **filep
 ## Preprocessing
 This script takes care of the feature engineering: it produces the insights we know are there so they can be fed to the machine learning algorithm in the next step.
 
-TODO
+It takes in the raw bookings and does two main tasks:
+- Drops data that is not interesting
+- Feature engineering: simulates the ventilation system.
 
 #### Takes in:
 - `raw_data.pkl` under the `data/` folder for the building
@@ -79,10 +81,19 @@ preprocessing:
   ventilation:
     is_day: true
 ```
-TODO
+
+- `booking_hours_threshold` (int): rooms that have been booked less hours than this threshold will be dropped by the pipeline.
+- `drop_nights_and_school_hours` (bool): If `True` drops the hours between midnight and the start of the booking period (this hour is defined in `thermo/config.py`)
+- `mock_ventilation`: can be `is_day:True` or `is_on:True`:
+    - `is_on:True` results in one hot encoding of
+    whether the ventilation is on
+    `is_day:True` results
+    in a distinction between if the room was booked or it wasn't
+    but the ventilation is in day mode.
 
 ## Train
-TODO. Note: talk about cross-validation.
+Train a linear regression to extract the cost of booking each room from the data. The model is trained using n-fold cross validation and grid search to decide the value of the $\ell_2$ regularization( see documentation for [ridge regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html)) that best fits the data.
+
 
 #### Takes in:
 - `preprocessed_data.pkl` under the `data/` folder for the building

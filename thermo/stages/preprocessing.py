@@ -114,6 +114,10 @@ def mock_ventilation(
     dataf: pd.DataFrame, params: dict[str, Any] | None
 ) -> pd.DataFrame:
     """Mocks ventilation data based on booking information.
+    params = {is_on:True} results in one hot encoding of
+    whether the ventilation is on, and {is_day:True} results
+    in a distinction between if the room was booked or it wasn't
+    but the ventilation is in day mode.
 
     Args:
         dataf: The input DataFrame.
