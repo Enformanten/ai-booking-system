@@ -113,5 +113,24 @@ train:
   alpha_min: 0.01  # min L2 regularization for grid search
   alpha_max: 100   # max L2 regularization for grid search
 ```
+**Note**: Currently, only `RidgeRegression` is supported as estimator.
 
 ## Evaluate
+
+This script validates the results of the rest of the workflow and produces plots and charts so that the quality can be further evaluated by the user.
+
+It doesn't take any parameters.
+
+#### Takes in:
+- `preprocessed_data.pkl` under the `data/` folder for the building
+- `model/model.joblib`: File containing the model, makes it possible to use it to predict things later.
+- `model/cross_validation.csv`: Table with the full information about all cross-validation experiments.
+
+#### Outputs:
+- `model/train.json` & `model/test.json`: Train and test metrics ($r^2$  and RMSE) for the optimal hyperparameters, as averaged over cross validation folds.
+- `model/costs.csv` - Extracts the costs of heating and keeping warm the rooms of the building and validates the result.
+- `model/error_distribution.png`- plots the error distribution of the fit. The prediction for all points is the test set prediction from fold where that point was in the test set.  Here is the result on the demo data set.
+
+![error_distribution](../assets/error_distribution.png){width="400", align=left}
+
+- `model/regularization.png`: plot of the result of the grid search for the regularization.
