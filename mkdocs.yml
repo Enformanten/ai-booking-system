@@ -18,6 +18,7 @@ nav:
   - Introduction: index.md
   - Machine Learning:
       - Usage: ml/usage.md
+      - Description: ml/workflow.md
       - Development: ml/dev.md
   - Principles behind the code:
       - The heat equation: thermo.md
@@ -27,14 +28,26 @@ nav:
       - Recommender and Recommendation: ref/recommender.md
       - Rankers: ref/ranker.md
       - Costs: ref/cost.md
+      - Machine Learning workflow:
+          - get_data.py: ref/ml/get_data.md
+          - preprocessing.py: ref/ml/preprocessing.md
+          - train.py: ref/ml/train.md
+          - evaluate_model.py: ref/ml/evaluate.md
 
 
 markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences
   - pymdownx.snippets:
       check_paths: true
   - pymdownx.arithmatex:
       generic: true
   - tables
+  - attr_list
+  - md_in_html
 
 watch: # this is optional, it helps to test the documentation locally.
   - thermo # or wherever you have your python code.

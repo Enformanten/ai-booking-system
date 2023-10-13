@@ -1,3 +1,8 @@
+"""
+This script validates the results of the rest of the
+workflow and produces plots and charts so that the quality
+can be further evaluated by the user.
+"""
 import json
 from math import sqrt
 from pathlib import Path

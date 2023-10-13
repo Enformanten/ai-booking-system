@@ -1,3 +1,8 @@
+"""
+This script takes data from different data sources,
+stored as `csv` files under `assets/`, selects the relevant
+subset of data.
+"""
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
