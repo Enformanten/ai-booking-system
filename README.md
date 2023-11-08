@@ -1,7 +1,7 @@
 # Thermo
-Booking recommender system for energy optimization for the GovTech square meters project.
+Booking recommender system for energy optimization for the GovTech M<sup>2</sup> OPI AI signature project.
 
-Read the full documentation [here](https://NTTDATAInnovation.github.io/thermo/)
+Read the full documentation [here](https://enformanten.github.io/ai-booking-system/)
 
 ## Try it out (GUI):
 
